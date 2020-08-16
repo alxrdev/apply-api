@@ -20,7 +20,7 @@ class App {
   }
 
   private setupRoutes () : void {
-    this.app.use(routes)
+    this.app.use('/api', routes)
   }
 }
 

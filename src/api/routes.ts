@@ -1,9 +1,9 @@
-import { Router, Request, Response } from 'express'
+import { Router } from 'express'
+
+import jobRoutes from './components/job/routes'
 
 const routes = Router()
 
-routes.get('/', (request: Request, response: Response) => {
-  return response.send('Hello World')
-})
+routes.use('/jobs', jobRoutes)
 
 export default routes
