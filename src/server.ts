@@ -1,4 +1,7 @@
 import App from './api/app'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = new App()
 const port = process.env.PORT || 3000
