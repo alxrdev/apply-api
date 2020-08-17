@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
+import geoCoder from '../../../utils/geocoder'
 
 const jobSchema = new mongoose.Schema({
   _id: String,
@@ -27,6 +28,22 @@ const jobSchema = new mongoose.Schema({
   address: {
     type: String,
     required: [true, 'Please add an address.']
+  },
+
+  location: {
+    type: {
+      type: String,
+      enum: ['Point']
+    },
+    coordinates: {
+      type: [Number],
+      index: '2dsphere'
+    },
+    formattedAddress: String,
+    city: String,
+    state: String,
+    zipcode: String,
+    country: String
   },
 
   company: {
@@ -116,12 +133,38 @@ const jobSchema = new mongoose.Schema({
   }
 })
 
+// Setting up location
+jobSchema.pre<IJob>('save', async function (next) {
+  const location = await geoCoder.geocode(this.address)
+
+  this.location = {
+    type: 'Point',
+    coordinates: [location[0].longitude ?? 0, location[0].latitude ?? 0],
+    formattedAddress: location[0].formattedAddress,
+    city: location[0].city,
+    state: location[0].stateCode,
+    zipcode: location[0].zipcode,
+    country: location[0].countryCode
+  }
+
+  next()
+})
+
 interface IJob extends mongoose.Document {
   slug: string
   title: string
   description: string
   email: string
   address: string
+  location: {
+    type: string,
+    coordinates: Array<number>,
+    formattedAddress?: String,
+    city?: String,
+    state?: String,
+    zipcode?: String,
+    country?: String
+  }
   company: string
   industry: Array<string>
   jobType: string
