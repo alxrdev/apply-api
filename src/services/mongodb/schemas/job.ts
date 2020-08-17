@@ -156,7 +156,7 @@ interface IJob extends mongoose.Document {
   description: string
   email: string
   address: string
-  location: {
+  location?: {
     type: string,
     coordinates: Array<number>,
     formattedAddress?: String,

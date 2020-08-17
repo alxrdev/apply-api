@@ -39,6 +39,41 @@ export default class JobRepository implements IJobRepository {
     return jobs
   }
 
+  public async fetchByGeolocation (latitude: number, longitude: number, radius: number): Promise<Array<Job>> {
+    const results = await this.jobModel.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [
+            [longitude, latitude],
+            radius
+          ]
+        }
+      }
+    })
+
+    const jobs = results.map(job => {
+      return new Job(
+        job._id,
+        job.title,
+        job.slug,
+        job.description,
+        job.email,
+        job.address,
+        job.company,
+        new Industry(job.industry),
+        new JobType(job.jobType),
+        new Education(job.minEducation),
+        new Experience(job.experience),
+        job.salary,
+        job.position,
+        job.postingDate,
+        job.lastDate
+      )
+    })
+
+    return jobs
+  }
+
   public async store (job: Job): Promise<Job> {
     await this.jobModel.create({
       _id: job.getId(),
