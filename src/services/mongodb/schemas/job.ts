@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 import validator from 'validator'
 
 const jobSchema = new mongoose.Schema({
+  _id: String,
+
   title: {
     type: String,
     required: [true, 'Please enter Job title.'],
@@ -114,6 +116,23 @@ const jobSchema = new mongoose.Schema({
   }
 })
 
-const jobModel = mongoose.model('Job', jobSchema)
+interface IJob extends mongoose.Document {
+  slug: string
+  title: string
+  description: string
+  email: string
+  address: string
+  company: string
+  industry: Array<string>
+  jobType: string
+  minEducation: string
+  experience: string
+  salary: Number
+  position: Number
+  postingDate: Date
+  lastDate: Date
+}
+
+const jobModel = mongoose.model<IJob>('Job', jobSchema)
 
 export default jobModel
