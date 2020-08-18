@@ -54,7 +54,7 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async update (job: Job): Promise<Job> {
-    await this.jobModel.update({ _id: job.getId() }, this.jobToJobDocument(job))
+    await this.jobModel.updateOne({ _id: job.getId() }, this.jobToJobDocument(job))
     return job
   }
 
