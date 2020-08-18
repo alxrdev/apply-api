@@ -9,7 +9,7 @@ export default class ListJobs {
   }
 
   public async listJobs (): Promise<Array<Job>> {
-    const jobs = await this.jobRepository.fetch()
+    const jobs = await this.jobRepository.fetchAll()
     return jobs
   }
 }

@@ -1,22 +1,20 @@
 import IJobRepository from '../repositories/IJobRepository'
-import CreateJobDTO from '../dtos/CreateJobDTO'
+import UpdateJobDTO from '../dtos/UpdateJobDTO'
 import Job from '../entities/Job'
-import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 
-export default class CreateJob {
+export default class UpdateJob {
   private jobsRepository: IJobRepository
 
   constructor (jobsRepository: IJobRepository) {
     this.jobsRepository = jobsRepository
   }
 
-  public async create (jobDto: CreateJobDTO): Promise<Job> {
-    const lastDate = new Date()
-    lastDate.setDate(lastDate.getDate() + 7)
+  public async update (jobDto: UpdateJobDTO): Promise<Job> {
+    const jobToUpdate = await this.jobsRepository.fetchById(jobDto.id)
 
-    const job = new Job(
-      uuidv4(),
+    const jobUpdated = new Job(
+      jobToUpdate.getId(),
       jobDto.title,
       slugify(jobDto.title, { lower: true }),
       jobDto.description,
@@ -29,11 +27,11 @@ export default class CreateJob {
       jobDto.experience,
       jobDto.salary,
       jobDto.position,
-      new Date(),
-      lastDate
+      jobToUpdate.getPostingDate(),
+      jobToUpdate.getLastDate()
     )
 
-    const result = await this.jobsRepository.create(job)
+    const result = await this.jobsRepository.update(jobUpdated)
 
     return result
   }

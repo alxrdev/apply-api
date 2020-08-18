@@ -3,6 +3,7 @@ import JobMapper from '../utils/JobMapper'
 import JobRepository from '../repositories/mongodb/JobRepository'
 import CreateJob from '../useCases/CreateJob'
 import ListJobs from '../useCases/ListJobs'
+import UpdateJob from '../useCases/UpdateJob'
 
 class JobsController {
   public async index (request: Request, response: Response) {
@@ -49,6 +50,33 @@ class JobsController {
       return response.status(400).json({
         success: false,
         message: 'Error on create job',
+        error_code: 400,
+        error_message: err.message
+      })
+    }
+  }
+
+  public async update (request: Request, response: Response) {
+    const { id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
+
+    try {
+      const jobDto = JobMapper.fromBodyToUpdateJobDTO(id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
+
+      const updateJobUseCase = new UpdateJob(new JobRepository())
+
+      const job = await updateJobUseCase.update(jobDto)
+
+      return response.status(201).json({
+        success: true,
+        message: 'Job updated',
+        data: {
+          job: JobMapper.fromJobToJobResponse(job)
+        }
+      })
+    } catch (err) {
+      return response.status(400).json({
+        success: false,
+        message: 'Error on update job',
         error_code: 400,
         error_message: err.message
       })

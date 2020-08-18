@@ -150,7 +150,7 @@ jobSchema.pre<IJob>('save', async function (next) {
   next()
 })
 
-interface IJob extends mongoose.Document {
+export interface IJob extends mongoose.Document {
   slug: string
   title: string
   description: string
