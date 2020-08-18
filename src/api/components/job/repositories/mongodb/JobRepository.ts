@@ -1,6 +1,6 @@
 import IJobRepository from '../IJobRepository'
 import Job from '../../entities/Job'
-import jobModel from '../../../../../services/mongodb/schemas/job'
+import jobModel, { IJob } from '../../../../../services/mongodb/schemas/job'
 import Industry from '../../entities/Industry'
 import JobType from '../../entities/JobTypes'
 import Education from '../../entities/Education'
@@ -13,28 +13,20 @@ export default class JobRepository implements IJobRepository {
     this.jobModel = jobModel
   }
 
-  public async fetch (): Promise<Array<Job>> {
+  public async fetchById (id: string): Promise<Job> {
+    const result = await this.jobModel.findOne({ _id: id })
+
+    if (result === null) {
+      throw new Error('Job Not Found.')
+    }
+
+    return this.jobDocumentToJob(result)
+  }
+
+  public async fetchAll (): Promise<Array<Job>> {
     const results = await this.jobModel.find()
 
-    const jobs = results.map(job => {
-      return new Job(
-        job._id,
-        job.title,
-        job.slug,
-        job.description,
-        job.email,
-        job.address,
-        job.company,
-        new Industry(job.industry),
-        new JobType(job.jobType),
-        new Education(job.minEducation),
-        new Experience(job.experience),
-        job.salary,
-        job.position,
-        job.postingDate,
-        job.lastDate
-      )
-    })
+    const jobs = results.map(job => this.jobDocumentToJob(job))
 
     return jobs
   }
@@ -51,31 +43,43 @@ export default class JobRepository implements IJobRepository {
       }
     })
 
-    const jobs = results.map(job => {
-      return new Job(
-        job._id,
-        job.title,
-        job.slug,
-        job.description,
-        job.email,
-        job.address,
-        job.company,
-        new Industry(job.industry),
-        new JobType(job.jobType),
-        new Education(job.minEducation),
-        new Experience(job.experience),
-        job.salary,
-        job.position,
-        job.postingDate,
-        job.lastDate
-      )
-    })
+    const jobs = results.map(job => this.jobDocumentToJob(job))
 
     return jobs
   }
 
-  public async store (job: Job): Promise<Job> {
-    await this.jobModel.create({
+  public async create (job: Job): Promise<Job> {
+    await this.jobModel.create(this.jobToJobDocument(job))
+    return job
+  }
+
+  public async update (job: Job): Promise<Job> {
+    await this.jobModel.update({ _id: job.getId() }, this.jobToJobDocument(job))
+    return job
+  }
+
+  private jobDocumentToJob (jobDocument: IJob): Job {
+    return new Job(
+      jobDocument._id,
+      jobDocument.title,
+      jobDocument.slug,
+      jobDocument.description,
+      jobDocument.email,
+      jobDocument.address,
+      jobDocument.company,
+      new Industry(jobDocument.industry),
+      new JobType(jobDocument.jobType),
+      new Education(jobDocument.minEducation),
+      new Experience(jobDocument.experience),
+      jobDocument.salary,
+      jobDocument.position,
+      jobDocument.postingDate,
+      jobDocument.lastDate
+    )
+  }
+
+  private jobToJobDocument (job: Job) {
+    return {
       _id: job.getId(),
       title: job.getTitle(),
       description: job.getDescription(),
@@ -91,8 +95,6 @@ export default class JobRepository implements IJobRepository {
       salary: job.getSalary(),
       postingDate: job.getPostingDate(),
       lastDate: job.getLastDate()
-    })
-
-    return job
+    }
   }
 }
