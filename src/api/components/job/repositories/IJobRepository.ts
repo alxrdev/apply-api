@@ -1,7 +1,9 @@
 import Job from '../entities/Job'
 
 export default interface IJobRepository {
-  fetch (): Promise<Array<Job>>
+  fetchById (id: string): Promise<Job>
+  fetchAll (): Promise<Array<Job>>
   fetchByGeolocation (latitude: number, logitude: number, distance: number): Promise<Array<Job>>
-  store (job: Job): Promise<Job>
+  create (job: Job): Promise<Job>
+  update (job: Job): Promise<Job>
 }
