@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
 import JobMapper from '../utils/JobMapper'
-import JobRepository from '../repositories/mongodb/JobRepository'
 import CreateJob from '../useCases/CreateJob'
 import ListJobs from '../useCases/ListJobs'
 import UpdateJob from '../useCases/UpdateJob'
@@ -8,11 +7,17 @@ import DeleteJob from '../useCases/DeleteJob'
 import ShowJob from '../useCases/ShowJob'
 
 class JobsController {
+  constructor (
+    private readonly listJobsUseCase: ListJobs,
+    private readonly showJobUseCase: ShowJob,
+    private readonly createJobUseCase: CreateJob,
+    private readonly updateJobUseCase: UpdateJob,
+    private readonly deleteJobUseCase: DeleteJob
+  ) {}
+
   public async index (request: Request, response: Response, next: NextFunction) {
     try {
-      const listJobsUseCase = new ListJobs(new JobRepository())
-
-      const jobs = await listJobsUseCase.listJobs()
+      const jobs = await this.listJobsUseCase.listJobs()
 
       return response.status(200).json({
         success: true,
@@ -30,9 +35,7 @@ class JobsController {
     const { id } = request.params
 
     try {
-      const showJobUseCase = new ShowJob(new JobRepository())
-
-      const job = await showJobUseCase.show(id)
+      const job = await this.showJobUseCase.show(id)
 
       return response.status(200).json({
         success: true,
@@ -52,9 +55,7 @@ class JobsController {
     try {
       const jobDto = JobMapper.fromBodyToCreateJobDTO(title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
 
-      const createJobUseCase = new CreateJob(new JobRepository())
-
-      const job = await createJobUseCase.create(jobDto)
+      const job = await this.createJobUseCase.create(jobDto)
 
       return response.status(201).json({
         success: true,
@@ -75,9 +76,7 @@ class JobsController {
     try {
       const jobDto = JobMapper.fromBodyToUpdateJobDTO(id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
 
-      const updateJobUseCase = new UpdateJob(new JobRepository())
-
-      const job = await updateJobUseCase.update(jobDto)
+      const job = await this.updateJobUseCase.update(jobDto)
 
       return response.status(201).json({
         success: true,
@@ -95,9 +94,7 @@ class JobsController {
     const { id } = request.params
 
     try {
-      const deleteJobUseCase = new DeleteJob(new JobRepository())
-
-      await deleteJobUseCase.delete(id)
+      await this.deleteJobUseCase.delete(id)
 
       return response.status(204).json({
         success: true,

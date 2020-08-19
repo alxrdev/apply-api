@@ -1,10 +1,19 @@
 import { Router } from 'express'
 
+import {
+  listJobsUseCase,
+  showJobUseCase,
+  createJobUseCase,
+  updateJobUseCase,
+  deleteJobUseCase,
+  findJobsByGeolocation
+} from './utils/dependencies'
+
 import JobsController from './controllers/JobsController'
 import JobsGeolocationController from './controllers/JobsGeolocationController'
 
-const jobsController = new JobsController()
-const jobsGeolocationController = new JobsGeolocationController()
+const jobsController = new JobsController(listJobsUseCase, showJobUseCase, createJobUseCase, updateJobUseCase, deleteJobUseCase)
+const jobsGeolocationController = new JobsGeolocationController(findJobsByGeolocation)
 
 const routes = Router()
 
