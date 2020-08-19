@@ -5,10 +5,10 @@ import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 
 export default class CreateJob {
-  private jobsRepository: IJobRepository
+  private jobRepository: IJobRepository
 
-  constructor (jobsRepository: IJobRepository) {
-    this.jobsRepository = jobsRepository
+  constructor (jobRepository: IJobRepository) {
+    this.jobRepository = jobRepository
   }
 
   public async create (jobDto: CreateJobDTO): Promise<Job> {
@@ -33,7 +33,7 @@ export default class CreateJob {
       lastDate
     )
 
-    const result = await this.jobsRepository.create(job)
+    const result = await this.jobRepository.create(job)
 
     return result
   }

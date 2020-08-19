@@ -4,14 +4,14 @@ import Job from '../entities/Job'
 import slugify from 'slugify'
 
 export default class UpdateJob {
-  private jobsRepository: IJobRepository
+  private jobRepository: IJobRepository
 
-  constructor (jobsRepository: IJobRepository) {
-    this.jobsRepository = jobsRepository
+  constructor (jobRepository: IJobRepository) {
+    this.jobRepository = jobRepository
   }
 
   public async update (jobDto: UpdateJobDTO): Promise<Job> {
-    const jobToUpdate = await this.jobsRepository.fetchById(jobDto.id)
+    const jobToUpdate = await this.jobRepository.fetchById(jobDto.id)
 
     const jobUpdated = new Job(
       jobToUpdate.getId(),
@@ -31,7 +31,7 @@ export default class UpdateJob {
       jobToUpdate.getLastDate()
     )
 
-    const result = await this.jobsRepository.update(jobUpdated)
+    const result = await this.jobRepository.update(jobUpdated)
 
     return result
   }
