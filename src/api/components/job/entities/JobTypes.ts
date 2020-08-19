@@ -1,3 +1,5 @@
+import InvalidArgumentError from '../../../../errors/InvalidArgumentError'
+
 export default class JobType {
   private jobType: string
 
@@ -13,7 +15,7 @@ export default class JobType {
   private checkJobType (jobType: string): void {
     const jobTypes: Array<string> = ['Permanent', 'Temporary', 'Internship']
     if (!jobTypes.includes(jobType)) {
-      throw new Error('Invalid job type.')
+      throw new InvalidArgumentError('The job type should be: \'Permanent\', \'Temporary\' or \'Internship\'.', false, 400)
     }
   }
 }

@@ -1,10 +1,10 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import FindJobByGeolocation from '../useCases/FindJobsByGeolocation'
 import JobRepository from '../repositories/mongodb/JobRepository'
 import JobMapper from '../utils/JobMapper'
 
 export default class JobsGeolocationController {
-  public async index (request: Request, response: Response) {
+  public async index (request: Request, response: Response, next: NextFunction) {
     const { zipcode, distance } = request.params
 
     try {
@@ -19,13 +19,8 @@ export default class JobsGeolocationController {
           jobs: JobMapper.fromJobArrayToJobResponseArray(jobs)
         }
       })
-    } catch (err) {
-      return response.status(400).json({
-        success: false,
-        message: 'Error on listing jobs',
-        error_code: 400,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 }

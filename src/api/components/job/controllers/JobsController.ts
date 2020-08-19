@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import JobMapper from '../utils/JobMapper'
 import JobRepository from '../repositories/mongodb/JobRepository'
 import CreateJob from '../useCases/CreateJob'
@@ -8,7 +8,7 @@ import DeleteJob from '../useCases/DeleteJob'
 import ShowJob from '../useCases/ShowJob'
 
 class JobsController {
-  public async index (request: Request, response: Response) {
+  public async index (request: Request, response: Response, next: NextFunction) {
     try {
       const listJobsUseCase = new ListJobs(new JobRepository())
 
@@ -21,17 +21,12 @@ class JobsController {
           jobs: JobMapper.fromJobArrayToJobResponseArray(jobs)
         }
       })
-    } catch (err) {
-      return response.status(500).json({
-        success: false,
-        message: 'Error on listing job',
-        error_code: 500,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 
-  public async show (request: Request, response: Response) {
+  public async show (request: Request, response: Response, next: NextFunction) {
     const { id } = request.params
 
     try {
@@ -46,17 +41,12 @@ class JobsController {
           jobs: JobMapper.fromJobToJobResponse(job)
         }
       })
-    } catch (err) {
-      return response.status(400).json({
-        success: false,
-        message: 'Error on showing job',
-        error_code: 400,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 
-  public async create (request: Request, response: Response) {
+  public async create (request: Request, response: Response, next: NextFunction) {
     const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
 
     try {
@@ -73,17 +63,12 @@ class JobsController {
           job: JobMapper.fromJobToJobResponse(job)
         }
       })
-    } catch (err) {
-      return response.status(400).json({
-        success: false,
-        message: 'Error on create job',
-        error_code: 400,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 
-  public async update (request: Request, response: Response) {
+  public async update (request: Request, response: Response, next: NextFunction) {
     const { id } = request.params
     const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
 
@@ -101,17 +86,12 @@ class JobsController {
           job: JobMapper.fromJobToJobResponse(job)
         }
       })
-    } catch (err) {
-      return response.status(400).json({
-        success: false,
-        message: 'Error on update job',
-        error_code: 400,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 
-  public async delete (request: Request, response: Response) {
+  public async delete (request: Request, response: Response, next: NextFunction) {
     const { id } = request.params
 
     try {
@@ -124,13 +104,8 @@ class JobsController {
         message: 'Job deleted',
         data: {}
       })
-    } catch (err) {
-      return response.status(400).json({
-        success: false,
-        message: 'Error on delete job',
-        error_code: 400,
-        error_message: err.message
-      })
+    } catch (error) {
+      return next(error)
     }
   }
 }

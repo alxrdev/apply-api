@@ -1,3 +1,5 @@
+import InvalidArgumentError from '../../../../errors/InvalidArgumentError'
+
 export default class Education {
   private educationLevel: string
 
@@ -13,7 +15,7 @@ export default class Education {
   private checkEducationLevel (educationLevel: string): void {
     const educationLevels: Array<string> = ['Bachelors', 'Masters', 'Phd']
     if (!educationLevels.includes(educationLevel)) {
-      throw new Error('Invalid education level.')
+      throw new InvalidArgumentError('The education level should be: \'Bachelors\', \'Masters\' or \'Phd\'.', false, 400)
     }
   }
 }

@@ -1,5 +1,6 @@
 import express, { Express } from 'express'
 import routes from './routes'
+import apiErrorHandlerMiddleware from '../utils/apiErrorHandlerMiddleware'
 
 class App {
   private server: Express
@@ -9,18 +10,23 @@ class App {
 
     this.setupMiddlewares()
     this.setupRoutes()
+    this.setupPostRouteMiddlewares()
   }
 
-  public getServer () : Express {
+  public getServer (): Express {
     return this.server
   }
 
-  private setupMiddlewares () : void {
+  private setupMiddlewares (): void {
     this.server.use(express.json())
   }
 
-  private setupRoutes () : void {
+  private setupRoutes (): void {
     this.server.use('/api', routes)
+  }
+
+  private setupPostRouteMiddlewares (): void {
+    this.server.use(apiErrorHandlerMiddleware)
   }
 }
 

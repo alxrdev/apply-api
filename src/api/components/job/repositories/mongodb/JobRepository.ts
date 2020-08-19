@@ -5,6 +5,7 @@ import Industry from '../../entities/Industry'
 import JobType from '../../entities/JobTypes'
 import Education from '../../entities/Education'
 import Experience from '../../entities/Experience'
+import JobNotFoundError from '../../errors/JobNotFoundError'
 
 export default class JobRepository implements IJobRepository {
   private jobModel: typeof jobModel
@@ -17,7 +18,7 @@ export default class JobRepository implements IJobRepository {
     const result = await this.jobModel.findOne({ _id: id })
 
     if (result === null) {
-      throw new Error('Job Not Found.')
+      throw new JobNotFoundError('Job not found.', false, 404)
     }
 
     return this.jobDocumentToJob(result)
