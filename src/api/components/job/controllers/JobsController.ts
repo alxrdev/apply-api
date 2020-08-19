@@ -58,7 +58,8 @@ class JobsController {
   }
 
   public async update (request: Request, response: Response) {
-    const { id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
+    const { id } = request.params
+    const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
 
     try {
       const jobDto = JobMapper.fromBodyToUpdateJobDTO(id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)

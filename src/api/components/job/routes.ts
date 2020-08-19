@@ -11,7 +11,7 @@ const routes = Router()
 routes.get('/jobs', jobsController.index)
 routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 routes.post('/jobs', jobsController.create)
-routes.put('/jobs', jobsController.update)
+routes.put('/jobs/:id', jobsController.update)
 routes.delete('/jobs/:id', jobsController.delete)
 
 export default routes
