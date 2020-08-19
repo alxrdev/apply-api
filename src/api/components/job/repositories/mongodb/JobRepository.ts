@@ -58,6 +58,11 @@ export default class JobRepository implements IJobRepository {
     return job
   }
 
+  public async delete (id: string): Promise<void> {
+    await this.fetchById(id)
+    await this.jobModel.deleteOne({ _id: id })
+  }
+
   private jobDocumentToJob (jobDocument: IJob): Job {
     return new Job(
       jobDocument._id,

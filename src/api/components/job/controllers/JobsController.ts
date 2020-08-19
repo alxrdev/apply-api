@@ -4,6 +4,7 @@ import JobRepository from '../repositories/mongodb/JobRepository'
 import CreateJob from '../useCases/CreateJob'
 import ListJobs from '../useCases/ListJobs'
 import UpdateJob from '../useCases/UpdateJob'
+import DeleteJob from '../useCases/DeleteJob'
 
 class JobsController {
   public async index (request: Request, response: Response) {
@@ -77,6 +78,29 @@ class JobsController {
       return response.status(400).json({
         success: false,
         message: 'Error on update job',
+        error_code: 400,
+        error_message: err.message
+      })
+    }
+  }
+
+  public async delete (request: Request, response: Response) {
+    const { id } = request.params
+
+    try {
+      const deleteJobUseCase = new DeleteJob(new JobRepository())
+
+      await deleteJobUseCase.delete(id)
+
+      return response.status(204).json({
+        success: true,
+        message: 'Job deleted',
+        data: {}
+      })
+    } catch (err) {
+      return response.status(400).json({
+        success: false,
+        message: 'Error on delete job',
         error_code: 400,
         error_message: err.message
       })

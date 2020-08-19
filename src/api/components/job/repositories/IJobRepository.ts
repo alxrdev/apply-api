@@ -6,4 +6,5 @@ export default interface IJobRepository {
   fetchByGeolocation (latitude: number, logitude: number, distance: number): Promise<Array<Job>>
   create (job: Job): Promise<Job>
   update (job: Job): Promise<Job>
+  delete (id: string): Promise<void>
 }
