@@ -5,6 +5,7 @@ import CreateJob from '../useCases/CreateJob'
 import ListJobs from '../useCases/ListJobs'
 import UpdateJob from '../useCases/UpdateJob'
 import DeleteJob from '../useCases/DeleteJob'
+import ShowJob from '../useCases/ShowJob'
 
 class JobsController {
   public async index (request: Request, response: Response) {
@@ -25,6 +26,31 @@ class JobsController {
         success: false,
         message: 'Error on listing job',
         error_code: 500,
+        error_message: err.message
+      })
+    }
+  }
+
+  public async show (request: Request, response: Response) {
+    const { id } = request.params
+
+    try {
+      const showJobUseCase = new ShowJob(new JobRepository())
+
+      const job = await showJobUseCase.show(id)
+
+      return response.status(200).json({
+        success: true,
+        message: 'Showing job',
+        data: {
+          jobs: JobMapper.fromJobToJobResponse(job)
+        }
+      })
+    } catch (err) {
+      return response.status(400).json({
+        success: false,
+        message: 'Error on showing job',
+        error_code: 400,
         error_message: err.message
       })
     }
