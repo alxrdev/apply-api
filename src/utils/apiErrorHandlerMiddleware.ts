@@ -15,7 +15,7 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
           success: false,
           message: 'Ops! We have an error :(',
           error_message: error.message,
-          error_code: error.statusCode
+          error_status_code: error.statusCode
         })
     }
 
@@ -25,7 +25,7 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
         success: false,
         message: 'Ops! We have an error :(',
         error_message: error.message,
-        error_code: 500
+        error_status_code: 500
       })
   }
 
@@ -36,7 +36,7 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
         success: false,
         message: 'Ops! We have an error :(',
         error_message: error.message,
-        error_code: error.statusCode
+        error_status_code: error.statusCode
       })
   }
 
@@ -46,7 +46,7 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
       success: false,
       message: 'Ops! We have an error :(',
       error_message: 'Internal server error',
-      error_code: 500
+      error_status_code: 500
     })
 }
 
