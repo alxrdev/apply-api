@@ -5,7 +5,7 @@ import JobMapper from '../utils/JobMapper'
 export default class JobsGeolocationController {
   constructor (private readonly findJobsByGeolocation: FindJobsByGeolocation) {}
 
-  public async index (request: Request, response: Response, next: NextFunction) {
+  public index = async (request: Request, response: Response, next: NextFunction) => {
     const { zipcode, distance } = request.params
 
     try {

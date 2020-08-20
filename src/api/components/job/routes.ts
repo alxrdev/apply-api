@@ -12,16 +12,18 @@ import {
 import JobsController from './controllers/JobsController'
 import JobsGeolocationController from './controllers/JobsGeolocationController'
 
-const jobsController = new JobsController(listJobsUseCase, showJobUseCase, createJobUseCase, updateJobUseCase, deleteJobUseCase)
-const jobsGeolocationController = new JobsGeolocationController(findJobsByGeolocation)
-
 const routes = Router()
+
+const jobsController = new JobsController(listJobsUseCase, showJobUseCase, createJobUseCase, updateJobUseCase, deleteJobUseCase)
 
 routes.get('/jobs', jobsController.index)
 routes.get('/jobs/:id', jobsController.show)
-routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 routes.post('/jobs', jobsController.create)
 routes.put('/jobs/:id', jobsController.update)
 routes.delete('/jobs/:id', jobsController.delete)
+
+const jobsGeolocationController = new JobsGeolocationController(findJobsByGeolocation)
+
+routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 
 export default routes

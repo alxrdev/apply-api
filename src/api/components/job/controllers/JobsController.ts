@@ -15,7 +15,7 @@ class JobsController {
     private readonly deleteJobUseCase: DeleteJob
   ) {}
 
-  public async index (request: Request, response: Response, next: NextFunction) {
+  public index = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const jobs = await this.listJobsUseCase.listJobs()
 
@@ -31,7 +31,7 @@ class JobsController {
     }
   }
 
-  public async show (request: Request, response: Response, next: NextFunction) {
+  public show = async (request: Request, response: Response, next: NextFunction) => {
     const { id } = request.params
 
     try {
@@ -49,7 +49,7 @@ class JobsController {
     }
   }
 
-  public async create (request: Request, response: Response, next: NextFunction) {
+  public create = async (request: Request, response: Response, next: NextFunction) => {
     const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
 
     try {
@@ -69,7 +69,7 @@ class JobsController {
     }
   }
 
-  public async update (request: Request, response: Response, next: NextFunction) {
+  public update = async (request: Request, response: Response, next: NextFunction) => {
     const { id } = request.params
     const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
 
@@ -90,7 +90,7 @@ class JobsController {
     }
   }
 
-  public async delete (request: Request, response: Response, next: NextFunction) {
+  public delete = async (request: Request, response: Response, next: NextFunction) => {
     const { id } = request.params
 
     try {
