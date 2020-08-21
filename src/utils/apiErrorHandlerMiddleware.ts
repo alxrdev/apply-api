@@ -8,8 +8,6 @@ const env = process.env.NODE_ENV ?? 'production'
 
 const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response, next: NextFunction) => {
   if (env === 'development') {
-    console.log(error)
-
     if (error instanceof AppError) {
       return response
         .status(error.statusCode)
