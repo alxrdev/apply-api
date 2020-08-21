@@ -1,23 +1,61 @@
+import {
+  IsEmail, MaxLength, IsNotEmpty, IsString, IsNumber, IsDate, ValidateIf, isEmpty
+} from 'class-validator'
 import Industry from './Industry'
 import JobType from './JobTypes'
 import Education from './Education'
 import Experience from './Experience'
 
 export default class Job {
+  @IsString()
+  @IsNotEmpty()
   private id: string
+
+  @MaxLength(100)
+  @IsNotEmpty()
   private title: string
+
+  @ValidateIf(o => !isEmpty(o.title))
+  @IsNotEmpty()
   private slug: string
+
+  @MaxLength(1000)
+  @IsNotEmpty()
   private description: string
+
+  @IsEmail()
+  @IsNotEmpty()
   private email: string
+
+  @IsNotEmpty()
   private address: string
+
+  @IsNotEmpty()
   private company: string
+
+  @IsNotEmpty()
   private industry: Industry
+
+  @IsNotEmpty()
   private jobType: JobType
+
+  @IsNotEmpty()
   private minEducation: Education
+
+  @IsNotEmpty()
   private experience: Experience
+
+  @IsNotEmpty()
+  @IsNumber()
   private salary: Number
+
+  @IsNumber()
   private position: Number
+
+  @IsDate()
   private postingDate: Date
+
+  @IsDate()
   private lastDate: Date
 
   constructor (id: string, title: string, slug: string, description: string, email: string, address: string, company: string, industry: Industry, jobType: JobType, minEducation: Education, experience: Experience, salary: Number, position: Number, postingDate: Date, lastDate: Date) {

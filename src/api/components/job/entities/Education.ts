@@ -15,7 +15,13 @@ export default class Education {
   private checkEducationLevel (educationLevel: string): void {
     const educationLevels: Array<string> = ['Bachelors', 'Masters', 'Phd']
     if (!educationLevels.includes(educationLevel)) {
-      throw new InvalidArgumentError('The education level should be: \'Bachelors\', \'Masters\' or \'Phd\'.', false, 400)
+      throw new InvalidArgumentError('Invalid parameter.', false, 400, {
+        property: 'minEducation',
+        value: educationLevel,
+        constraints: {
+          contains: `minEducation must contain a choice between: ${educationLevel}.`
+        }
+      })
     }
   }
 }

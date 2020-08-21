@@ -17,7 +17,8 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
           success: false,
           message: 'Ops! We have an error :(',
           error_message: error.message,
-          error_status_code: error.statusCode
+          error_status_code: error.statusCode,
+          error_details: error?.errorDetails
         })
     }
 
@@ -38,7 +39,8 @@ const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Res
         success: false,
         message: 'Ops! We have an error :(',
         error_message: error.message,
-        error_status_code: error.statusCode
+        error_status_code: error.statusCode,
+        error_details: error?.errorDetails
       })
   }
 

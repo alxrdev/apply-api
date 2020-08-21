@@ -2,6 +2,7 @@ import IJobRepository from '../repositories/IJobRepository'
 import UpdateJobDTO from '../dtos/UpdateJobDTO'
 import Job from '../entities/Job'
 import slugify from 'slugify'
+import validateClassParameters from '../../../../utils/validateClassParameters'
 
 export default class UpdateJob {
   private jobRepository: IJobRepository
@@ -16,7 +17,7 @@ export default class UpdateJob {
     const jobUpdated = new Job(
       jobToUpdate.getId(),
       jobDto.title,
-      slugify(jobDto.title, { lower: true }),
+      slugify(jobDto.title ?? '', { lower: true }),
       jobDto.description,
       jobDto.email,
       jobDto.address,
@@ -31,8 +32,8 @@ export default class UpdateJob {
       jobToUpdate.getLastDate()
     )
 
-    const result = await this.jobRepository.update(jobUpdated)
+    await validateClassParameters(jobUpdated)
 
-    return result
+    return await this.jobRepository.update(jobUpdated)
   }
 }

@@ -15,7 +15,13 @@ export default class JobType {
   private checkJobType (jobType: string): void {
     const jobTypes: Array<string> = ['Permanent', 'Temporary', 'Internship']
     if (!jobTypes.includes(jobType)) {
-      throw new InvalidArgumentError('The job type should be: \'Permanent\', \'Temporary\' or \'Internship\'.', false, 400)
+      throw new InvalidArgumentError('Invalid parameter.', false, 400, {
+        property: 'jobType',
+        value: jobType,
+        constraints: {
+          contains: `jobType must contain a choice between: ${jobTypes}.`
+        }
+      })
     }
   }
 }
