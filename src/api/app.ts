@@ -10,7 +10,7 @@ class App {
 
     this.setupMiddlewares()
     this.setupRoutes()
-    this.setupPostRouteMiddlewares()
+    this.setupMiddlewaresAfterRoutes()
   }
 
   public getServer (): Express {
@@ -25,7 +25,7 @@ class App {
     this.server.use('/api', routes)
   }
 
-  private setupPostRouteMiddlewares (): void {
+  private setupMiddlewaresAfterRoutes (): void {
     this.server.use(apiErrorHandlerMiddleware)
   }
 }
