@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 import validateClassParameters from '../../../../utils/validateClassParameters'
 
-export default class CreateJob {
+export default class CreateJobUseCase {
   private jobRepository: IJobRepository
 
   constructor (jobRepository: IJobRepository) {

@@ -1,21 +1,21 @@
 import JobRepository from '../repositories/mongodb/JobRepository'
-import CreateJob from '../useCases/CreateJob'
-import UpdateJob from '../useCases/UpdateJob'
-import DeleteJob from '../useCases/DeleteJob'
-import ShowJob from '../useCases/ShowJob'
-import ListJobs from '../useCases/ListJobs'
-import FindJobsByGeolocation from '../useCases/FindJobsByGeolocation'
+import CreateJobUseCase from '../useCases/CreateJobUseCase'
+import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
+import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
+import ShowJobUseCase from '../useCases/ShowJobUseCase'
+import ListJobsUseCase from '../useCases/ListJobsUseCase'
+import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
 
 export const jobRepository = new JobRepository()
 
-export const createJobUseCase = new CreateJob(jobRepository)
+export const createJobUseCase = new CreateJobUseCase(jobRepository)
 
-export const updateJobUseCase = new UpdateJob(jobRepository)
+export const updateJobUseCase = new UpdateJobUseCase(jobRepository)
 
-export const deleteJobUseCase = new DeleteJob(jobRepository)
+export const deleteJobUseCase = new DeleteJobUseCase(jobRepository)
 
-export const showJobUseCase = new ShowJob(jobRepository)
+export const showJobUseCase = new ShowJobUseCase(jobRepository)
 
-export const listJobsUseCase = new ListJobs(jobRepository)
+export const listJobsUseCase = new ListJobsUseCase(jobRepository)
 
-export const findJobsByGeolocation = new FindJobsByGeolocation(jobRepository)
+export const findJobsByGeolocation = new FindJobsByGeolocationUseCase(jobRepository)

@@ -2,7 +2,7 @@ import IJobRepository from '../repositories/IJobRepository'
 import geoCoder from '../../../../utils/geocoder'
 import Job from '../entities/Job'
 
-export default class FindJobsByGeolocation {
+export default class FindJobsByGeolocationUseCase {
   private jobRepository: IJobRepository
 
   constructor (jobRepository: IJobRepository) {

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
-import FindJobsByGeolocation from '../useCases/FindJobsByGeolocation'
+import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
 import JobMapper from '../utils/JobMapper'
 
 export default class JobsGeolocationController {
-  constructor (private readonly findJobsByGeolocation: FindJobsByGeolocation) {}
+  constructor (private readonly findJobsByGeolocation: FindJobsByGeolocationUseCase) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
     const { zipcode, distance } = request.params

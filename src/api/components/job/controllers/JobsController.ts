@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express'
 import JobMapper from '../utils/JobMapper'
-import CreateJob from '../useCases/CreateJob'
-import ListJobs from '../useCases/ListJobs'
-import UpdateJob from '../useCases/UpdateJob'
-import DeleteJob from '../useCases/DeleteJob'
-import ShowJob from '../useCases/ShowJob'
+import CreateJobUseCase from '../useCases/CreateJobUseCase'
+import ListJobsUseCase from '../useCases/ListJobsUseCase'
+import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
+import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
+import ShowJobUseCase from '../useCases/ShowJobUseCase'
 
 class JobsController {
   constructor (
-    private readonly listJobsUseCase: ListJobs,
-    private readonly showJobUseCase: ShowJob,
-    private readonly createJobUseCase: CreateJob,
-    private readonly updateJobUseCase: UpdateJob,
-    private readonly deleteJobUseCase: DeleteJob
+    private readonly listJobsUseCase: ListJobsUseCase,
+    private readonly showJobUseCase: ShowJobUseCase,
+    private readonly createJobUseCase: CreateJobUseCase,
+    private readonly updateJobUseCase: UpdateJobUseCase,
+    private readonly deleteJobUseCase: DeleteJobUseCase
   ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {

@@ -4,7 +4,7 @@ import Job from '../entities/Job'
 import slugify from 'slugify'
 import validateClassParameters from '../../../../utils/validateClassParameters'
 
-export default class UpdateJob {
+export default class UpdateJobUseCase {
   private jobRepository: IJobRepository
 
   constructor (jobRepository: IJobRepository) {
