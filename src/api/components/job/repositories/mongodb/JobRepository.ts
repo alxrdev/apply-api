@@ -6,6 +6,7 @@ import JobType from '../../entities/JobTypes'
 import Education from '../../entities/Education'
 import Experience from '../../entities/Experience'
 import JobNotFoundError from '../../errors/JobNotFoundError'
+import ListJobsDTO from '../../dtos/ListJobsDTO'
 
 export default class JobRepository implements IJobRepository {
   private jobModel: typeof jobModel
@@ -24,8 +25,15 @@ export default class JobRepository implements IJobRepository {
     return this.jobDocumentToJob(result)
   }
 
-  public async fetchAll (): Promise<Array<Job>> {
-    const results = await this.jobModel.find()
+  public async fetchAll (options: ListJobsDTO): Promise<Array<Job>> {
+    const results = await this.jobModel.find({
+      title: { $regex: options.title, $options: 'i' },
+      description: { $regex: options.description, $options: 'i' },
+      company: { $regex: options.company, $options: 'i' },
+      industry: { $in: options.industryRegex },
+      jobType: { $regex: options.jobType, $options: 'i' },
+      minEducation: { $regex: options.minEducation, $options: 'i' }
+    })
 
     const jobs = results.map(job => this.jobDocumentToJob(job))
 

@@ -5,6 +5,7 @@ import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
 import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
 import ShowJobUseCase from '../useCases/ShowJobUseCase'
+import ListJobsDTO from '../dtos/ListJobsDTO'
 
 class JobsController {
   constructor (
@@ -16,8 +17,10 @@ class JobsController {
   ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
+    const { title, description, company, industry, jobType, minEducation } = request.query
+
     try {
-      const jobs = await this.listJobsUseCase.listJobs()
+      const jobs = await this.listJobsUseCase.listJobs({ title, description, company, industry: String(industry ?? '').split(','), jobType, minEducation } as ListJobsDTO)
 
       return response.status(200).json({
         success: true,
