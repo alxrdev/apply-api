@@ -13,13 +13,17 @@ export default class ListJobsUseCase {
     options.title = options.title ?? ''
     options.description = options.description ?? ''
     options.company = options.company ?? ''
-    options.industry = options.industry ?? ['']
     options.jobType = options.jobType ?? ''
     options.minEducation = options.minEducation ?? ''
 
+    options.industry = options.industry ?? ['']
     options.industryRegex = options.industry.map((industry: string) => RegExp(`^${industry}`))
 
-    console.log(options)
+    options.page = options.page ?? 1
+
+    options.limit = Number(options.limit) ?? 10
+    options.limit = (options.limit < 1) ? 1 : options.limit
+    options.limit = (options.limit > 20) ? 20 : options.limit
 
     return await this.jobRepository.fetchAll(options)
   }

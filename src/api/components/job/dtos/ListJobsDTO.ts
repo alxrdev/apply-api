@@ -6,4 +6,6 @@ export default interface ListJobsDTO {
   jobType?: string
   minEducation?: string
   industryRegex?: Array<RegExp>
+  page?: number
+  limit?: number
 }

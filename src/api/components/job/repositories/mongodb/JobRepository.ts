@@ -26,6 +26,11 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async fetchAll (options: ListJobsDTO): Promise<Array<Job>> {
+    const page = options.page ?? 1
+    const limit = options.limit ?? 10
+
+    const skip = (page - 1) * limit
+
     const results = await this.jobModel.find({
       title: { $regex: options.title, $options: 'i' },
       description: { $regex: options.description, $options: 'i' },
@@ -34,6 +39,8 @@ export default class JobRepository implements IJobRepository {
       jobType: { $regex: options.jobType, $options: 'i' },
       minEducation: { $regex: options.minEducation, $options: 'i' }
     })
+      .skip(skip)
+      .limit(limit)
 
     const jobs = results.map(job => this.jobDocumentToJob(job))
 
