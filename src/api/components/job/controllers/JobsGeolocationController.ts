@@ -2,16 +2,18 @@ import { Request, Response, NextFunction } from 'express'
 import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
 import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
 import JobMapper from '../utils/JobMapper'
+import { plainToClass } from 'class-transformer'
 
 export default class JobsGeolocationController {
-  constructor (private readonly findJobsByGeolocation: FindJobsByGeolocationUseCase) {}
+  constructor (
+    private readonly findJobsByGeolocation: FindJobsByGeolocationUseCase
+  ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
-    const { zipcode, distance } = request.params
-    const { title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } = request.query
+    const filtersDto = plainToClass(FindJobsByGeolocationFiltersDTO, { ...request.params, ...request.query })
 
     try {
-      const result = await this.findJobsByGeolocation.find({ zipcode, distance: Number(distance), title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } as FindJobsByGeolocationFiltersDTO)
+      const result = await this.findJobsByGeolocation.find(filtersDto)
 
       return response.status(200).json({
         success: true,

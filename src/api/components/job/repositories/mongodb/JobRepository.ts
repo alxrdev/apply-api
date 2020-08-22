@@ -59,7 +59,7 @@ export default class JobRepository implements IJobRepository {
       }
     }
 
-    return await this.fetchCollection(query, filters.page ?? 1, filters.limit ?? 10, filters.sortBy ?? 'postingDate', filters.sortOrder ?? 'asc')
+    return await this.fetchCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
   public async create (job: Job): Promise<Job> {

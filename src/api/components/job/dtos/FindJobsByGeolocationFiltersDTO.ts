@@ -1,15 +1,65 @@
-export default interface FindJobsByGeolocationFiltersDTO {
-  zipcode?: string
-  distance?: number
-  title?: string
-  description?: string
-  company?: string
-  industry?: Array<string>
-  jobType?: string
-  minEducation?: string
-  industryRegex?: Array<RegExp>
-  page?: number
-  limit?: number
-  sortBy?: string
-  sortOrder?: string
+import { Expose, Transform } from 'class-transformer'
+import { IsString, IsNumber } from 'class-validator'
+
+export default class FindJobsByGeolocationFiltersDTO {
+  @IsString()
+  @Expose()
+  zipcode: string
+
+  @IsNumber()
+  @Expose()
+  @Transform(value => Number(value) || 55)
+  distance: number
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  title: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  description: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  company: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  industry: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  jobType: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  minEducation: string
+
+  industryRegex: Array<RegExp>
+
+  @IsNumber()
+  @Expose()
+  @Transform(value => Number(value) || 1)
+  page: number
+
+  @IsNumber()
+  @Expose()
+  @Transform(value => Number(value) || 10)
+  limit: number
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || 'postingDate')
+  sortBy: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || 'asc')
+  sortOrder: string
 }
