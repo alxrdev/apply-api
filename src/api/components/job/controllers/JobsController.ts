@@ -8,6 +8,7 @@ import CreateJobDTO from '../dtos/CreateJobDTO'
 import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
+import UpdateJobDTO from '../dtos/UpdateJobDTO'
 
 class JobsController {
   constructor (
@@ -72,20 +73,15 @@ class JobsController {
   }
 
   public update = async (request: Request, response: Response, next: NextFunction) => {
-    const { id } = request.params
-    const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
+    const jobDto = plainToClass(UpdateJobDTO, { ...request.params, ...request.body })
 
     try {
-      const jobDto = JobMapper.fromBodyToUpdateJobDTO(id, title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
-
       const job = await this.updateJobUseCase.update(jobDto)
 
       return response.status(201).json({
         success: true,
         message: 'Job updated',
-        data: {
-          job: JobMapper.fromJobToJobResponse(job)
-        }
+        data: JobMapper.fromJobToJobResponse(job)
       })
     } catch (error) {
       return next(error)
@@ -93,16 +89,12 @@ class JobsController {
   }
 
   public delete = async (request: Request, response: Response, next: NextFunction) => {
-    const { id } = request.params
+    const { id } = request.params as { id: string }
 
     try {
       await this.deleteJobUseCase.delete(id)
 
-      return response.status(204).json({
-        success: true,
-        message: 'Job deleted',
-        data: {}
-      })
+      return response.status(204).send()
     } catch (error) {
       return next(error)
     }
