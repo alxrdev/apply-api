@@ -10,4 +10,6 @@ export default interface FindJobsByGeolocationFiltersDTO {
   industryRegex?: Array<RegExp>
   page?: number
   limit?: number
+  sortBy?: string
+  sortOrder?: string
 }

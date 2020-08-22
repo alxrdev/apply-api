@@ -8,10 +8,10 @@ export default class JobsGeolocationController {
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
     const { zipcode, distance } = request.params
-    const { title, description, company, industry, jobType, minEducation, page, limit } = request.query
+    const { title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } = request.query
 
     try {
-      const result = await this.findJobsByGeolocation.find({ zipcode, distance: Number(distance), title, description, company, industry, jobType, minEducation, page, limit } as FindJobsByGeolocationFiltersDTO)
+      const result = await this.findJobsByGeolocation.find({ zipcode, distance: Number(distance), title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } as FindJobsByGeolocationFiltersDTO)
 
       return response.status(200).json({
         success: true,

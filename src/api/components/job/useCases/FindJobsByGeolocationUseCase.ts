@@ -26,7 +26,7 @@ export default class FindJobsByGeolocationUseCase {
 
     const baseUrl = `/api/jobs/${filters.zipcode}/${filters.distance}?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}`
 
-    const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, baseUrl)
+    const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, filters.sortBy, filters.sortOrder, baseUrl)
 
     result.previous = previous
     result.next = next
@@ -43,6 +43,16 @@ export default class FindJobsByGeolocationUseCase {
     filters.limit = (filters.limit < 1) ? 1 : filters.limit
     filters.limit = (filters.limit > 20) ? 20 : filters.limit
 
+    filters.sortBy = filters.sortBy ?? 'postingDate'
+
+    const sortOptions = ['position', 'salary', 'postingDate']
+    const sortBy = (!sortOptions.includes(filters.sortBy)) ? 'postingDate' : filters.sortBy
+
+    filters.sortOrder = filters.sortOrder ?? 'asc'
+
+    const sortOrderOptions = ['asc', 'desc']
+    const sortOrder = (!sortOrderOptions.includes(filters.sortOrder)) ? 'asc' : filters.sortOrder
+
     return {
       title: filters.title ?? '',
       description: filters.description ?? '',
@@ -53,6 +63,8 @@ export default class FindJobsByGeolocationUseCase {
       industryRegex: industryRegex,
       limit: filters.limit,
       page: (filters.page) ? Number(filters.page) : 1,
+      sortBy,
+      sortOrder,
       zipcode: (filters.zipcode) ?? '',
       distance: (filters.distance) ? Number(filters.distance) : 55
     }

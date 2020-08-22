@@ -8,4 +8,6 @@ export default interface ListJobsFiltersDTO {
   industryRegex?: Array<RegExp>
   page?: number
   limit?: number
+  sortBy?: string
+  sortOrder?: string
 }

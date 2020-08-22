@@ -17,10 +17,10 @@ class JobsController {
   ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
-    const { title, description, company, industry, jobType, minEducation, page, limit } = request.query
+    const { title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } = request.query
 
     try {
-      const result = await this.listJobsUseCase.listJobs({ title, description, company, industry, jobType, minEducation, page, limit } as ListJobsFiltersDTO)
+      const result = await this.listJobsUseCase.listJobs({ title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } as ListJobsFiltersDTO)
 
       return response.status(200).json({
         success: true,
