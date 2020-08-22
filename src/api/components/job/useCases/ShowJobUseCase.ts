@@ -7,7 +7,7 @@ export default class ShowJobUseCase {
   ) {}
 
   public async show (id: string): Promise<Job> {
-    const job = await this.jobRepository.fetchById(id)
+    const job = await this.jobRepository.findById(id)
     return job
   }
 }

@@ -21,7 +21,7 @@ export default class UpdateJobUseCase {
     const minEducation = new Education(jobDto.minEducation)
     const experience = new Experience(jobDto.experience)
 
-    const jobToUpdate = await this.jobRepository.fetchById(jobDto.id)
+    const jobToUpdate = await this.jobRepository.findById(jobDto.id)
 
     const jobUpdated = new Job(
       jobToUpdate.getId(),

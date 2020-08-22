@@ -20,7 +20,7 @@ export default class FindJobsByGeolocationUseCase {
 
     const radius = filters.distance / 3963
 
-    const result = await this.jobRepository.fetchByGeolocation(latitude, longitude, radius, filters)
+    const result = await this.jobRepository.findByGeolocation(latitude, longitude, radius, filters)
 
     const baseUrl = `/api/jobs/${filters.zipcode}/${filters.distance}?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
 

@@ -12,14 +12,8 @@ import { MongooseFilterQuery } from 'mongoose'
 import FindJobsByGeolocationFiltersDTO from '../../dtos/FindJobsByGeolocationFiltersDTO'
 
 export default class JobRepository implements IJobRepository {
-  private jobModel: typeof jobModel
-
-  constructor () {
-    this.jobModel = jobModel
-  }
-
-  public async fetchById (id: string): Promise<Job> {
-    const result = await this.jobModel.findOne({ _id: id })
+  public async findById (id: string): Promise<Job> {
+    const result = await jobModel.findOne({ _id: id })
 
     if (result === null) {
       throw new JobNotFoundError('Job not found.', false, 404)
@@ -28,7 +22,7 @@ export default class JobRepository implements IJobRepository {
     return this.jobDocumentToJob(result)
   }
 
-  public async fetchAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
+  public async findAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
     const query: MongooseFilterQuery<IJob> = {
       title: { $regex: filters.title, $options: 'i' },
       description: { $regex: filters.description, $options: 'i' },
@@ -38,10 +32,10 @@ export default class JobRepository implements IJobRepository {
       minEducation: { $regex: filters.minEducation, $options: 'i' }
     }
 
-    return await this.fetchCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
+    return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
-  public async fetchByGeolocation (latitude: number, longitude: number, radius: number, filters: FindJobsByGeolocationFiltersDTO): Promise<CollectionResponse<Job>> {
+  public async findByGeolocation (latitude: number, longitude: number, radius: number, filters: FindJobsByGeolocationFiltersDTO): Promise<CollectionResponse<Job>> {
     const query: MongooseFilterQuery<IJob> = {
       title: { $regex: filters.title, $options: 'i' },
       description: { $regex: filters.description, $options: 'i' },
@@ -59,31 +53,30 @@ export default class JobRepository implements IJobRepository {
       }
     }
 
-    return await this.fetchCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
+    return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
   public async create (job: Job): Promise<Job> {
-    await this.jobModel.create(this.jobToJobDocument(job))
+    await jobModel.create(this.jobToJobDocument(job))
     return job
   }
 
   public async update (job: Job): Promise<Job> {
-    await this.jobModel.updateOne({ _id: job.getId() }, this.jobToJobDocument(job))
+    await jobModel.updateOne({ _id: job.getId() }, this.jobToJobDocument(job))
     return job
   }
 
   public async delete (id: string): Promise<void> {
-    await this.fetchById(id)
-    await this.jobModel.deleteOne({ _id: id })
+    await jobModel.deleteOne({ _id: id })
   }
 
-  private async fetchCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
+  private async findCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
     const skip = (page - 1) * limit
 
     sortOrder = (sortOrder === 'asc') ? '' : '-'
 
-    const countResult = await this.jobModel.find(query).countDocuments()
-    const jobsResult = await this.jobModel.find(query).sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
+    const countResult = await jobModel.find(query).countDocuments()
+    const jobsResult = await jobModel.find(query).sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
 
     const jobs = jobsResult.map(job => this.jobDocumentToJob(job))
 

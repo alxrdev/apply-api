@@ -6,6 +6,7 @@ export default class DeleteJobUseCase {
   ) {}
 
   public async delete (id: string): Promise<void> {
+    await this.jobRepository.findById(id)
     await this.jobRepository.delete(id)
   }
 }

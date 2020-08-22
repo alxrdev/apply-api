@@ -15,7 +15,7 @@ export default class ListJobsUseCase {
 
     const filters = this.setupFilters(filtersDto)
 
-    const result = await this.jobRepository.fetchAll(filters)
+    const result = await this.jobRepository.findAll(filters)
 
     const baseUrl = `/api/jobs?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
 
