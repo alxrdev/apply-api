@@ -5,6 +5,6 @@ export default class InvalidArgumentError extends AppError {
     super(message, isInternal, statusCode, errorDetails)
 
     this.name = this.constructor.name
-    Object.setPrototypeOf(this, AppError.prototype)
+    Object.setPrototypeOf(this, InvalidArgumentError.prototype)
   }
 }
