@@ -36,7 +36,7 @@ class JobsController {
   }
 
   public show = async (request: Request, response: Response, next: NextFunction) => {
-    const { id } = request.params
+    const { id } = request.params as { id: string }
 
     try {
       const job = await this.showJobUseCase.show(id)
