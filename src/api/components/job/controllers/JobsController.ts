@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
-import JobMapper from '../utils/JobMapper'
 import CreateJobUseCase from '../useCases/CreateJobUseCase'
 import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
 import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
 import ShowJobUseCase from '../useCases/ShowJobUseCase'
+import CreateJobDTO from '../dtos/CreateJobDTO'
 import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
+import JobMapper from '../utils/JobMapper'
+import { plainToClass } from 'class-transformer'
 
 class JobsController {
   constructor (
@@ -54,19 +56,15 @@ class JobsController {
   }
 
   public create = async (request: Request, response: Response, next: NextFunction) => {
-    const { title, description, email, address, company, industry, jobType, minEducation, experience, salary, position } = request.body
+    const jobDto = plainToClass(CreateJobDTO, request.body)
 
     try {
-      const jobDto = JobMapper.fromBodyToCreateJobDTO(title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
-
       const job = await this.createJobUseCase.create(jobDto)
 
       return response.status(201).json({
         success: true,
         message: 'Job created',
-        data: {
-          job: JobMapper.fromJobToJobResponse(job)
-        }
+        data: JobMapper.fromJobToJobResponse(job)
       })
     } catch (error) {
       return next(error)
