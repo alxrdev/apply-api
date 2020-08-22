@@ -47,9 +47,7 @@ class JobsController {
       return response.status(200).json({
         success: true,
         message: 'Showing job',
-        data: {
-          jobs: JobMapper.fromJobToJobResponse(job)
-        }
+        data: JobMapper.fromJobToJobResponse(job)
       })
     } catch (error) {
       return next(error)
