@@ -59,7 +59,7 @@ export default class JobRepository implements IJobRepository {
       }
     }
 
-    return await this.fetchCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
+    return await this.fetchCollection(query, filters.page ?? 1, filters.limit ?? 10, filters.sortBy ?? 'postingDate', filters.sortOrder ?? 'asc')
   }
 
   public async create (job: Job): Promise<Job> {
@@ -77,15 +77,9 @@ export default class JobRepository implements IJobRepository {
     await this.jobModel.deleteOne({ _id: id })
   }
 
-  private async fetchCollection (query: MongooseFilterQuery<IJob>, page?: number, limit?: number, sortBy?: string, sortOrder?: string): Promise<CollectionResponse<Job>> {
-    page = page ?? 1
-    limit = limit ?? 10
-
+  private async fetchCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
     const skip = (page - 1) * limit
 
-    sortBy = sortBy ?? 'postingDate'
-
-    sortOrder = sortOrder ?? 'asc'
     sortOrder = (sortOrder === 'asc') ? '' : '-'
 
     const countResult = await this.jobModel.find(query).countDocuments()

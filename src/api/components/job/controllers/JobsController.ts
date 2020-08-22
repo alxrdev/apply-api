@@ -4,11 +4,11 @@ import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
 import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
 import ShowJobUseCase from '../useCases/ShowJobUseCase'
-import CreateJobDTO from '../dtos/CreateJobDTO'
 import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
+import CreateJobDTO from '../dtos/CreateJobDTO'
+import UpdateJobDTO from '../dtos/UpdateJobDTO'
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
-import UpdateJobDTO from '../dtos/UpdateJobDTO'
 
 class JobsController {
   constructor (
@@ -20,10 +20,10 @@ class JobsController {
   ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
-    const { title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } = request.query
+    const filtersDto = plainToClass(ListJobsFiltersDTO, request.query)
 
     try {
-      const result = await this.listJobsUseCase.listJobs({ title, description, company, industry, jobType, minEducation, page, limit, sortBy, sortOrder } as ListJobsFiltersDTO)
+      const result = await this.listJobsUseCase.listJobs(filtersDto)
 
       return response.status(200).json({
         success: true,
