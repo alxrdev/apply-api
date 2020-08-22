@@ -1,6 +1,9 @@
 import IJobRepository from '../repositories/IJobRepository'
 import geoCoder from '../../../../utils/geocoder'
 import Job from '../entities/Job'
+import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
+import CollectionResponse from '../entities/CollectionResponse'
+import collectionResultPagination from '../../../../utils/collectionResultPagination'
 
 export default class FindJobsByGeolocationUseCase {
   private jobRepository: IJobRepository
@@ -9,15 +12,49 @@ export default class FindJobsByGeolocationUseCase {
     this.jobRepository = jobRepository
   }
 
-  public async find (zipcode: string, distance: number): Promise<Array<Job>> {
-    const location = await geoCoder.geocode(zipcode)
+  public async find (filtersDto: FindJobsByGeolocationFiltersDTO): Promise<CollectionResponse<Job>> {
+    const filters = this.validateFilters(filtersDto)
+
+    const location = await geoCoder.geocode(filters.zipcode)
+
     const latitude = location[0].latitude ?? 0
     const longitude = location[0].longitude ?? 0
 
-    const radius = distance / 3963
+    const radius = filters.distance / 3963
 
-    const jobs = await this.jobRepository.fetchByGeolocation(latitude, longitude, radius)
+    const result = await this.jobRepository.fetchByGeolocation(latitude, longitude, radius, filters)
 
-    return jobs
+    const baseUrl = `/api/jobs/${filters.zipcode}/${filters.distance}?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}`
+
+    const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, baseUrl)
+
+    result.previous = previous
+    result.next = next
+
+    return result
+  }
+
+  private validateFilters (filters: FindJobsByGeolocationFiltersDTO) {
+    const industryString = (filters.industry) ? String(filters.industry).split(',') : ['']
+
+    const industryRegex = industryString.map((industry: string) => RegExp(`^${industry}`))
+
+    filters.limit = (filters.limit) ? Number(filters.limit) : 10
+    filters.limit = (filters.limit < 1) ? 1 : filters.limit
+    filters.limit = (filters.limit > 20) ? 20 : filters.limit
+
+    return {
+      title: filters.title ?? '',
+      description: filters.description ?? '',
+      company: filters.company ?? '',
+      jobType: filters.jobType ?? '',
+      minEducation: filters.minEducation ?? '',
+      industry: industryString,
+      industryRegex: industryRegex,
+      limit: filters.limit,
+      page: (filters.page) ? Number(filters.page) : 1,
+      zipcode: (filters.zipcode) ?? '',
+      distance: (filters.distance) ? Number(filters.distance) : 55
+    }
   }
 }

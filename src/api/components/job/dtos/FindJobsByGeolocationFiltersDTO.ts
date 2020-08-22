@@ -1,4 +1,6 @@
-export default interface ListJobsDTO {
+export default interface FindJobsByGeolocationFiltersDTO {
+  zipcode?: string
+  distance?: number
   title?: string
   description?: string
   company?: string

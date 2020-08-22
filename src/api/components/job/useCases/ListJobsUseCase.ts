@@ -1,6 +1,8 @@
 import IJobRepository from '../repositories/IJobRepository'
 import Job from '../entities/Job'
-import ListJobsDTO from '../dtos/ListJobsDTO'
+import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
+import CollectionResponse from '../entities/CollectionResponse'
+import collectionResultPagination from '../../../../utils/collectionResultPagination'
 
 export default class ListJobsUseCase {
   private jobRepository: IJobRepository
@@ -9,22 +11,40 @@ export default class ListJobsUseCase {
     this.jobRepository = jobRepository
   }
 
-  public async listJobs (options: ListJobsDTO): Promise<Array<Job>> {
-    options.title = options.title ?? ''
-    options.description = options.description ?? ''
-    options.company = options.company ?? ''
-    options.jobType = options.jobType ?? ''
-    options.minEducation = options.minEducation ?? ''
+  public async listJobs (filtersDto: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
+    const filters = this.validateFilters(filtersDto)
 
-    options.industry = options.industry ?? ['']
-    options.industryRegex = options.industry.map((industry: string) => RegExp(`^${industry}`))
+    const result = await this.jobRepository.fetchAll(filters)
 
-    options.page = options.page ?? 1
+    const baseUrl = `/api/jobs?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}`
 
-    options.limit = Number(options.limit) ?? 10
-    options.limit = (options.limit < 1) ? 1 : options.limit
-    options.limit = (options.limit > 20) ? 20 : options.limit
+    const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, baseUrl)
 
-    return await this.jobRepository.fetchAll(options)
+    result.previous = previous
+    result.next = next
+
+    return result
+  }
+
+  private validateFilters (filters: ListJobsFiltersDTO) {
+    const industryString = (filters.industry) ? String(filters.industry).split(',') : ['']
+
+    const industryRegex = industryString.map((industry: string) => RegExp(`^${industry}`))
+
+    filters.limit = (filters.limit) ? Number(filters.limit) : 10
+    filters.limit = (filters.limit < 1) ? 1 : filters.limit
+    filters.limit = (filters.limit > 20) ? 20 : filters.limit
+
+    return {
+      title: filters.title ?? '',
+      description: filters.description ?? '',
+      company: filters.company ?? '',
+      jobType: filters.jobType ?? '',
+      minEducation: filters.minEducation ?? '',
+      industry: industryString,
+      industryRegex: industryRegex,
+      limit: filters.limit,
+      page: (filters.page) ? Number(filters.page) : 1
+    }
   }
 }

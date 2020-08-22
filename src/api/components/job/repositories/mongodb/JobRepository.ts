@@ -6,7 +6,10 @@ import JobType from '../../entities/JobTypes'
 import Education from '../../entities/Education'
 import Experience from '../../entities/Experience'
 import JobNotFoundError from '../../errors/JobNotFoundError'
-import ListJobsDTO from '../../dtos/ListJobsDTO'
+import ListJobsFiltersDTO from '../../dtos/ListJobsFiltersDTO'
+import CollectionResponse from '../../entities/CollectionResponse'
+import { MongooseFilterQuery } from 'mongoose'
+import FindJobsByGeolocationFiltersDTO from '../../dtos/FindJobsByGeolocationFiltersDTO'
 
 export default class JobRepository implements IJobRepository {
   private jobModel: typeof jobModel
@@ -25,30 +28,37 @@ export default class JobRepository implements IJobRepository {
     return this.jobDocumentToJob(result)
   }
 
-  public async fetchAll (options: ListJobsDTO): Promise<Array<Job>> {
-    const page = options.page ?? 1
-    const limit = options.limit ?? 10
+  public async fetchAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
+    const page = filters.page ?? 1
+    const limit = filters.limit ?? 10
 
     const skip = (page - 1) * limit
 
-    const results = await this.jobModel.find({
-      title: { $regex: options.title, $options: 'i' },
-      description: { $regex: options.description, $options: 'i' },
-      company: { $regex: options.company, $options: 'i' },
-      industry: { $in: options.industryRegex },
-      jobType: { $regex: options.jobType, $options: 'i' },
-      minEducation: { $regex: options.minEducation, $options: 'i' }
-    })
-      .skip(skip)
-      .limit(limit)
+    const query: MongooseFilterQuery<IJob> = {
+      title: { $regex: filters.title, $options: 'i' },
+      description: { $regex: filters.description, $options: 'i' },
+      company: { $regex: filters.company, $options: 'i' },
+      industry: { $in: filters.industryRegex },
+      jobType: { $regex: filters.jobType, $options: 'i' },
+      minEducation: { $regex: filters.minEducation, $options: 'i' }
+    }
 
-    const jobs = results.map(job => this.jobDocumentToJob(job))
-
-    return jobs
+    return await this.fetchCollection(query, page, limit, skip)
   }
 
-  public async fetchByGeolocation (latitude: number, longitude: number, radius: number): Promise<Array<Job>> {
-    const results = await this.jobModel.find({
+  public async fetchByGeolocation (latitude: number, longitude: number, radius: number, filters: FindJobsByGeolocationFiltersDTO): Promise<CollectionResponse<Job>> {
+    const page = filters.page ?? 1
+    const limit = filters.limit ?? 10
+
+    const skip = (page - 1) * limit
+
+    const query: MongooseFilterQuery<IJob> = {
+      title: { $regex: filters.title, $options: 'i' },
+      description: { $regex: filters.description, $options: 'i' },
+      company: { $regex: filters.company, $options: 'i' },
+      industry: { $in: filters.industryRegex },
+      jobType: { $regex: filters.jobType, $options: 'i' },
+      minEducation: { $regex: filters.minEducation, $options: 'i' },
       location: {
         $geoWithin: {
           $centerSphere: [
@@ -57,11 +67,9 @@ export default class JobRepository implements IJobRepository {
           ]
         }
       }
-    })
+    }
 
-    const jobs = results.map(job => this.jobDocumentToJob(job))
-
-    return jobs
+    return await this.fetchCollection(query, page, limit, skip)
   }
 
   public async create (job: Job): Promise<Job> {
@@ -77,6 +85,15 @@ export default class JobRepository implements IJobRepository {
   public async delete (id: string): Promise<void> {
     await this.fetchById(id)
     await this.jobModel.deleteOne({ _id: id })
+  }
+
+  private async fetchCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, skip: number): Promise<CollectionResponse<Job>> {
+    const countResult = await this.jobModel.find(query).countDocuments()
+    const jobsResult = await this.jobModel.find(query).skip(skip).limit(limit)
+
+    const jobs = jobsResult.map(job => this.jobDocumentToJob(job))
+
+    return { count: countResult, collection: jobs }
   }
 
   private jobDocumentToJob (jobDocument: IJob): Job {

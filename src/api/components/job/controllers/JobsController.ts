@@ -5,7 +5,7 @@ import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
 import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
 import ShowJobUseCase from '../useCases/ShowJobUseCase'
-import ListJobsDTO from '../dtos/ListJobsDTO'
+import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
 
 class JobsController {
   constructor (
@@ -20,14 +20,15 @@ class JobsController {
     const { title, description, company, industry, jobType, minEducation, page, limit } = request.query
 
     try {
-      const jobs = await this.listJobsUseCase.listJobs({ title, description, company, industry: String(industry ?? '').split(','), jobType, minEducation, page, limit } as ListJobsDTO)
+      const result = await this.listJobsUseCase.listJobs({ title, description, company, industry, jobType, minEducation, page, limit } as ListJobsFiltersDTO)
 
       return response.status(200).json({
         success: true,
         message: 'All jobs',
-        data: {
-          jobs: JobMapper.fromJobArrayToJobResponseArray(jobs)
-        }
+        totalItems: result.count,
+        previousPage: result.previous,
+        nextPage: result.next,
+        data: JobMapper.fromJobArrayToJobResponseArray(result.collection)
       })
     } catch (error) {
       return next(error)
