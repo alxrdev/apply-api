@@ -1,42 +1,7 @@
-import CreateJobDTO from '../dtos/CreateJobDTO'
-import UpdateJobDTO from '../dtos/UpdateJobDTO'
-import Industry from '../entities/Industry'
-import JobType from '../entities/JobTypes'
-import Education from '../entities/Education'
-import Experience from '../entities/Experience'
 import Job from '../entities/Job'
 import JobResponse from '../entities/JobResponse'
 
 export default class JobMapper {
-  public static fromBodyToCreateJobDTO (title: string, description: string, email: string, address: string, company: string, industry: Array<string>, jobType: string, minEducation: string, experience: string, salary: number, position: number): CreateJobDTO {
-    const jobDto: CreateJobDTO = JobMapper.makeBaseJobDTO(title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
-    return jobDto
-  }
-
-  public static fromBodyToUpdateJobDTO (id: string, title: string, description: string, email: string, address: string, company: string, industry: Array<string>, jobType: string, minEducation: string, experience: string, salary: number, position: number): UpdateJobDTO {
-    const tempJobDto: CreateJobDTO = JobMapper.makeBaseJobDTO(title, description, email, address, company, industry, jobType, minEducation, experience, salary, position)
-    const jobDto: UpdateJobDTO = { id, ...tempJobDto }
-    return jobDto
-  }
-
-  private static makeBaseJobDTO (title: string, description: string, email: string, address: string, company: string, industry: Array<string>, jobType: string, minEducation: string, experience: string, salary: number, position: number) {
-    const jobDto = {
-      title: title,
-      description: description,
-      email: email,
-      address: address,
-      company: company,
-      industry: new Industry(industry),
-      jobType: new JobType(jobType),
-      minEducation: new Education(minEducation),
-      experience: new Experience(experience),
-      salary: salary,
-      position: position
-    }
-
-    return jobDto
-  }
-
   public static fromJobToJobResponse (job: Job): JobResponse {
     return {
       id: job.getId(),
