@@ -1,12 +1,12 @@
 import nodemailer, { Transporter } from 'nodemailer'
-import IMailProvider from './interfaces/IMailProvider'
-import ISendMailDTO from './interfaces/ISendMailDTO'
+import IMailService from './interfaces/IMailService'
+import SendMailDTO from './interfaces/SendMailDTO'
 import AppError from '../../errors/AppError'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-export default class Mailtrap implements IMailProvider {
+export default class Mailtrap implements IMailService {
   private transporter: Transporter
 
   constructor () {
@@ -16,7 +16,7 @@ export default class Mailtrap implements IMailProvider {
       !process.env.SMTP_MAILTRAP_USERNAME ||
       !process.env.SMTP_MAILTRAP_PASSWORD
     ) {
-      throw new AppError('Email provider env variables not loaded.')
+      throw new AppError('Email service env variables not loaded.')
     }
 
     this.transporter = nodemailer.createTransport({
@@ -29,7 +29,7 @@ export default class Mailtrap implements IMailProvider {
     })
   }
 
-  public async sendMail (data: ISendMailDTO): Promise<void> {
+  public async sendMail (data: SendMailDTO): Promise<void> {
     data.from = data.from ?? {
       name: process.env.SMTP_FROM_NAME || '',
       email: process.env.SMTP_FROM_EMAIl || ''

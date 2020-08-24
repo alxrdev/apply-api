@@ -1,5 +1,5 @@
 import IUserRepository from '../repositories/IUserRepository'
-import IMailProvider from '../../../../services/email/interfaces/IMailProvider'
+import IMailService from '../../../../services/email/interfaces/IMailService'
 import ForgotPasswordDTO from '../dtos/ForgotPasswordDTO'
 import validateClassParameters from '../../../../utils/validateClassParameters'
 import crypto from 'crypto'
@@ -7,7 +7,7 @@ import crypto from 'crypto'
 export default class ForgotPasswordUseCase {
   constructor (
     private readonly userRepository: IUserRepository,
-    private readonly mailProvider: IMailProvider
+    private readonly mailProvider: IMailService
   ) {}
 
   public async forgotPassword (forgotPasswordDto: ForgotPasswordDTO): Promise<void> {
