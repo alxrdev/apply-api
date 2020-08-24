@@ -1,5 +1,6 @@
 export default interface JobResponse {
   id: string
+  userId: string
   slug: string
   title: string
   description: string

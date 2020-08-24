@@ -5,6 +5,7 @@ import Experience from './Experience'
 
 export default class Job {
   private id: string
+  private userId: string
   private title: string
   private slug: string
   private description: string
@@ -20,8 +21,9 @@ export default class Job {
   private postingDate: Date
   private lastDate: Date
 
-  constructor (id: string, title: string, slug: string, description: string, email: string, address: string, company: string, industry: Industry, jobType: JobType, minEducation: Education, experience: Experience, salary: Number, position: Number, postingDate: Date, lastDate: Date) {
+  constructor (id: string, userId: string, title: string, slug: string, description: string, email: string, address: string, company: string, industry: Industry, jobType: JobType, minEducation: Education, experience: Experience, salary: Number, position: Number, postingDate: Date, lastDate: Date) {
     this.id = id
+    this.userId = userId
     this.title = title
     this.slug = slug
     this.description = description
@@ -40,6 +42,10 @@ export default class Job {
 
   public getId (): string {
     return this.id
+  }
+
+  public getUserId (): string {
+    return this.userId
   }
 
   public getTitle (): string {

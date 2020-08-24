@@ -130,6 +130,12 @@ const jobSchema = new mongoose.Schema({
   applicantsApplied: {
     type: [Object],
     select: false
+  },
+
+  user: {
+    type: String,
+    ref: 'User',
+    required: true
   }
 })
 
@@ -151,6 +157,7 @@ jobSchema.pre<IJob>('save', async function (next) {
 })
 
 export interface IJob extends mongoose.Document {
+  user: string
   slug: string
   title: string
   description: string

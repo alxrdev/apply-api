@@ -55,7 +55,7 @@ class JobsController {
   }
 
   public create = async (request: Request, response: Response, next: NextFunction) => {
-    const jobDto = plainToClass(CreateJobDTO, request.body)
+    const jobDto = plainToClass(CreateJobDTO, { ...request.body, userId: request.user.id })
 
     try {
       const job = await this.createJobUseCase.create(jobDto)

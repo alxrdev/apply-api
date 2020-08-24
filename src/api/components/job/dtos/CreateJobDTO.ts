@@ -4,6 +4,11 @@ import { Expose } from 'class-transformer'
 export default class CreateJobDTO {
   @IsDefined()
   @IsString()
+  @Expose()
+  userId: string
+
+  @IsDefined()
+  @IsString()
   @Length(1, 100)
   @Expose()
   title: string

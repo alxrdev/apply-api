@@ -86,6 +86,7 @@ export default class JobRepository implements IJobRepository {
   private jobDocumentToJob (jobDocument: IJob): Job {
     return new Job(
       jobDocument._id,
+      jobDocument.user,
       jobDocument.title,
       jobDocument.slug,
       jobDocument.description,
@@ -106,6 +107,7 @@ export default class JobRepository implements IJobRepository {
   private jobToJobDocument (job: Job) {
     return {
       _id: job.getId(),
+      user: job.getUserId(),
       title: job.getTitle(),
       description: job.getDescription(),
       slug: job.getSlug(),

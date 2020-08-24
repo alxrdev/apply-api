@@ -25,6 +25,7 @@ export default class UpdateJobUseCase {
 
     const jobUpdated = new Job(
       jobToUpdate.getId(),
+      jobToUpdate.getUserId(),
       jobDto.title,
       slugify(jobDto.title ?? '', { lower: true }),
       jobDto.description,

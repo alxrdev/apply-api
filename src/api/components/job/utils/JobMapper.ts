@@ -5,6 +5,7 @@ export default class JobMapper {
   public static fromJobToJobResponse (job: Job): JobResponse {
     return {
       id: job.getId(),
+      userId: job.getUserId(),
       title: job.getTitle(),
       description: job.getDescription(),
       slug: job.getSlug(),

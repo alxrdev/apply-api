@@ -22,6 +22,7 @@ export default class CreateJobUseCase {
 
     const job = new Job(
       uuidv4(),
+      jobDto.userId,
       jobDto.title,
       slugify(jobDto.title ?? '', { lower: true }),
       jobDto.description,
