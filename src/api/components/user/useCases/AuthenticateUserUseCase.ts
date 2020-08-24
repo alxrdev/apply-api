@@ -47,9 +47,14 @@ export default class AuthenticateUserUseCase {
       throw new AuthenticationError('Incorrect email/password combination.', false, 401)
     }
 
-    const token = jsonWebToken.sign({ id: user.id }, this.jwtSecret, {
-      expiresIn: this.jwtExpirestTime
-    })
+    const token = jsonWebToken.sign(
+      {
+        id: user.id,
+        role: user.role
+      },
+      this.jwtSecret,
+      { expiresIn: this.jwtExpirestTime }
+    )
 
     return {
       user,

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import isAuthenticated from '../../../utils/isAuthenticatedMiddleware'
+import { isAuthenticated, authorizedRole } from '../../../utils/authMiddlewares'
 
 import {
   listJobsUseCase,
@@ -19,9 +19,9 @@ const jobsController = new JobsController(listJobsUseCase, showJobUseCase, creat
 
 routes.get('/jobs', jobsController.index)
 routes.get('/jobs/:id', jobsController.show)
-routes.post('/jobs', isAuthenticated, jobsController.create)
-routes.put('/jobs/:id', isAuthenticated, jobsController.update)
-routes.delete('/jobs/:id', isAuthenticated, jobsController.delete)
+routes.post('/jobs', isAuthenticated, authorizedRole('employeer'), jobsController.create)
+routes.put('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.update)
+routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.delete)
 
 const jobsGeolocationController = new JobsGeolocationController(findJobsByGeolocation)
 

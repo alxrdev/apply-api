@@ -22,9 +22,9 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
   try {
     const decoded = jsonWebToken.verify(token, process.env.JWT_SECRET as string)
 
-    const { id } = decoded as { id: string }
+    const { id, role } = decoded as { id: string; role: string }
 
-    request.user = { id }
+    request.user = { id, role }
 
     return next()
   } catch (error) {
@@ -32,4 +32,13 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
   }
 }
 
-export default isAuthenticated
+const authorizedRole = (role: string) =>
+  (request: Request, response: Response, next: NextFunction) => {
+    if (!role.includes(request.user.role)) {
+      throw new AuthenticationError(`Role (${role}) is not allowed to access this resource.`, false, 403)
+    }
+
+    next()
+  }
+
+export { isAuthenticated, authorizedRole }
