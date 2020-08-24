@@ -24,6 +24,16 @@ export default class UserRepository implements IUserRepository {
     return this.userDocumentToUser(user)
   }
 
+  public async findByResetPasswordToken (token: string): Promise<User> {
+    const user = await userModel.findOne({ resetPasswordToken: token })
+
+    if (user === null) {
+      throw new UserNotFouldError('User not fould.', false, 404)
+    }
+
+    return this.userDocumentToUser(user)
+  }
+
   public async create (user: User): Promise<User> {
     await userModel.create(this.userToUserDocument(user))
     return user
