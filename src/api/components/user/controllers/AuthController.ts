@@ -17,7 +17,9 @@ export default class AuthController {
       return response.status(200).json({
         success: true,
         message: 'User authenticated.',
-        data: result.token
+        data: {
+          token: result.token
+        }
       })
     } catch (error) {
       next(error)

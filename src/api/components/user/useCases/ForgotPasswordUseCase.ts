@@ -30,7 +30,7 @@ export default class ForgotPasswordUseCase {
         email: user.email
       },
       subject: 'Jobbee Password Recovery',
-      text: `Hello ${user.name}, here is the link to reset your account password: http://localhost/api/password/reset/${resetToken}`
+      text: `Hello ${user.name}, here is the link to reset your account password: http://localhost:3000/api/password/reset/${resetToken}`
     })
   }
 
