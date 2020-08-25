@@ -1,4 +1,4 @@
 export default interface IStorageService {
-  save (fileName: string): Promise<void>
+  save (fileName: string, newName?: string): Promise<void>
   delete (fileName: string): Promise<void>
 }

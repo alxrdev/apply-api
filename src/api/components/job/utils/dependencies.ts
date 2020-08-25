@@ -1,3 +1,6 @@
+import DiskStorageService from '../../../../services/storage/DiskStorageService'
+import { diskStorage } from '../../../../configs/storage'
+
 import JobRepository from '../repositories/mongodb/JobRepository'
 import CreateJobUseCase from '../useCases/CreateJobUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
@@ -19,3 +22,5 @@ export const showJobUseCase = new ShowJobUseCase(jobRepository)
 export const listJobsUseCase = new ListJobsUseCase(jobRepository)
 
 export const findJobsByGeolocation = new FindJobsByGeolocationUseCase(jobRepository)
+
+export const diskStorageService = new DiskStorageService(diskStorage)
