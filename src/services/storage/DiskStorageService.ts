@@ -22,11 +22,12 @@ export default class DiskStorageService implements IStorageService {
     }
   }
 
-  public async delete (fileName: string): Promise<void> {
-    const oldPath = path.resolve(this.diskStorageSettings.storageTempFileDestination, fileName)
+  public async delete (fileName: string, isTemp: boolean): Promise<void> {
+    const currentPath = (isTemp) ? this.diskStorageSettings.storageTempFileDestination : this.diskStorageSettings.storageFileDestination
+    const pathToRemove = path.resolve(currentPath, fileName)
 
     try {
-      await fs.promises.unlink(oldPath)
+      await fs.promises.unlink(pathToRemove)
     } catch (error) {
       throw new AppError(error.message)
     }
