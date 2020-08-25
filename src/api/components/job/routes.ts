@@ -33,6 +33,6 @@ routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 
 const jobsApplyController = new JobsApplyController(applyToJobUseCase)
 
-routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('employeer'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
+routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
 
 export default routes
