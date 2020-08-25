@@ -109,7 +109,7 @@ export default class JobRepository implements IJobRepository {
       }]
     }
 
-    job.save()
+    await job.save()
   }
 
   private async findCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
