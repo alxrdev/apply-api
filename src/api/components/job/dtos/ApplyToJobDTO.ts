@@ -1,4 +1,4 @@
-import { IsDefined, IsString } from 'class-validator'
+import { IsDefined, IsString, MinLength } from 'class-validator'
 import { Expose } from 'class-transformer'
 
 export default class ApplyToJobDTO {
@@ -12,5 +12,9 @@ export default class ApplyToJobDTO {
   @Expose()
   userId: string
 
+  @IsDefined()
+  @IsString()
+  @MinLength(5)
+  @Expose()
   resume: string
 }

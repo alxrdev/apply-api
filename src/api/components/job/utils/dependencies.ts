@@ -8,6 +8,7 @@ import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
 import ShowJobUseCase from '../useCases/ShowJobUseCase'
 import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
+import ApplyToJobUseCase from '../useCases/ApplyToJobUseCase'
 
 export const jobRepository = new JobRepository()
 
@@ -24,3 +25,5 @@ export const listJobsUseCase = new ListJobsUseCase(jobRepository)
 export const findJobsByGeolocation = new FindJobsByGeolocationUseCase(jobRepository)
 
 export const diskStorageService = new DiskStorageService(diskStorage)
+
+export const applyToJobUseCase = new ApplyToJobUseCase(jobRepository, diskStorageService)

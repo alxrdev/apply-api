@@ -72,20 +72,31 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async applyToJob (jobId: string, userId: string, resume: string): Promise<void> {
-    const tempJob = await jobModel.findOne({ _id: jobId, applicantsApplied: { id: userId } })
+    const job = await jobModel.findOne({ _id: jobId }).select('+applicantsApplied')
 
-    if (tempJob) {
-      throw new AppError('User already applied to this job.', false, 400)
+    if (!job) {
+      throw new JobNotFoundError('Job not found.', false, 404)
     }
 
-    await jobModel.findOneAndUpdate({ _id: jobId }, {
-      $push: {
-        applicantsApplied: {
-          id: userId,
-          resume: resume
+    if (job.applicantsApplied) {
+      job.applicantsApplied.forEach(user => {
+        if (user.id === userId) {
+          throw new AppError('User already applied to this job.', false, 400)
         }
-      }
-    })
+      })
+
+      job.applicantsApplied.push({
+        id: userId,
+        resume: resume
+      })
+    } else {
+      job.applicantsApplied = [{
+        id: userId,
+        resume: resume
+      }]
+    }
+
+    job.save()
   }
 
   private async findCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
