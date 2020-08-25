@@ -24,7 +24,7 @@ export default class ApplyToJobUseCase {
 
       await this.storageService.save(applyDto.resume)
     } catch (error) {
-      if (applyDto.resume && applyDto.resume !== '') await this.storageService.delete(applyDto.resume)
+      if (applyDto.resume && applyDto.resume !== '') await this.storageService.delete(applyDto.resume, true)
       throw error
     }
   }

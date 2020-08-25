@@ -11,6 +11,7 @@ import CollectionResponse from '../../entities/CollectionResponse'
 import { MongooseFilterQuery } from 'mongoose'
 import FindJobsByGeolocationFiltersDTO from '../../dtos/FindJobsByGeolocationFiltersDTO'
 import AppError from '../../../../../errors/AppError'
+import FilesToDeleteCollection from '../../entities/FilesToDeleteCollection'
 
 export default class JobRepository implements IJobRepository {
   public async findById (id: string): Promise<Job> {
@@ -67,8 +68,20 @@ export default class JobRepository implements IJobRepository {
     return job
   }
 
-  public async delete (id: string): Promise<void> {
-    await jobModel.deleteOne({ _id: id })
+  public async delete (id: string): Promise<FilesToDeleteCollection> {
+    const job = await jobModel.findOne({ _id: id }).select('+applicantsApplied')
+
+    if (!job) {
+      throw new JobNotFoundError('Job not found.', false, 404)
+    }
+
+    const files = job?.applicantsApplied?.map(user => ({ file: user.resume }))
+
+    await job.remove()
+
+    return {
+      files: files
+    }
   }
 
   public async applyToJob (jobId: string, userId: string, resume: string): Promise<void> {
