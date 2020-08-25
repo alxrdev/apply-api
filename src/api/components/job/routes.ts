@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import { isAuthenticated, authorizedRole } from '../../../utils/authMiddlewares'
+import fileUpload from '../../../utils/fileUpload'
+import { diskStorage } from '../../../configs/storage'
 
 import {
   listJobsUseCase,
@@ -12,6 +14,7 @@ import {
 
 import JobsController from './controllers/JobsController'
 import JobsGeolocationController from './controllers/JobsGeolocationController'
+import JobsApplyController from './controllers/JobsApplyController'
 
 const routes = Router()
 
@@ -26,5 +29,9 @@ routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsCon
 const jobsGeolocationController = new JobsGeolocationController(findJobsByGeolocation)
 
 routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
+
+const jobsApplyController = new JobsApplyController()
+
+routes.post('/jobs/:id/apply', fileUpload(diskStorage).single('resume'), jobsApplyController.create)
 
 export default routes

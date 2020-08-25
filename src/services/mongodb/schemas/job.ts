@@ -181,6 +181,10 @@ export interface IJob extends mongoose.Document {
   position: Number
   postingDate: Date
   lastDate: Date
+  applicantsApplied?: Array<{
+    id: string
+    resume?: string
+  }>
 }
 
 const jobModel = mongoose.model<IJob>('Job', jobSchema)

@@ -10,4 +10,5 @@ export default interface IJobRepository {
   create (job: Job): Promise<Job>
   update (job: Job): Promise<Job>
   delete (id: string): Promise<void>
+  applyToJob(jobId: string, userId: string, resume: string): Promise<void>
 }

@@ -10,6 +10,7 @@ import ListJobsFiltersDTO from '../../dtos/ListJobsFiltersDTO'
 import CollectionResponse from '../../entities/CollectionResponse'
 import { MongooseFilterQuery } from 'mongoose'
 import FindJobsByGeolocationFiltersDTO from '../../dtos/FindJobsByGeolocationFiltersDTO'
+import AppError from '../../../../../errors/AppError'
 
 export default class JobRepository implements IJobRepository {
   public async findById (id: string): Promise<Job> {
@@ -68,6 +69,23 @@ export default class JobRepository implements IJobRepository {
 
   public async delete (id: string): Promise<void> {
     await jobModel.deleteOne({ _id: id })
+  }
+
+  public async applyToJob (jobId: string, userId: string, resume: string): Promise<void> {
+    const tempJob = await jobModel.findOne({ _id: jobId, applicantsApplied: { id: userId } })
+
+    if (tempJob) {
+      throw new AppError('User already applied to this job.', false, 400)
+    }
+
+    await jobModel.findOneAndUpdate({ _id: jobId }, {
+      $push: {
+        applicantsApplied: {
+          id: userId,
+          resume: resume
+        }
+      }
+    })
   }
 
   private async findCollection (query: MongooseFilterQuery<IJob>, page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
