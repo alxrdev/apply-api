@@ -7,6 +7,7 @@ import ShowJobUseCase from '../useCases/ShowJobUseCase'
 import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
 import CreateJobDTO from '../dtos/CreateJobDTO'
 import UpdateJobDTO from '../dtos/UpdateJobDTO'
+import DeleteJobDTO from '../dtos/DeleteJobDTO'
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
 
@@ -71,7 +72,7 @@ class JobsController {
   }
 
   public update = async (request: Request, response: Response, next: NextFunction) => {
-    const jobDto = plainToClass(UpdateJobDTO, { ...request.params, ...request.body })
+    const jobDto = plainToClass(UpdateJobDTO, { ...request.params, ...request.body, authId: request.user.id })
 
     try {
       const job = await this.updateJobUseCase.update(jobDto)
@@ -87,10 +88,10 @@ class JobsController {
   }
 
   public delete = async (request: Request, response: Response, next: NextFunction) => {
-    const { id } = request.params as { id: string }
+    const deleteJobDto = plainToClass(DeleteJobDTO, { ...request.params, authId: request.user.id })
 
     try {
-      await this.deleteJobUseCase.delete(id)
+      await this.deleteJobUseCase.delete(deleteJobDto)
 
       return response.status(204).send()
     } catch (error) {

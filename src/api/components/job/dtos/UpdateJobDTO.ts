@@ -9,6 +9,11 @@ export default class UpdateJobDTO {
 
   @IsDefined()
   @IsString()
+  @Expose()
+  authId: string
+
+  @IsDefined()
+  @IsString()
   @Length(1, 100)
   @Expose()
   title: string
