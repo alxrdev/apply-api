@@ -32,9 +32,9 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
   }
 }
 
-const authorizedRole = (role: string) =>
+const authorizedRole = (role: string | Array<string>) =>
   (request: Request, response: Response, next: NextFunction) => {
-    if (request.user.role !== role) {
+    if (!role.includes(request.user.role)) {
       throw new AuthenticationError(`Role (${request.user.role}) is not allowed to access this resource.`, false, 403)
     }
 
