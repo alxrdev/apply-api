@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import routes from './routes'
 import rateLimit from 'express-rate-limit'
+import helmet from 'helmet'
 import apiErrorHandlerMiddleware from '../utils/apiErrorHandlerMiddleware'
 
 class App {
@@ -23,6 +24,8 @@ class App {
       windowMs: 10 * 60 * 1000, // 10 minutes
       max: 100 // limit each IP to 100 requests per windowMs
     }))
+
+    this.server.use(helmet())
 
     this.server.use(express.json())
   }
