@@ -13,7 +13,7 @@ export default class JobsApplyController {
   ) {}
 
   public index = async (request: Request, response: Response, next: NextFunction) => {
-    const listJobsDto = plainToClass(ListJobsAppliedDTO, { ...request.params, userId: request.user.id })
+    const listJobsDto = plainToClass(ListJobsAppliedDTO, { userId: request.params.id, authId: request.user.id })
 
     try {
       const jobs = await this.listJobsAppliedUseCase.list(listJobsDto)
