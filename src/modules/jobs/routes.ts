@@ -23,7 +23,7 @@ routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 
 const jobsApplyController = container.resolve(JobsApplyController)
 
-routes.get('/users/:id/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
+routes.get('/users/:id/jobs/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
 
 const usersJobsController = container.resolve(UsersJobsController)
