@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import jobRoutes from './components/job/routes'
-import userRoutes from './components/user/routes'
+import jobRoutes from './components/jobs/routes'
+import userRoutes from './components/users/routes'
 
 const routes = Router()
 

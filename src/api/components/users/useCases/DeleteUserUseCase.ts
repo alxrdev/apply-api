@@ -1,5 +1,5 @@
 import IUserRepository from '../repositories/IUserRepository'
-import IJobRepository from '../../job/repositories/IJobRepository'
+import IJobRepository from '../../jobs/repositories/IJobRepository'
 import IStorageService from '../../../../services/storage/interfaces/IStorageService'
 import DeleteUserDTO from '../dtos/DeleteUserDTO'
 import validateClassParameters from '../../../../utils/validateClassParameters'

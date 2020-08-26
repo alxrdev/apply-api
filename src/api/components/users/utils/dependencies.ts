@@ -1,6 +1,6 @@
 import UserRepository from '../repositories/mongodb/UserRepository'
 import Mailtrap from '../../../../services/email/Mailtrap'
-import { jobRepository } from '../../job/utils/dependencies'
+import { jobRepository } from '../../jobs/utils/dependencies'
 import { diskStorage } from '../../../../configs/storage'
 import DiskStorageService from '../../../../services/storage/DiskStorageService'
 
