@@ -12,4 +12,5 @@ export default interface IJobRepository {
   update (job: Job): Promise<Job>
   delete (id: string): Promise<FilesToDeleteCollection>
   applyToJob(jobId: string, userId: string, resume: string): Promise<void>
+  removeApplyToJobs (userId: string): Promise<FilesToDeleteCollection>
 }

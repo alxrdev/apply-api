@@ -45,7 +45,13 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async delete (id: string): Promise<void> {
-    await userModel.deleteOne({ _id: id })
+    const job = await userModel.findOne({ _id: id })
+
+    if (!job) {
+      throw new UserNotFouldError('User not found.', false, 404)
+    }
+
+    await job.remove()
   }
 
   private userDocumentToUser (user: IUser): User {
