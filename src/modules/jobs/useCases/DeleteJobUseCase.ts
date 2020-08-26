@@ -12,7 +12,7 @@ export default class DeleteJobUseCase {
     @inject('JobRepository')
     private readonly jobRepository: IJobRepository,
 
-    @inject('DiskStorageService')
+    @inject('StorageService')
     private readonly storageService: IStorageService
   ) {}
 

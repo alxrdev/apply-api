@@ -16,7 +16,7 @@ export default class DeleteUserUseCase {
     @inject('JobRepository')
     private readonly jobRepository: IJobRepository,
 
-    @inject('DiskStorageService')
+    @inject('StorageService')
     private readonly storageService: IStorageService
   ) {}
 

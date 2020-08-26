@@ -1,6 +1,6 @@
 import { injectable, inject } from 'tsyringe'
 import IStorageService from './interfaces/IStorageService'
-import { IStorageSettings } from '../../configs/storage'
+import IStorageSettings from './interfaces/IStorageSettings'
 import fs from 'fs'
 import path from 'path'
 import AppError from '../../errors/AppError'

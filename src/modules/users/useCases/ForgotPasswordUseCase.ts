@@ -12,7 +12,7 @@ export default class ForgotPasswordUseCase {
     @inject('UserRepository')
     private readonly userRepository: IUserRepository,
 
-    @inject('Mailtrap')
+    @inject('MailService')
     private readonly mailService: IMailService
   ) {}
 
