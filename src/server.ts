@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import mongoDbConnection from './services/mongodb'
+import mongoDbConnection from './services/database/mongodb'
 import App from './api/app'
 
 dotenv.config()

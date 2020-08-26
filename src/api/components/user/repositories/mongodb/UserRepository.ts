@@ -1,6 +1,6 @@
 import IUserRepository from '../IUserRepository'
 import User from '../../entities/User'
-import userModel, { IUser } from '../../../../../services/mongodb/schemas/user'
+import userModel, { IUser } from '../../../../../services/database/mongodb/schemas/user'
 import UserNotFouldError from '../../errors/UserNotFouldError'
 
 export default class UserRepository implements IUserRepository {

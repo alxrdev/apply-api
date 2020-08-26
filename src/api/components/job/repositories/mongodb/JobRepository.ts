@@ -1,6 +1,6 @@
 import IJobRepository from '../IJobRepository'
 import Job from '../../entities/Job'
-import jobModel, { IJob } from '../../../../../services/mongodb/schemas/job'
+import jobModel, { IJob } from '../../../../../services/database/mongodb/schemas/job'
 import Industry from '../../entities/Industry'
 import JobType from '../../entities/JobTypes'
 import Education from '../../entities/Education'

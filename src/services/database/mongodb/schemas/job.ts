@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
-import geoCoder from '../../../utils/geocoder'
+import geoCoder from '../../../../utils/geocoder'
 
 const jobSchema = new mongoose.Schema({
   _id: String,
