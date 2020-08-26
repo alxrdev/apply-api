@@ -183,7 +183,7 @@ export interface IJob extends mongoose.Document {
   lastDate: Date
   applicantsApplied?: Array<{
     id: string
-    resume?: string
+    resume: string
   }>
 }
 
