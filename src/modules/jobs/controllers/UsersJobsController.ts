@@ -1,9 +1,10 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import ListPublishedJobsByUserUseCase from '../useCases/ListPublishedJobsByUserUseCase'
+import { ListPublishedJobsByUserUseCase } from '../useCases'
+import { ListPublishedJobsByUserDTO } from '../dtos'
+
 import { plainToClass } from 'class-transformer'
-import ListPublishedJobsByUserDTO from '../dtos/ListPublishedJobsByUserDTO'
 import JobMapper from '../utils/JobMapper'
 
 @injectable()

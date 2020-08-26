@@ -1,13 +1,10 @@
 import { injectable, inject } from 'tsyringe'
-import IJobRepository from '../repositories/IJobRepository'
-import Job from '../entities/Job'
-import Industry from '../entities/Industry'
-import JobType from '../entities/JobTypes'
-import Education from '../entities/Education'
-import Experience from '../entities/Experience'
-import CreateJobDTO from '../dtos/CreateJobDTO'
 import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
+
+import IJobRepository from '../repositories/IJobRepository'
+import { Job, Industry, JobType, Education, Experience } from '../entities'
+import { CreateJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
 @injectable()

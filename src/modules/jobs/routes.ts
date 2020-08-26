@@ -5,10 +5,7 @@ import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 import fileUpload from '../../middlewares/fileUpload'
 import { diskStorage } from '../../configs/storage'
 
-import JobsController from './controllers/JobsController'
-import JobsGeolocationController from './controllers/JobsGeolocationController'
-import JobsApplyController from './controllers/JobsApplyController'
-import UsersJobsController from './controllers/UsersJobsController'
+import { JobsController, JobsGeolocationController, JobsApplyController, UsersJobsController } from './controllers'
 
 const routes = Router()
 

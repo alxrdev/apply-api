@@ -3,9 +3,9 @@ import { injectable, inject } from 'tsyringe'
 import IUserRepository from '../repositories/IUserRepository'
 import IJobRepository from '../../jobs/repositories/IJobRepository'
 import IStorageService from '../../../services/storage/interfaces/IStorageService'
-import DeleteUserDTO from '../dtos/DeleteUserDTO'
+import { DeleteUserDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import AppError from '../../../errors/AppError'
+import { AppError } from '../../../errors'
 
 @injectable()
 export default class DeleteUserUseCase {

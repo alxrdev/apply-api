@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
-import Job from '../entities/Job'
-import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
-import CollectionResponse from '../entities/CollectionResponse'
-import collectionResultPagination from '../../../utils/collectionResultPagination'
+import { ListJobsFiltersDTO } from '../dtos'
+import { CollectionResponse, Job } from '../entities'
 import validateClassParameters from '../../../utils/validateClassParameters'
+import collectionResultPagination from '../../../utils/collectionResultPagination'
 
 @injectable()
 export default class ListJobsUseCase {

@@ -1,8 +1,9 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
-import CollectionResponse from '../entities/CollectionResponse'
-import Job from '../entities/Job'
-import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
+import { FindJobsByGeolocationFiltersDTO } from '../dtos'
+import { CollectionResponse, Job } from '../entities'
+
 import geoCoder from '../../../utils/geocoder'
 import collectionResultPagination from '../../../utils/collectionResultPagination'
 

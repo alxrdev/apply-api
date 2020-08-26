@@ -1,4 +1,4 @@
-import { IsDefined, IsString, IsEmail, MinLength } from 'class-validator'
+import { IsDefined, IsString, MinLength } from 'class-validator'
 import { Expose } from 'class-transformer'
 
 export default class ResetPasswordDTO {

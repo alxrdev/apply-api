@@ -1,8 +1,5 @@
-import Job from '../entities/Job'
-import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
-import CollectionResponse from '../entities/CollectionResponse'
-import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
-import FilesToDeleteCollection from '../entities/FilesToDeleteCollection'
+import { Job, CollectionResponse, FilesToDeleteCollection } from '../entities'
+import { ListJobsFiltersDTO, FindJobsByGeolocationFiltersDTO } from '../dtos'
 
 export default interface IJobRepository {
   findById (id: string): Promise<Job>

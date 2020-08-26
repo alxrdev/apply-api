@@ -1,11 +1,9 @@
 import { injectable } from 'tsyringe'
 import { Response, Request, NextFunction } from 'express'
 
-import CreateUserUseCase from '../useCases/CreateUserUseCase'
-import ShowUserUseCase from '../useCases/ShowUserUseCase'
-import DeleteUserUseCase from '../useCases/DeleteUserUseCase'
-import CreateUserDTO from '../dtos/CreateUserDTO'
-import DeleteUserDTO from '../dtos/DeleteUserDTO'
+import { ShowUserUseCase, CreateUserUseCase, DeleteUserUseCase } from '../useCases'
+import { CreateUserDTO, DeleteUserDTO } from '../dtos'
+
 import UserMapper from '../utils/UserMapper'
 import { plainToClass } from 'class-transformer'
 

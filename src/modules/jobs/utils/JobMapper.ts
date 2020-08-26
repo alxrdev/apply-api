@@ -1,5 +1,4 @@
-import Job from '../entities/Job'
-import JobResponse from '../entities/JobResponse'
+import { Job, JobResponse } from '../entities'
 
 export default class JobMapper {
   public static fromJobToJobResponse (job: Job): JobResponse {

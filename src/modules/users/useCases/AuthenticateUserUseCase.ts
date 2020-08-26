@@ -4,11 +4,11 @@ import jsonWebToken from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 import IUserRepository from '../repositories/IUserRepository'
-import AuthDTO from '../dtos/AuthDTO'
-import User from '../entities/User'
+import { User } from '../entities'
+import { AuthDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import AuthenticationError from '../errors/AuthenticationError'
-import AppError from '../../../errors/AppError'
+import { AppError } from '../../../errors'
+import { AuthenticationError } from '../errors'
 
 dotenv.config()
 

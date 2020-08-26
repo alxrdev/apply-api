@@ -1,7 +1,8 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
 import IStorageService from '../../../services/storage/interfaces/IStorageService'
-import ApplyToJobDTO from '../dtos/ApplyToJobDTO'
+import { ApplyToJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import ApplyError from '../errors/ApplyError'
 

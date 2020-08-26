@@ -1,7 +1,7 @@
 import IUserRepository from '../IUserRepository'
-import User from '../../entities/User'
+import { User } from '../../entities'
 import userModel, { IUser } from '../../../../services/database/mongodb/schemas/user'
-import UserNotFouldError from '../../errors/UserNotFouldError'
+import { UserNotFouldError } from '../../errors'
 
 export default class UserRepository implements IUserRepository {
   public async findById (id: string): Promise<User> {

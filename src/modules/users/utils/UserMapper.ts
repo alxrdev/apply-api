@@ -1,5 +1,4 @@
-import User from '../entities/User'
-import UserResponse from '../entities/UserResponse'
+import { User, UserResponse } from '../entities'
 
 export default class UserMapper {
   public static fromUserToUserResponse (user: User): UserResponse {

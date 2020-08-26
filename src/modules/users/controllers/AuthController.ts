@@ -1,8 +1,9 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import AuthenticateUserUseCase from '../useCases/AuthenticateUserUseCase'
-import AuthDTO from '../dtos/AuthDTO'
+import { AuthenticateUserUseCase } from '../useCases'
+import { AuthDTO } from '../dtos'
+
 import { plainToClass } from 'class-transformer'
 
 @injectable()

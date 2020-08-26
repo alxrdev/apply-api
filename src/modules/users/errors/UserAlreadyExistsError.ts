@@ -1,4 +1,4 @@
-import AppError from '../../../errors/AppError'
+import { AppError } from '../../../errors'
 
 export default class UserAlreadyExistsError extends AppError {
   constructor (message: string, public readonly isInternal: boolean = true, public readonly statusCode: number = 500, public readonly errorDetails?: Object | Array<Object>) {

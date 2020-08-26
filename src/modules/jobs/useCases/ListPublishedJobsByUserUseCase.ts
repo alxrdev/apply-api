@@ -1,7 +1,8 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
-import ListPublishedJobsByUserDTO from '../dtos/ListPublishedJobsByUserDTO'
-import Job from '../entities/Job'
+import { ListPublishedJobsByUserDTO } from '../dtos'
+import { Job } from '../entities'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
 @injectable()

@@ -3,10 +3,10 @@ import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 
 import IUserRepository from '../repositories/IUserRepository'
-import ResetPasswordDTO from '../dtos/ResetPasswordDTO'
+import { ResetPasswordDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import validatePasswordAndConfirmPassword from '../utils/validatePasswordAndConfirmPassword'
-import AppError from '../../../errors/AppError'
+import { AppError } from '../../../errors'
 
 @injectable()
 export default class ResetPasswordUseCase {

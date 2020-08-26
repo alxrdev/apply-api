@@ -1,5 +1,5 @@
 import Industry from './Industry'
-import JobType from './JobTypes'
+import JobType from './JobType'
 import Education from './Education'
 import Experience from './Experience'
 

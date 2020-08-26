@@ -3,7 +3,7 @@ import crypto from 'crypto'
 
 import IUserRepository from '../repositories/IUserRepository'
 import IMailService from '../../../services/email/interfaces/IMailService'
-import ForgotPasswordDTO from '../dtos/ForgotPasswordDTO'
+import { ForgotPasswordDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
 @injectable()

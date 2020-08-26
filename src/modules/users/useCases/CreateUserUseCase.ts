@@ -3,11 +3,11 @@ import { v4 as uuid } from 'uuid'
 import bcrypt from 'bcrypt'
 
 import IUserRepository from '../repositories/IUserRepository'
-import CreateUserDTO from '../dtos/CreateUserDTO'
-import User from '../entities/User'
+import { CreateUserDTO } from '../dtos'
+import { User } from '../entities'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import validatePasswordAndConfirmPassword from '../utils/validatePasswordAndConfirmPassword'
-import UserAlreadyExistsError from '../errors/UserAlreadyExistsError'
+import { UserAlreadyExistsError } from '../errors'
 
 @injectable()
 export default class CreateUserUseCase {

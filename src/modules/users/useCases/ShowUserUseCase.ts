@@ -1,7 +1,7 @@
 import { injectable, inject } from 'tsyringe'
 
 import IUserRepository from '../repositories/IUserRepository'
-import User from '../entities/User'
+import { User } from '../entities'
 import { isEmail } from 'class-validator'
 
 @injectable()

@@ -1,4 +1,4 @@
-import InvalidArgumentError from '../../../errors/InvalidArgumentError'
+import { InvalidArgumentError } from '../../../errors'
 
 const validatePasswordAndConfirmPassword = (password: string, confirmPassword: string): void => {
   if (password !== confirmPassword) {

@@ -1,8 +1,9 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
-import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
+import { FindJobsByGeolocationUseCase } from '../useCases'
+import { FindJobsByGeolocationFiltersDTO } from '../dtos'
+
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
 

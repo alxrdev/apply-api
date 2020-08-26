@@ -1,8 +1,9 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import ResetPasswordUseCase from '../useCases/ResetPasswordUseCase'
-import ResetPasswordDTO from '../dtos/ResetPasswordDTO'
+import { ResetPasswordUseCase } from '../useCases'
+import { ResetPasswordDTO } from '../dtos'
+
 import { plainToClass } from 'class-transformer'
 
 @injectable()

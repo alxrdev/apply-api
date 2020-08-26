@@ -1,18 +1,10 @@
 import IJobRepository from '../IJobRepository'
-import Job from '../../entities/Job'
 import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
-import Industry from '../../entities/Industry'
-import JobType from '../../entities/JobTypes'
-import Education from '../../entities/Education'
-import Experience from '../../entities/Experience'
-import JobNotFoundError from '../../errors/JobNotFoundError'
-import ListJobsFiltersDTO from '../../dtos/ListJobsFiltersDTO'
-import CollectionResponse from '../../entities/CollectionResponse'
 import { MongooseFilterQuery } from 'mongoose'
-import FindJobsByGeolocationFiltersDTO from '../../dtos/FindJobsByGeolocationFiltersDTO'
-import AppError from '../../../../errors/AppError'
-import FilesToDeleteCollection from '../../entities/FilesToDeleteCollection'
-import FileToDelete from '../../entities/FileToDelete'
+import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Industry, JobType, Education, Experience } from '../../entities'
+import { ListJobsFiltersDTO, FindJobsByGeolocationFiltersDTO } from '../../dtos'
+import { JobNotFoundError } from '../../errors'
+import { AppError } from '../../../../errors'
 
 export default class JobRepository implements IJobRepository {
   public async findById (id: string): Promise<Job> {

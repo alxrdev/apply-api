@@ -1,15 +1,9 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import CreateJobUseCase from '../useCases/CreateJobUseCase'
-import ListJobsUseCase from '../useCases/ListJobsUseCase'
-import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
-import DeleteJobUseCase from '../useCases/DeleteJobUseCase'
-import ShowJobUseCase from '../useCases/ShowJobUseCase'
-import ListJobsFiltersDTO from '../dtos/ListJobsFiltersDTO'
-import CreateJobDTO from '../dtos/CreateJobDTO'
-import UpdateJobDTO from '../dtos/UpdateJobDTO'
-import DeleteJobDTO from '../dtos/DeleteJobDTO'
+import { CreateJobUseCase, ListJobsUseCase, UpdateJobUseCase, DeleteJobUseCase, ShowJobUseCase } from '../useCases'
+import { ListJobsFiltersDTO, CreateJobDTO, UpdateJobDTO, DeleteJobDTO } from '../dtos'
+
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
 

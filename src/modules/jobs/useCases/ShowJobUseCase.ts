@@ -1,6 +1,7 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
-import Job from '../entities/Job'
+import { Job } from '../entities'
 
 @injectable()
 export default class ShowJobUseCase {
