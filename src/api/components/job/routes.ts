@@ -18,7 +18,7 @@ import {
 import JobsController from './controllers/JobsController'
 import JobsGeolocationController from './controllers/JobsGeolocationController'
 import JobsApplyController from './controllers/JobsApplyController'
-import UserJobsController from './controllers/UserJobsController'
+import UsersJobsController from './controllers/UsersJobsController'
 
 const routes = Router()
 
@@ -39,8 +39,8 @@ const jobsApplyController = new JobsApplyController(listJobsAppliedUseCase, appl
 routes.get('/users/:id/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
 
-const userJobsController = new UserJobsController(listPublishedJobsByUserUseCase)
+const usersJobsController = new UsersJobsController(listPublishedJobsByUserUseCase)
 
-routes.get('/users/:id/jobs', userJobsController.index)
+routes.get('/users/:id/jobs', usersJobsController.index)
 
 export default routes
