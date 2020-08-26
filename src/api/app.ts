@@ -2,6 +2,7 @@ import express, { Express } from 'express'
 import routes from './routes'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
+import cors from 'cors'
 import apiErrorHandlerMiddleware from '../utils/apiErrorHandlerMiddleware'
 
 class App {
@@ -26,6 +27,11 @@ class App {
     }))
 
     this.server.use(helmet())
+
+    this.server.use(cors({
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+    }))
 
     this.server.use(express.json())
   }
