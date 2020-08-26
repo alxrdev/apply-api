@@ -1,5 +1,6 @@
 import express, { Express } from 'express'
 import routes from './routes'
+import rateLimit from 'express-rate-limit'
 import apiErrorHandlerMiddleware from '../utils/apiErrorHandlerMiddleware'
 
 class App {
@@ -18,6 +19,11 @@ class App {
   }
 
   private setupMiddlewares (): void {
+    this.server.use(rateLimit({
+      windowMs: 10 * 60 * 1000, // 10 minutes
+      max: 100 // limit each IP to 100 requests per windowMs
+    }))
+
     this.server.use(express.json())
   }
 
