@@ -1,7 +1,7 @@
 import multer from 'multer'
 import path from 'path'
-import { IStorageSettings } from '../configs/storage'
-import InvalidArgumentError from '../errors/InvalidArgumentError'
+import { IStorageSettings } from '../../configs/storage'
+import InvalidArgumentError from '../../errors/InvalidArgumentError'
 
 const fileUpload = (storageSettings: IStorageSettings) => {
   const { storageEngine, storageFileMaxSize, storageFileExtensionTypes, storageFileMIMETypes } = storageSettings

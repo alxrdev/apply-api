@@ -13,7 +13,7 @@ import UsersController from './controllers/UsersController'
 import AuthController from './controllers/AuthController'
 import ForgotPasswordController from './controllers/ForgotPasswordController'
 import ResetPasswordController from './controllers/ResetPasswordController'
-import { isAuthenticated, authorizedRole } from '../../../utils/authMiddlewares'
+import { isAuthenticated, authorizedRole } from '../../../middlewares/auth'
 
 const routes = Router()
 

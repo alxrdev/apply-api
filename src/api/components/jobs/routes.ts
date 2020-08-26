@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { isAuthenticated, authorizedRole } from '../../../utils/authMiddlewares'
-import fileUpload from '../../../utils/fileUpload'
+import { isAuthenticated, authorizedRole } from '../../../middlewares/auth'
+import fileUpload from '../../../middlewares/fileUpload'
 import { diskStorage } from '../../../configs/storage'
 
 import {

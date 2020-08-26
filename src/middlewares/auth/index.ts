@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import jsonWebToken from 'jsonwebtoken'
-import AuthenticationError from '../api/components/users/errors/AuthenticationError'
-import AppError from '../errors/AppError'
+import AuthenticationError from '../../api/components/users/errors/AuthenticationError'
+import AppError from '../../errors/AppError'
 import dotenv from 'dotenv'
 
 dotenv.config()
