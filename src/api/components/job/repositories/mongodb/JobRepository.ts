@@ -59,6 +59,11 @@ export default class JobRepository implements IJobRepository {
     return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
+  public async findAppliedJobs (userId: string): Promise<Array<Job>> {
+    const result = await jobModel.find({ 'applicantsApplied.id': userId })
+    return result.map(job => this.jobDocumentToJob(job))
+  }
+
   public async create (job: Job): Promise<Job> {
     await jobModel.create(this.jobToJobDocument(job))
     return job

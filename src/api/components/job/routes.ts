@@ -10,7 +10,8 @@ import {
   updateJobUseCase,
   deleteJobUseCase,
   findJobsByGeolocation,
-  applyToJobUseCase
+  applyToJobUseCase,
+  listJobsAppliedUseCase
 } from './utils/dependencies'
 
 import JobsController from './controllers/JobsController'
@@ -31,8 +32,9 @@ const jobsGeolocationController = new JobsGeolocationController(findJobsByGeoloc
 
 routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 
-const jobsApplyController = new JobsApplyController(applyToJobUseCase)
+const jobsApplyController = new JobsApplyController(listJobsAppliedUseCase, applyToJobUseCase)
 
+routes.get('/users/:id/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
 
 export default routes
