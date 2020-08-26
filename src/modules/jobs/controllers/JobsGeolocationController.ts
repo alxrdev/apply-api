@@ -1,9 +1,12 @@
+import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
+
 import FindJobsByGeolocationUseCase from '../useCases/FindJobsByGeolocationUseCase'
 import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFiltersDTO'
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
 
+@injectable()
 export default class JobsGeolocationController {
   constructor (
     private readonly findJobsByGeolocation: FindJobsByGeolocationUseCase

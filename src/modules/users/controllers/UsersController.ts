@@ -1,4 +1,6 @@
+import { injectable } from 'tsyringe'
 import { Response, Request, NextFunction } from 'express'
+
 import CreateUserUseCase from '../useCases/CreateUserUseCase'
 import ShowUserUseCase from '../useCases/ShowUserUseCase'
 import DeleteUserUseCase from '../useCases/DeleteUserUseCase'
@@ -7,6 +9,7 @@ import DeleteUserDTO from '../dtos/DeleteUserDTO'
 import UserMapper from '../utils/UserMapper'
 import { plainToClass } from 'class-transformer'
 
+@injectable()
 export default class UsersController {
   constructor (
     private readonly showUserUseCase: ShowUserUseCase,

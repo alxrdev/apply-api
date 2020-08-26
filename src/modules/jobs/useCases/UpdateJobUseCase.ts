@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe'
 import IJobRepository from '../repositories/IJobRepository'
 import Job from '../entities/Job'
 import Industry from '../entities/Industry'
@@ -9,8 +10,10 @@ import slugify from 'slugify'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import AppError from '../../../errors/AppError'
 
+@injectable()
 export default class UpdateJobUseCase {
   constructor (
+    @inject('JobRepository')
     private readonly jobRepository: IJobRepository
   ) {}
 

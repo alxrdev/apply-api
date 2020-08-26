@@ -1,13 +1,19 @@
+import { injectable, inject } from 'tsyringe'
+import crypto from 'crypto'
+
 import IUserRepository from '../repositories/IUserRepository'
 import IMailService from '../../../services/email/interfaces/IMailService'
 import ForgotPasswordDTO from '../dtos/ForgotPasswordDTO'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import crypto from 'crypto'
 
+@injectable()
 export default class ForgotPasswordUseCase {
   constructor (
+    @inject('UserRepository')
     private readonly userRepository: IUserRepository,
-    private readonly mailProvider: IMailService
+
+    @inject('Mailtrap')
+    private readonly mailService: IMailService
   ) {}
 
   public async forgotPassword (forgotPasswordDto: ForgotPasswordDTO): Promise<void> {
@@ -24,7 +30,7 @@ export default class ForgotPasswordUseCase {
 
     await this.userRepository.update(user)
 
-    await this.mailProvider.sendMail({
+    await this.mailService.sendMail({
       to: {
         name: user.name,
         email: user.email

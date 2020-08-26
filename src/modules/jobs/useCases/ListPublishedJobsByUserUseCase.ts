@@ -1,10 +1,13 @@
+import { injectable, inject } from 'tsyringe'
 import IJobRepository from '../repositories/IJobRepository'
 import ListPublishedJobsByUserDTO from '../dtos/ListPublishedJobsByUserDTO'
 import Job from '../entities/Job'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
+@injectable()
 export default class ListPublishedJobsByUserUseCase {
   constructor (
+    @inject('JobRepository')
     private readonly jobRepository: IJobRepository
   ) {}
 

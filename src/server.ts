@@ -1,4 +1,8 @@
+import 'reflect-metadata'
 import dotenv from 'dotenv'
+
+import './services/container'
+
 import mongoDbConnection from './services/database/mongodb'
 import App from './app'
 

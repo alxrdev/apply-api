@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe'
 import IJobRepository from '../repositories/IJobRepository'
 import Job from '../entities/Job'
 import Industry from '../entities/Industry'
@@ -9,8 +10,10 @@ import { v4 as uuidv4 } from 'uuid'
 import slugify from 'slugify'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
+@injectable()
 export default class CreateJobUseCase {
   constructor (
+    @inject('JobRepository')
     private readonly jobRepository: IJobRepository
   ) {}
 

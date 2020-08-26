@@ -1,14 +1,18 @@
+import { injectable, inject } from 'tsyringe'
+import { v4 as uuid } from 'uuid'
+import bcrypt from 'bcrypt'
+
 import IUserRepository from '../repositories/IUserRepository'
 import CreateUserDTO from '../dtos/CreateUserDTO'
 import User from '../entities/User'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import validatePasswordAndConfirmPassword from '../utils/validatePasswordAndConfirmPassword'
 import UserAlreadyExistsError from '../errors/UserAlreadyExistsError'
-import { v4 as uuid } from 'uuid'
-import bcrypt from 'bcrypt'
 
+@injectable()
 export default class CreateUserUseCase {
   constructor (
+    @inject('UserRepository')
     private readonly userRepository: IUserRepository
   ) {}
 

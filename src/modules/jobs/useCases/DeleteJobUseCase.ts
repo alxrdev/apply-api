@@ -1,12 +1,17 @@
+import { injectable, inject } from 'tsyringe'
 import IJobRepository from '../repositories/IJobRepository'
 import IStorageService from '../../../services/storage/interfaces/IStorageService'
 import AppError from '../../../errors/AppError'
 import DeleteJobDTO from '../dtos/DeleteJobDTO'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
+@injectable()
 export default class DeleteJobUseCase {
   constructor (
+    @inject('JobRepository')
     private readonly jobRepository: IJobRepository,
+
+    @inject('DiskStorageService')
     private readonly storageService: IStorageService
   ) {}
 

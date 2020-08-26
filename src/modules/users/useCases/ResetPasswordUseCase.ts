@@ -1,13 +1,17 @@
+import { injectable, inject } from 'tsyringe'
+import crypto from 'crypto'
+import bcrypt from 'bcrypt'
+
 import IUserRepository from '../repositories/IUserRepository'
 import ResetPasswordDTO from '../dtos/ResetPasswordDTO'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import validatePasswordAndConfirmPassword from '../utils/validatePasswordAndConfirmPassword'
 import AppError from '../../../errors/AppError'
-import crypto from 'crypto'
-import bcrypt from 'bcrypt'
 
+@injectable()
 export default class ResetPasswordUseCase {
   constructor (
+    @inject('UserRepository')
     private readonly userRepository: IUserRepository
   ) {}
 

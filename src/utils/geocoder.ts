@@ -1,4 +1,7 @@
+import dotenv from 'dotenv'
 import nodeGeocoder, { GenericOptions } from 'node-geocoder'
+
+dotenv.config()
 
 const options: GenericOptions = {
   provider: 'mapquest',

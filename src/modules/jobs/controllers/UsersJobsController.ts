@@ -1,9 +1,12 @@
-import ListPublishedJobsByUserUseCase from '../useCases/ListPublishedJobsByUserUseCase'
+import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
+
+import ListPublishedJobsByUserUseCase from '../useCases/ListPublishedJobsByUserUseCase'
 import { plainToClass } from 'class-transformer'
 import ListPublishedJobsByUserDTO from '../dtos/ListPublishedJobsByUserDTO'
 import JobMapper from '../utils/JobMapper'
 
+@injectable()
 export default class UsersJobsController {
   constructor (
     private readonly listPublishedJobsByUserUseCase: ListPublishedJobsByUserUseCase

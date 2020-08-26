@@ -1,12 +1,14 @@
+import { injectable, inject } from 'tsyringe'
+import dotenv from 'dotenv'
+import jsonWebToken from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+
 import IUserRepository from '../repositories/IUserRepository'
 import AuthDTO from '../dtos/AuthDTO'
 import User from '../entities/User'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import AuthenticationError from '../errors/AuthenticationError'
 import AppError from '../../../errors/AppError'
-import bcrypt from 'bcrypt'
-import jsonWebToken from 'jsonwebtoken'
-import dotenv from 'dotenv'
 
 dotenv.config()
 
@@ -15,11 +17,13 @@ export interface IAuthUserResponse {
   token: string
 }
 
+@injectable()
 export default class AuthenticateUserUseCase {
   private jwtSecret: string
   private jwtExpirestTime: string
 
   constructor (
+    @inject('UserRepository')
     private readonly userRepository: IUserRepository
   ) {
     if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRES_TIME) {

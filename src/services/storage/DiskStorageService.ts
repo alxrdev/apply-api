@@ -1,11 +1,14 @@
+import { injectable, inject } from 'tsyringe'
 import IStorageService from './interfaces/IStorageService'
 import { IStorageSettings } from '../../configs/storage'
 import fs from 'fs'
 import path from 'path'
 import AppError from '../../errors/AppError'
 
+@injectable()
 export default class DiskStorageService implements IStorageService {
   constructor (
+    @inject('StorageSettings')
     private readonly diskStorageSettings: Pick<IStorageSettings, 'storageTempFileDestination' | 'storageFileDestination'>
   ) {}
 

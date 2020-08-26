@@ -1,4 +1,6 @@
+import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
+
 import CreateJobUseCase from '../useCases/CreateJobUseCase'
 import ListJobsUseCase from '../useCases/ListJobsUseCase'
 import UpdateJobUseCase from '../useCases/UpdateJobUseCase'
@@ -11,6 +13,7 @@ import DeleteJobDTO from '../dtos/DeleteJobDTO'
 import JobMapper from '../utils/JobMapper'
 import { plainToClass } from 'class-transformer'
 
+@injectable()
 class JobsController {
   constructor (
     private readonly listJobsUseCase: ListJobsUseCase,

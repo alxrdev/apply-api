@@ -1,8 +1,11 @@
+import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
+
 import ResetPasswordUseCase from '../useCases/ResetPasswordUseCase'
 import ResetPasswordDTO from '../dtos/ResetPasswordDTO'
 import { plainToClass } from 'class-transformer'
 
+@injectable()
 export default class ResetPasswordController {
   constructor (
     private readonly resetPasswordUseCase: ResetPasswordUseCase

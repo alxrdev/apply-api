@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe'
 import IJobRepository from '../repositories/IJobRepository'
 import CollectionResponse from '../entities/CollectionResponse'
 import Job from '../entities/Job'
@@ -5,8 +6,10 @@ import FindJobsByGeolocationFiltersDTO from '../dtos/FindJobsByGeolocationFilter
 import geoCoder from '../../../utils/geocoder'
 import collectionResultPagination from '../../../utils/collectionResultPagination'
 
+@injectable()
 export default class FindJobsByGeolocationUseCase {
   constructor (
+    @inject('JobRepository')
     private readonly jobRepository: IJobRepository
   ) {}
 

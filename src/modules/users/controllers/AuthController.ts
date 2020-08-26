@@ -1,8 +1,11 @@
+import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
-import AuthenticateUserUseCase from '../useCases/AuthenticateUserUseCase'
-import { plainToClass } from 'class-transformer'
-import AuthDTO from '../dtos/AuthDTO'
 
+import AuthenticateUserUseCase from '../useCases/AuthenticateUserUseCase'
+import AuthDTO from '../dtos/AuthDTO'
+import { plainToClass } from 'class-transformer'
+
+@injectable()
 export default class AuthController {
   constructor (
     private readonly authenticateUserUseCase: AuthenticateUserUseCase
