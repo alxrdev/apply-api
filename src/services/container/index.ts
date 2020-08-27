@@ -9,8 +9,7 @@ import UserRepository from '../../modules/users/repositories/mongodb/UserReposit
 import IStorageService from '../storage/interfaces/IStorageService'
 import DiskStorageService from '../storage/DiskStorageService'
 
-import IStorageSettings from '../storage/interfaces/IStorageSettings'
-import { diskStorage } from '../../configs/storage'
+import { resumeStorageSettings, avatarStorageSettings } from '../../configs/storage'
 
 import IMailService from '../email/interfaces/IMailService'
 import Mailtrap from '../email/Mailtrap'
@@ -22,9 +21,9 @@ container.registerSingleton<IJobRepository>('JobRepository', JobRepository)
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository)
 
-container.register<IStorageService>('StorageService', DiskStorageService)
+container.register<IStorageService>('ResumeStorageService', { useValue: new DiskStorageService(resumeStorageSettings) })
 
-container.register<IStorageSettings>('StorageSettings', { useValue: diskStorage })
+container.register<IStorageService>('AvatarStorageService', { useValue: new DiskStorageService(avatarStorageSettings) })
 
 container.register<IMailService>('MailService', Mailtrap)
 

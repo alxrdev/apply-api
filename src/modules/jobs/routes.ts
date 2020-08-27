@@ -3,7 +3,7 @@ import { Router } from 'express'
 import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 
 import fileUpload from '../../middlewares/fileUpload'
-import { diskStorage } from '../../configs/storage'
+import { resumeStorageSettings } from '../../configs/storage'
 
 import { JobsController, JobsApplyController, UsersJobsController } from './controllers'
 
@@ -20,7 +20,7 @@ routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsCon
 const jobsApplyController = container.resolve(JobsApplyController)
 
 routes.get('/users/:id/jobs/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
-routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(diskStorage).single('resume'), jobsApplyController.create)
+routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(resumeStorageSettings).single('resume'), jobsApplyController.create)
 
 const usersJobsController = container.resolve(UsersJobsController)
 

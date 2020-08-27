@@ -7,27 +7,56 @@ import { diskStorage as multerDiskStorage } from 'multer'
 dotenv.config()
 
 const storageType = process.env.STORAGE_TYPE || 'disk'
-const storageTempFileDestination = process.env.STORAGE_TEMP_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'tmp', 'uploads')
-const storageFileDestination = process.env.STORAGE_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'uploads')
-const storageFileExtensionTypes = process.env.STORAGE_FILE_EXTENSION_TYPES || '.doc,.pdf'
-const storageFileMIMETypes = process.env.STORAGE_FILE_MIME_TYPES || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'
-const storageFileMaxSize = (process.env.STORAGE_FILE_MAX_SIZE) ? Number(process.env.STORAGE_MAX_SIZE) : 2000000
+const storageProfiles = (process.env.STORAGE_PROFILES) ? JSON.parse(process.env.STORAGE_PROFILES) : JSON.parse('')
 
-export const diskStorage: IStorageSettings = {
-  storageType,
-  storageTempFileDestination,
-  storageFileDestination,
-  storageFileExtensionTypes,
-  storageFileMIMETypes,
-  storageFileMaxSize,
-  storageEngine: multerDiskStorage({
-    destination: function (req, file, cb) {
-      cb(null, storageTempFileDestination)
-    },
-    filename: function (req, file, cb) {
-      const fileHash = crypto.randomBytes(10).toString('hex')
-      const fileName = `${fileHash}-${Date.now()}${path.extname(file.originalname)}`
-      cb(null, fileName)
-    }
-  })
+interface StorageProfile {
+  tmpDestination: string
+  destination: string
+  extensionTypes: string
+  mimeTypes: string
+  maxSize: number
 }
+
+const avatarProfile: StorageProfile = storageProfiles.avatar as StorageProfile
+const resumeProfile: StorageProfile = storageProfiles.resume as StorageProfile
+
+const diskStorage = (tmpDestination: string) => multerDiskStorage({
+  destination: function (req, file, cb) {
+    cb(null, tmpDestination)
+  },
+  filename: function (req, file, cb) {
+    const fileHash = crypto.randomBytes(10).toString('hex')
+    const fileName = `${fileHash}-${Date.now()}${path.extname(file.originalname)}`
+    cb(null, fileName)
+  }
+})
+
+const avatarDiskStorage: IStorageSettings = {
+  storageType,
+  storageTempFileDestination: avatarProfile.tmpDestination,
+  storageFileDestination: avatarProfile.destination,
+  storageFileExtensionTypes: avatarProfile.extensionTypes,
+  storageFileMIMETypes: avatarProfile.mimeTypes,
+  storageFileMaxSize: avatarProfile.maxSize,
+  storageEngine: diskStorage(avatarProfile.tmpDestination)
+}
+
+const resumeDiskStorage: IStorageSettings = {
+  storageType,
+  storageTempFileDestination: resumeProfile.tmpDestination,
+  storageFileDestination: resumeProfile.destination,
+  storageFileExtensionTypes: resumeProfile.extensionTypes,
+  storageFileMIMETypes: resumeProfile.mimeTypes,
+  storageFileMaxSize: resumeProfile.maxSize,
+  storageEngine: diskStorage(resumeProfile.tmpDestination)
+}
+
+const exportStorage = () => {
+  const resumeStorageSettings = resumeDiskStorage
+  const avatarStorageSettings = avatarDiskStorage
+  return [resumeStorageSettings, avatarStorageSettings]
+}
+
+const [resumeStorageSettings, avatarStorageSettings] = exportStorage()
+
+export { resumeStorageSettings, avatarStorageSettings }
