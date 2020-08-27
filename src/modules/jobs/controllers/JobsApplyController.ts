@@ -1,34 +1,16 @@
 import { injectable } from 'tsyringe'
 import { Request, Response, NextFunction } from 'express'
 
-import { ListJobsAppliedUseCase, ApplyToJobUseCase } from '../useCases'
-import { ListJobsAppliedDTO, ApplyToJobDTO } from '../dtos'
+import { ApplyToJobUseCase } from '../useCases'
+import { ApplyToJobDTO } from '../dtos'
 
 import { plainToClass } from 'class-transformer'
-import JobMapper from '../utils/JobMapper'
 
 @injectable()
 export default class JobsApplyController {
   constructor (
-    private readonly listJobsAppliedUseCase: ListJobsAppliedUseCase,
     private readonly applyToJobUseCase: ApplyToJobUseCase
   ) {}
-
-  public index = async (request: Request, response: Response, next: NextFunction) => {
-    const listJobsDto = plainToClass(ListJobsAppliedDTO, { userId: request.params.id, authId: request.user.id })
-
-    try {
-      const jobs = await this.listJobsAppliedUseCase.list(listJobsDto)
-
-      return response.status(200).json({
-        sucess: true,
-        message: 'Jobs applied.',
-        data: JobMapper.fromJobArrayToJobResponseArray(jobs)
-      })
-    } catch (error) {
-      next(error)
-    }
-  }
 
   public create = async (request: Request, response: Response, next: NextFunction) => {
     const applyDto = plainToClass(ApplyToJobDTO, { ...request.params, userId: request.user.id, resume: (request.file) ? request.file.filename : undefined })

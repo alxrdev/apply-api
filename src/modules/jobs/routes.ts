@@ -5,7 +5,7 @@ import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 import fileUpload from '../../middlewares/fileUpload'
 import { resumeStorageSettings } from '../../services/storage'
 
-import { JobsController, JobsApplyController, UsersJobsController } from './controllers'
+import { JobsController, JobsApplyController, UsersJobsController, UsersJobsAppliedController } from './controllers'
 
 const routes = Router()
 
@@ -19,8 +19,11 @@ routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsCon
 
 const jobsApplyController = container.resolve(JobsApplyController)
 
-routes.get('/users/:id/jobs/applied', isAuthenticated, authorizedRole('user'), jobsApplyController.index)
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(resumeStorageSettings).single('resume'), jobsApplyController.create)
+
+const usersJobsAppliedController = container.resolve(UsersJobsAppliedController)
+
+routes.get('/users/:userId/jobs/applied', isAuthenticated, authorizedRole('user'), usersJobsAppliedController.index)
 
 const usersJobsController = container.resolve(UsersJobsController)
 
