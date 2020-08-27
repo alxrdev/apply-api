@@ -7,6 +7,7 @@ export default class UserMapper {
       name: user.name,
       email: user.email,
       role: user.role,
+      avatar: user.avatar,
       createdAt: user.createdAt
     }
   }
