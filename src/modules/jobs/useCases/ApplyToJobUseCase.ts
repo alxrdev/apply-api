@@ -22,7 +22,7 @@ export default class ApplyToJobUseCase {
 
       const job = await this.jobRepository.findById(applyDto.id)
 
-      if (job.getLastDate() < new Date()) {
+      if (job.lastDate < new Date()) {
         throw new ApplyError('You can not apply to this job. Date is over.', false, 400)
       }
 
