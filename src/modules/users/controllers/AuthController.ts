@@ -16,7 +16,7 @@ export default class AuthController {
     const userDto = plainToClass(AuthDTO, request.body)
 
     try {
-      const result = await this.authenticateUserUseCase.authenticateUser(userDto)
+      const result = await this.authenticateUserUseCase.execute(userDto)
 
       return response.status(200).json({
         success: true,

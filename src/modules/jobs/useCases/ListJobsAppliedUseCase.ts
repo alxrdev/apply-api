@@ -14,7 +14,7 @@ export default class ListJobsAppliedUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async list (listJobsDto: ListJobsAppliedDTO): Promise<Array<Job>> {
+  public async execute (listJobsDto: ListJobsAppliedDTO): Promise<Array<Job>> {
     await validateClassParameters(listJobsDto)
 
     if (listJobsDto.authId !== listJobsDto.userId) {

@@ -19,7 +19,7 @@ export default class ForgotPasswordUseCase {
     private readonly mailService: IMailService
   ) {}
 
-  public async forgotPassword (forgotPasswordDto: ForgotPasswordDTO): Promise<void> {
+  public async execute (forgotPasswordDto: ForgotPasswordDTO): Promise<void> {
     await validateClassParameters(forgotPasswordDto)
 
     const user = await this.userRepository.findByEmail(forgotPasswordDto.email)

@@ -13,7 +13,7 @@ export default class CreateJobUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async create (jobDto: CreateJobDTO): Promise<Job> {
+  public async execute (jobDto: CreateJobDTO): Promise<Job> {
     await validateClassParameters(jobDto)
 
     const lastDate = new Date()

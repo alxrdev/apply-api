@@ -11,7 +11,7 @@ export default class ShowUserUseCase {
     private readonly userRepository: IUserRepository
   ) {}
 
-  public async show (idOrEmail: string): Promise<User> {
+  public async execute (idOrEmail: string): Promise<User> {
     const user = (isEmail(idOrEmail))
       ? await this.userRepository.findByEmail(idOrEmail)
       : await this.userRepository.findById(idOrEmail)

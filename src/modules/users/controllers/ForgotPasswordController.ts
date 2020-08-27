@@ -16,7 +16,7 @@ export default class ForgotPasswordController {
     const forgotPasswordDto = plainToClass(ForgotPasswordDTO, request.body)
 
     try {
-      await this.forgotPasswordUseCase.forgotPassword(forgotPasswordDto)
+      await this.forgotPasswordUseCase.execute(forgotPasswordDto)
 
       return response.status(201).json({
         success: true,

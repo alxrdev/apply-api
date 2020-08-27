@@ -16,7 +16,7 @@ export default class JobsApplyController {
     const applyDto = plainToClass(ApplyToJobDTO, { ...request.params, userId: request.user.id, resume: (request.file) ? request.file.filename : undefined })
 
     try {
-      await this.applyToJobUseCase.apply(applyDto)
+      await this.applyToJobUseCase.execute(applyDto)
 
       return response.status(201).json({
         sucess: true,

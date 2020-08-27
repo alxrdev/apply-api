@@ -16,7 +16,7 @@ export default class DeleteJobUseCase {
     private readonly storageService: IStorageService
   ) {}
 
-  public async delete (deleteJobDto: DeleteJobDTO): Promise<void> {
+  public async execute (deleteJobDto: DeleteJobDTO): Promise<void> {
     await validateClassParameters(deleteJobDto)
 
     const job = await this.jobRepository.findById(deleteJobDto.id)

@@ -16,7 +16,7 @@ export default class ResetPasswordController {
     const resetPasswordDto = plainToClass(ResetPasswordDTO, { ...request.body, ...request.params })
 
     try {
-      await this.resetPasswordUseCase.resetPassword(resetPasswordDto)
+      await this.resetPasswordUseCase.execute(resetPasswordDto)
 
       return response.status(201).json({
         success: true,

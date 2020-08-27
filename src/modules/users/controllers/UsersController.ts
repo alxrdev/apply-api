@@ -19,7 +19,7 @@ export default class UsersController {
     const { idOrEmail } = request.params as { idOrEmail: string }
 
     try {
-      const user = await this.showUserUseCase.show(idOrEmail)
+      const user = await this.showUserUseCase.execute(idOrEmail)
 
       return response.status(200).json({
         success: true,
@@ -35,7 +35,7 @@ export default class UsersController {
     const userDto = plainToClass(CreateUserDTO, request.body)
 
     try {
-      const user = await this.createUserUseCase.create(userDto)
+      const user = await this.createUserUseCase.execute(userDto)
 
       return response.status(201).json({
         success: true,
@@ -51,7 +51,7 @@ export default class UsersController {
     const userDto = plainToClass(DeleteUserDTO, { ...request.params, authUserId: request.user.id })
 
     try {
-      await this.deleteUserUseCase.delete(userDto)
+      await this.deleteUserUseCase.execute(userDto)
 
       return response.status(204).send()
     } catch (error) {

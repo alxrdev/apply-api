@@ -10,7 +10,7 @@ export default class ShowJobUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async show (id: string): Promise<Job> {
+  public async execute (id: string): Promise<Job> {
     const job = await this.jobRepository.findById(id)
     return job
   }

@@ -15,7 +15,7 @@ export default class ResetPasswordUseCase {
     private readonly userRepository: IUserRepository
   ) {}
 
-  public async resetPassword (resetPasswordDto: ResetPasswordDTO): Promise<void> {
+  public async execute (resetPasswordDto: ResetPasswordDTO): Promise<void> {
     await validateClassParameters(resetPasswordDto)
 
     validatePasswordAndConfirmPassword(resetPasswordDto.password, resetPasswordDto.confirmPassword)

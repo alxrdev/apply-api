@@ -12,7 +12,7 @@ export default class ListPublishedJobsByUserUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async list (userDto: ListPublishedJobsByUserDTO): Promise<Array<Job>> {
+  public async execute (userDto: ListPublishedJobsByUserDTO): Promise<Array<Job>> {
     await validateClassParameters(userDto)
     return await this.jobRepository.findAllByUserId(userDto.id)
   }

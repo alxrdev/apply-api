@@ -17,7 +17,7 @@ export default class UsersJobsAppliedController {
     const listJobsDto = plainToClass(ListJobsAppliedDTO, { ...request.params, authId: request.user.id })
 
     try {
-      const jobs = await this.listJobsAppliedUseCase.list(listJobsDto)
+      const jobs = await this.listJobsAppliedUseCase.execute(listJobsDto)
 
       return response.status(200).json({
         sucess: true,

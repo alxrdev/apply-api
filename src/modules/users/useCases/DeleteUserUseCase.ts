@@ -19,7 +19,7 @@ export default class DeleteUserUseCase {
     private readonly storageService: IStorageService
   ) {}
 
-  public async delete (userDto: DeleteUserDTO): Promise<void> {
+  public async execute (userDto: DeleteUserDTO): Promise<void> {
     await validateClassParameters(userDto)
 
     const user = await this.userRepository.findById(userDto.id)

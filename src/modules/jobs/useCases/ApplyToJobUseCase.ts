@@ -16,7 +16,7 @@ export default class ApplyToJobUseCase {
     private readonly storageService: IStorageService
   ) {}
 
-  public async apply (applyDto: ApplyToJobDTO): Promise<void> {
+  public async execute (applyDto: ApplyToJobDTO): Promise<void> {
     try {
       await validateClassParameters(applyDto)
 

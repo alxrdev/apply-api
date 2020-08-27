@@ -13,7 +13,7 @@ export default class UpdateJobUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async update (jobDto: UpdateJobDTO): Promise<Job> {
+  public async execute (jobDto: UpdateJobDTO): Promise<Job> {
     await validateClassParameters(jobDto)
 
     const jobToUpdate = await this.jobRepository.findById(jobDto.id)

@@ -13,7 +13,7 @@ export default class ListJobsUseCase {
     private readonly jobRepository: IJobRepository
   ) {}
 
-  public async listJobs (filtersDto: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
+  public async execute (filtersDto: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
     await validateClassParameters(filtersDto)
 
     const filters = this.setupFilters(filtersDto)

@@ -17,7 +17,7 @@ export default class UsersJobsController {
     const userDto = plainToClass(ListPublishedJobsByUserDTO, request.params)
 
     try {
-      const jobs = await this.listPublishedJobsByUserUseCase.list(userDto)
+      const jobs = await this.listPublishedJobsByUserUseCase.execute(userDto)
 
       return response.status(200).json({
         success: true,

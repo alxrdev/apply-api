@@ -16,7 +16,7 @@ export default class CreateUserUseCase {
     private readonly userRepository: IUserRepository
   ) {}
 
-  public async create (userDto: CreateUserDTO): Promise<User> {
+  public async execute (userDto: CreateUserDTO): Promise<User> {
     await validateClassParameters(userDto)
 
     validatePasswordAndConfirmPassword(userDto.password, userDto.confirmPassword)

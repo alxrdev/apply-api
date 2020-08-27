@@ -21,7 +21,7 @@ class JobsController {
     const filtersDto = plainToClass(ListJobsFiltersDTO, request.query)
 
     try {
-      const result = await this.listJobsUseCase.listJobs(filtersDto)
+      const result = await this.listJobsUseCase.execute(filtersDto)
 
       return response.status(200).json({
         success: true,
@@ -40,7 +40,7 @@ class JobsController {
     const { id } = request.params as { id: string }
 
     try {
-      const job = await this.showJobUseCase.show(id)
+      const job = await this.showJobUseCase.execute(id)
 
       return response.status(200).json({
         success: true,
@@ -56,7 +56,7 @@ class JobsController {
     const jobDto = plainToClass(CreateJobDTO, { ...request.body, userId: request.user.id })
 
     try {
-      const job = await this.createJobUseCase.create(jobDto)
+      const job = await this.createJobUseCase.execute(jobDto)
 
       return response.status(201).json({
         success: true,
@@ -72,7 +72,7 @@ class JobsController {
     const jobDto = plainToClass(UpdateJobDTO, { ...request.params, ...request.body, authId: request.user.id })
 
     try {
-      const job = await this.updateJobUseCase.update(jobDto)
+      const job = await this.updateJobUseCase.execute(jobDto)
 
       return response.status(201).json({
         success: true,
@@ -88,7 +88,7 @@ class JobsController {
     const deleteJobDto = plainToClass(DeleteJobDTO, { ...request.params, authId: request.user.id })
 
     try {
-      await this.deleteJobUseCase.delete(deleteJobDto)
+      await this.deleteJobUseCase.execute(deleteJobDto)
 
       return response.status(204).send()
     } catch (error) {

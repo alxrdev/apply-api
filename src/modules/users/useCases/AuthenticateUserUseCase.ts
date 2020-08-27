@@ -26,7 +26,7 @@ export default class AuthenticateUserUseCase {
     private readonly authService: IAuthService
   ) {}
 
-  public async authenticateUser (userDto: AuthDTO): Promise<IAuthUserResponse> {
+  public async execute (userDto: AuthDTO): Promise<IAuthUserResponse> {
     await validateClassParameters(userDto)
 
     let user: User
