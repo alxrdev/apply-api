@@ -4,5 +4,6 @@ import DeleteUserUseCase from './DeleteUserUseCase'
 import ForgotPasswordUseCase from './ForgotPasswordUseCase'
 import ResetPasswordUseCase from './ResetPasswordUseCase'
 import ShowUserUseCase from './ShowUserUseCase'
+import UpdateUserAvatarUseCase from './UpdateUserAvatarUseCase'
 
-export { AuthenticateUserUseCase, CreateUserUseCase, DeleteUserUseCase, ForgotPasswordUseCase, ResetPasswordUseCase, ShowUserUseCase }
+export { AuthenticateUserUseCase, CreateUserUseCase, DeleteUserUseCase, ForgotPasswordUseCase, ResetPasswordUseCase, ShowUserUseCase, UpdateUserAvatarUseCase }
