@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
 
+  avatar: {
+    type: String,
+    required: false,
+    default: 'default.jpg'
+  },
+
   password: {
     type: String,
     required: [true, 'Please enter password for your account'],
@@ -45,6 +51,7 @@ export interface IUser extends mongoose.Document {
   name: string
   email: string
   role: string
+  avatar: string
   password: string
   resetPasswordToken?: string
   resetPasswordExpire?: Date,

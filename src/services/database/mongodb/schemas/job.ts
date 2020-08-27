@@ -1,6 +1,4 @@
 import mongoose from 'mongoose'
-import validator from 'validator'
-import geoCoder from '../../../../utils/geocoder'
 
 const jobSchema = new mongoose.Schema({
   _id: String,
@@ -12,59 +10,19 @@ const jobSchema = new mongoose.Schema({
     maxlength: [100, 'Job title can not exceed 100 characters.']
   },
 
-  slug: String,
-
   description: {
     type: String,
     required: [true, 'Please enter Job description.'],
     maxlength: [1000, 'Job description can not exceed 1000 characters.']
   },
 
-  email: {
-    type: String,
-    validate: [validator.isEmail, 'Please add a valid email address.']
-  },
-
   address: {
-    type: String,
-    required: [true, 'Please add an address.']
-  },
-
-  location: {
     type: {
-      type: String,
-      enum: ['Point']
+      country: String,
+      city: String,
+      zipcode: String
     },
-    coordinates: {
-      type: [Number],
-      index: '2dsphere'
-    },
-    formattedAddress: String,
-    city: String,
-    state: String,
-    zipcode: String,
-    country: String
-  },
-
-  company: {
-    type: String,
-    required: [true, 'Please add Company name.']
-  },
-
-  industry: {
-    type: [String],
-    required: true,
-    enum: {
-      values: [
-        'Business',
-        'Information Technology',
-        'Banking',
-        'Education/Training',
-        'Telecommunication',
-        'Others'
-      ],
-      message: 'Please select correct options for Industry.'
-    }
+    required: [true, 'Please add an address.']
   },
 
   jobType: {
@@ -74,52 +32,44 @@ const jobSchema = new mongoose.Schema({
       values: [
         'Permanent',
         'Temporary',
-        'Internship'
+        'Internship',
+        'Freelancer'
       ],
       message: 'Please select correct options for Job type.'
     }
   },
 
-  minEducation: {
+  workTime: {
     type: String,
     required: true,
     enum: {
       values: [
-        'Bachelors',
-        'Masters',
-        'Phd'
+        'Full Time',
+        'Part Time'
       ],
-      message: 'Please select correct options for Education.'
+      message: 'Please select the work time.'
     }
   },
 
-  position: {
-    type: Number,
-    default: 1
-  },
-
-  experience: {
+  workplace: {
     type: String,
     required: true,
-    enum: {
-      values: [
-        'No Experience',
-        '1 Year - 2 Years',
-        '2 Years - 5 Years',
-        '5 Years+'
-      ],
-      message: 'Please select correct options for Experience.'
-    }
+    message: 'Please add the workplace.'
+  },
+
+  fetured: {
+    type: Boolean,
+    default: false
+  },
+
+  tags: {
+    type: String,
+    required: false
   },
 
   salary: {
     type: Number,
     required: [true, 'Please enter expected salary for this job.']
-  },
-
-  postingDate: {
-    type: Date,
-    default: Date.now
   },
 
   lastDate: {
@@ -132,6 +82,11 @@ const jobSchema = new mongoose.Schema({
     select: false
   },
 
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+
   user: {
     type: String,
     ref: 'User',
@@ -139,52 +94,27 @@ const jobSchema = new mongoose.Schema({
   }
 })
 
-// Setting up location
-jobSchema.pre<IJob>('save', async function (next) {
-  const location = await geoCoder.geocode(this.address)
-
-  this.location = {
-    type: 'Point',
-    coordinates: [location[0].longitude ?? 0, location[0].latitude ?? 0],
-    formattedAddress: location[0].formattedAddress,
-    city: location[0].city,
-    state: location[0].stateCode,
-    zipcode: location[0].zipcode,
-    country: location[0].countryCode
-  }
-
-  next()
-})
-
 export interface IJob extends mongoose.Document {
   user: string
-  slug: string
   title: string
   description: string
-  email: string
-  address: string
-  location?: {
-    type: string,
-    coordinates: Array<number>,
-    formattedAddress?: String,
-    city?: String,
-    state?: String,
-    zipcode?: String,
-    country?: String
-  }
-  company: string
-  industry: Array<string>
+  address: {
+    country: String,
+    city: String,
+    zipcode: String
+  },
   jobType: string
-  minEducation: string
-  experience: string
-  salary: Number
-  position: Number
-  postingDate: Date
+  workTime: string
+  workPlace: string
+  fetured: boolean
+  tags: string
+  salary: number
   lastDate: Date
   applicantsApplied?: Array<{
     id: string
     resume: string
   }>
+  createdAt: Date
 }
 
 const jobModel = mongoose.model<IJob>('Job', jobSchema)
