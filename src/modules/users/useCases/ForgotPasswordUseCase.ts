@@ -1,10 +1,13 @@
 import { injectable, inject } from 'tsyringe'
 import crypto from 'crypto'
+import dotenv from 'dotenv'
 
 import IUserRepository from '../repositories/IUserRepository'
 import IMailService from '../../../services/email/interfaces/IMailService'
 import { ForgotPasswordDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
+
+dotenv.config()
 
 @injectable()
 export default class ForgotPasswordUseCase {
@@ -36,7 +39,7 @@ export default class ForgotPasswordUseCase {
         email: user.email
       },
       subject: 'Jobbee Password Recovery',
-      text: `Hello ${user.name}, here is the link to reset your account password: http://localhost:3000/api/password/reset/${resetToken}`
+      text: `Hello ${user.name}, here is the link to reset your account password: ${process.env.HOST}/api/password/reset/${resetToken}`
     })
   }
 

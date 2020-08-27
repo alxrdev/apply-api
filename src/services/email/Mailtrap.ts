@@ -16,8 +16,7 @@ export default class Mailtrap implements IMailService {
   private senderEmail: string
 
   constructor (
-    @inject('MailSettings')
-      mailSettings: IMailSettings
+    mailSettings: IMailSettings
   ) {
     if (!mailSettings.host || !mailSettings.port || !mailSettings.username || !mailSettings.password) {
       throw new AppError('Email service env variables not loaded.')

@@ -10,10 +10,7 @@ import IStorageService from '../storage/interfaces/IStorageService'
 import { resumeStorageService, avatarStorageService } from '../storage'
 
 import IMailService from '../email/interfaces/IMailService'
-import Mailtrap from '../email/Mailtrap'
-
-import IMailSettings from '../email/interfaces/IMailSettings'
-import { mailSettings } from '../../configs/email'
+import { mailService } from '../email'
 
 container.registerSingleton<IJobRepository>('JobRepository', JobRepository)
 
@@ -23,6 +20,4 @@ container.register<IStorageService>('ResumeStorageService', { useValue: resumeSt
 
 container.register<IStorageService>('AvatarStorageService', { useValue: avatarStorageService })
 
-container.register<IMailService>('MailService', Mailtrap)
-
-container.register<IMailSettings>('MailSettings', { useValue: mailSettings })
+container.register<IMailService>('MailService', { useValue: mailService })
