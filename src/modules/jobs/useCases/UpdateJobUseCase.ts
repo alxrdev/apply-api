@@ -1,14 +1,10 @@
 import { injectable, inject } from 'tsyringe'
+
 import IJobRepository from '../repositories/IJobRepository'
-import Job from '../entities/Job'
-import Industry from '../entities/Industry'
-import JobType from '../entities/JobType'
-import Education from '../entities/Education'
-import Experience from '../entities/Experience'
-import UpdateJobDTO from '../dtos/UpdateJobDTO'
-import slugify from 'slugify'
+import { Job, Address } from '../entities'
+import { UpdateJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import AppError from '../../../errors/AppError'
+import { AppError } from '../../../errors'
 
 @injectable()
 export default class UpdateJobUseCase {
@@ -22,32 +18,24 @@ export default class UpdateJobUseCase {
 
     const jobToUpdate = await this.jobRepository.findById(jobDto.id)
 
-    if (jobToUpdate.getUserId() !== jobDto.authId) {
+    if (jobToUpdate.userId !== jobDto.authId) {
       throw new AppError('You don\'t have permission to edit this job.', false, 403)
     }
 
-    const industry = new Industry(jobDto.industry.split(','))
-    const jobType = new JobType(jobDto.jobType)
-    const minEducation = new Education(jobDto.minEducation)
-    const experience = new Experience(jobDto.experience)
-
     const jobUpdated = new Job(
-      jobToUpdate.getId(),
-      jobToUpdate.getUserId(),
+      jobToUpdate.id,
+      jobToUpdate.userId,
       jobDto.title,
-      slugify(jobDto.title ?? '', { lower: true }),
       jobDto.description,
-      jobDto.email,
-      jobDto.address,
-      jobDto.company,
-      industry,
-      jobType,
-      minEducation,
-      experience,
+      new Address(jobDto.country, jobDto.city),
+      jobDto.jobType,
+      jobDto.workTime,
+      (jobDto.workplace === 'This country') ? `${jobDto.country} Only` : jobDto.workplace,
+      false,
+      jobDto.tags,
       jobDto.salary,
-      jobDto.position,
-      jobToUpdate.getPostingDate(),
-      jobToUpdate.getLastDate()
+      jobToUpdate.lastDate,
+      jobToUpdate.createdAt
     )
 
     return await this.jobRepository.update(jobUpdated)
