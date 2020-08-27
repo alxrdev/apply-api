@@ -40,7 +40,7 @@ export default class UserRepository implements IUserRepository {
   }
 
   public async update (user: User): Promise<User> {
-    await userModel.update({ _id: user.id }, this.userToUserDocument(user))
+    await userModel.updateOne({ _id: user.id }, this.userToUserDocument(user))
     return user
   }
 
