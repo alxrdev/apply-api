@@ -5,7 +5,7 @@ import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 import fileUpload from '../../middlewares/fileUpload'
 import { diskStorage } from '../../configs/storage'
 
-import { JobsController, JobsGeolocationController, JobsApplyController, UsersJobsController } from './controllers'
+import { JobsController, JobsApplyController, UsersJobsController } from './controllers'
 
 const routes = Router()
 
@@ -16,10 +16,6 @@ routes.get('/jobs/:id', jobsController.show)
 routes.post('/jobs', isAuthenticated, authorizedRole('employeer'), jobsController.create)
 routes.put('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.update)
 routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.delete)
-
-const jobsGeolocationController = container.resolve(JobsGeolocationController)
-
-routes.get('/jobs/:zipcode/:distance', jobsGeolocationController.index)
 
 const jobsApplyController = container.resolve(JobsApplyController)
 
