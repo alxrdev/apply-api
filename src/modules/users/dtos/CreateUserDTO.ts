@@ -1,5 +1,5 @@
 import { IsDefined, IsEmail, IsIn, MinLength, IsString } from 'class-validator'
-import { Expose } from 'class-transformer'
+import { Expose, Transform } from 'class-transformer'
 
 export default class CreateUserDTO {
   @IsDefined()

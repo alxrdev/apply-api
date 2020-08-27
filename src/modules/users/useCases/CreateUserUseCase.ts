@@ -34,7 +34,7 @@ export default class CreateUserUseCase {
 
     const password = bcrypt.hashSync(userDto.password, 10)
 
-    const user = new User(uuid(), userDto.name, userDto.email, userDto.role, password)
+    const user = new User(uuid(), userDto.name, userDto.email, userDto.role, 'default.jpg', password)
 
     return await this.userRepository.create(user)
   }
