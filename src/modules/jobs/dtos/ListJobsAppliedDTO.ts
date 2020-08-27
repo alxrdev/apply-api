@@ -5,10 +5,10 @@ export default class ListJobsAppliedDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  authId: string
+  id: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  userId: string
+  authId: string
 }

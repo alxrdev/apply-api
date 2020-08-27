@@ -23,7 +23,7 @@ routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUplo
 
 const usersJobsAppliedController = container.resolve(UsersJobsAppliedController)
 
-routes.get('/users/:userId/jobs/applied', isAuthenticated, authorizedRole('user'), usersJobsAppliedController.index)
+routes.get('/users/:id/jobs/applied', isAuthenticated, authorizedRole('user'), usersJobsAppliedController.index)
 
 const usersJobsController = container.resolve(UsersJobsController)
 
