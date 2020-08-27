@@ -21,7 +21,7 @@ export default class DeleteJobUseCase {
 
     const job = await this.jobRepository.findById(deleteJobDto.id)
 
-    if (job.getUserId() !== deleteJobDto.authId) {
+    if (job.userId !== deleteJobDto.authId) {
       throw new AppError('You don\'t have permission to delete this job.', false, 403)
     }
 
