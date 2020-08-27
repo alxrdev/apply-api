@@ -19,8 +19,7 @@ const jobSchema = new mongoose.Schema({
   address: {
     type: {
       country: String,
-      city: String,
-      zipcode: String
+      city: String
     },
     required: [true, 'Please add an address.']
   },
@@ -57,7 +56,7 @@ const jobSchema = new mongoose.Schema({
     message: 'Please add the workplace.'
   },
 
-  fetured: {
+  featured: {
     type: Boolean,
     default: false
   },
@@ -100,13 +99,12 @@ export interface IJob extends mongoose.Document {
   description: string
   address: {
     country: String,
-    city: String,
-    zipcode: String
+    city: String
   },
   jobType: string
   workTime: string
-  workPlace: string
-  fetured: boolean
+  workplace: string
+  featured: boolean
   tags: string
   salary: number
   lastDate: Date

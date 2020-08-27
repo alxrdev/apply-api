@@ -1,7 +1,7 @@
 import IJobRepository from '../IJobRepository'
 import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
 import { MongooseFilterQuery } from 'mongoose'
-import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Industry, JobType, Education, Experience } from '../../entities'
+import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address } from '../../entities'
 import { ListJobsFiltersDTO, FindJobsByGeolocationFiltersDTO } from '../../dtos'
 import { JobNotFoundError } from '../../errors'
 import { AppError } from '../../../../errors'
@@ -67,7 +67,7 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async update (job: Job): Promise<Job> {
-    await jobModel.updateOne({ _id: job.getId() }, this.jobToJobDocument(job))
+    await jobModel.updateOne({ _id: job.id }, this.jobToJobDocument(job))
     return job
   }
 
@@ -155,40 +155,40 @@ export default class JobRepository implements IJobRepository {
       jobDocument._id,
       jobDocument.user,
       jobDocument.title,
-      jobDocument.slug,
       jobDocument.description,
-      jobDocument.email,
-      jobDocument.address,
-      jobDocument.company,
-      new Industry(jobDocument.industry),
-      new JobType(jobDocument.jobType),
-      new Education(jobDocument.minEducation),
-      new Experience(jobDocument.experience),
+      new Address(
+        jobDocument.address.country.toString(),
+        jobDocument.address.city.toString()
+      ),
+      jobDocument.jobType,
+      jobDocument.workTime,
+      jobDocument.workplace,
+      jobDocument.featured,
+      jobDocument.tags,
       jobDocument.salary,
-      jobDocument.position,
-      jobDocument.postingDate,
-      jobDocument.lastDate
+      jobDocument.lastDate,
+      jobDocument.createdAt
     )
   }
 
   private jobToJobDocument (job: Job) {
     return {
-      _id: job.getId(),
-      user: job.getUserId(),
-      title: job.getTitle(),
-      description: job.getDescription(),
-      slug: job.getSlug(),
-      email: job.getEmail(),
-      address: job.getAddress(),
-      company: job.getCompany(),
-      industry: job.getIndustry(),
-      jobType: job.getJobType(),
-      minEducation: job.getMinEducation(),
-      position: job.getPosition(),
-      experience: job.getExperience(),
-      salary: job.getSalary(),
-      postingDate: job.getPostingDate(),
-      lastDate: job.getLastDate()
+      _id: job.id,
+      user: job.userId,
+      title: job.title,
+      description: job.description,
+      address: {
+        country: job.address.country,
+        city: job.address.city
+      },
+      jobType: job.jobType,
+      workTime: job.workTime,
+      workplace: job.workplace,
+      featured: job.featured,
+      tags: job.tags,
+      salary: Number(job.salary),
+      lastDate: job.lastDate,
+      createdAt: job.createdAt
     }
   }
 }

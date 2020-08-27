@@ -1,5 +1,5 @@
-import { IsString, IsDefined, Length, IsEmail, MinLength, IsIn, IsNumber } from 'class-validator'
-import { Expose } from 'class-transformer'
+import { IsString, IsDefined, Length, MinLength, IsIn, IsNumber } from 'class-validator'
+import { Expose, Transform } from 'class-transformer'
 
 export default class CreateJobDTO {
   @IsDefined()
@@ -20,52 +20,43 @@ export default class CreateJobDTO {
   description: string
 
   @IsDefined()
-  @IsEmail()
+  @IsString()
+  @Length(3)
   @Expose()
-  email: string
+  country: string
 
   @IsDefined()
   @IsString()
   @MinLength(1)
   @Expose()
-  address: string
+  city: string
 
   @IsDefined()
   @IsString()
-  @MinLength(1)
-  @Expose()
-  company: string
-
-  @IsDefined()
-  @IsString()
-  @Expose()
-  industry: string
-
-  @IsDefined()
-  @IsString()
-  @IsIn(['Permanent', 'Temporary', 'Internship'])
+  @IsIn(['Permanent', 'Temporary', 'Internship', 'Freelancer'])
   @Expose()
   jobType: string
 
   @IsDefined()
   @IsString()
-  @IsIn(['Bachelors', 'Masters', 'Phd'])
+  @IsIn(['Full Time', 'Part Time'])
   @Expose()
-  minEducation: string
+  workTime: string
 
   @IsDefined()
   @IsString()
-  @IsIn(['No Experience', '1 Year - 2 Years', '2 Years - 5 Years', '5 Years+'])
+  @IsIn(['This country', 'Remote', 'Worldwide'])
   @Expose()
-  experience: string
+  workplace: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  tags: string
 
   @IsDefined()
   @IsNumber()
   @Expose()
+  @Transform(value => (!value || value < 100) ? 100 : value)
   salary: number
-
-  @IsDefined()
-  @IsNumber()
-  @Expose()
-  position: number
 }

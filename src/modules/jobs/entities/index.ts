@@ -1,4 +1,5 @@
 import Job from './Job'
+import Address from './Address'
 import Industry from './Industry'
 import JobType from './JobType'
 import Education from './Education'
@@ -10,6 +11,7 @@ import FileToDelete from './FileToDelete'
 
 export {
   Job,
+  Address,
   Industry,
   JobType,
   Education,

@@ -1,9 +1,8 @@
 import { injectable, inject } from 'tsyringe'
 import { v4 as uuidv4 } from 'uuid'
-import slugify from 'slugify'
 
 import IJobRepository from '../repositories/IJobRepository'
-import { Job, Industry, JobType, Education, Experience } from '../entities'
+import { Job, Address } from '../entities'
 import { CreateJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
 
@@ -24,19 +23,16 @@ export default class CreateJobUseCase {
       uuidv4(),
       jobDto.userId,
       jobDto.title,
-      slugify(jobDto.title ?? '', { lower: true }),
       jobDto.description,
-      jobDto.email,
-      jobDto.address,
-      jobDto.company,
-      new Industry(jobDto.industry.split(',')),
-      new JobType(jobDto.jobType),
-      new Education(jobDto.minEducation),
-      new Experience(jobDto.experience),
+      new Address(jobDto.country, jobDto.city),
+      jobDto.jobType,
+      jobDto.workTime,
+      (jobDto.workplace === 'This country') ? `${jobDto.country} Only` : jobDto.workplace,
+      false,
+      jobDto.tags,
       jobDto.salary,
-      jobDto.position,
-      new Date(),
-      lastDate
+      lastDate,
+      new Date()
     )
 
     return await this.jobRepository.create(job)
