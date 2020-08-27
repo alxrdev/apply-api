@@ -13,7 +13,7 @@ const usersController = container.resolve(UsersController)
 
 routes.get('/users/:idOrEmail', usersController.show)
 routes.post('/users', usersController.create)
-routes.delete('/users/:id', isAuthenticated, authorizedRole(['user', 'employeer']), usersController.delete)
+routes.delete('/users/:id', isAuthenticated, authorizedRole('admin'), usersController.delete)
 
 const authController = container.resolve(AuthController)
 
