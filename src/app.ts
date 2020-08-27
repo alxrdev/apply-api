@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import cors from 'cors'
 import apiErrorHandlerMiddleware from './middlewares/errorHandler'
+import { origin } from './configs/base'
 
 class App {
   private server: Express
@@ -29,7 +30,7 @@ class App {
     this.server.use(helmet())
 
     this.server.use(cors({
-      origin: '*',
+      origin: origin,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
     }))
 

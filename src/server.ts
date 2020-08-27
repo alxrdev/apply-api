@@ -3,13 +3,13 @@ import dotenv from 'dotenv'
 
 import './services/container'
 
+import { port } from './configs/base'
 import mongoDbConnection from './services/database/mongodb'
 import App from './app'
 
 dotenv.config()
 
 const app = new App()
-const port = process.env.PORT || 3000
 
 mongoDbConnection()
   .then(conn => console.log(`MongoDB database connected with host: ${conn.connection.host}`))
