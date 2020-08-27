@@ -6,12 +6,12 @@ import { diskStorage as multerDiskStorage } from 'multer'
 
 dotenv.config()
 
-export const storageType = process.env.STORAGE_TYPE || 'disk'
-export const storageTempFileDestination = process.env.STORAGE_TEMP_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'tmp', 'uploads')
-export const storageFileDestination = process.env.STORAGE_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'uploads')
-export const storageFileExtensionTypes = process.env.STORAGE_FILE_EXTENSION_TYPES || '.doc,.pdf'
-export const storageFileMIMETypes = process.env.STORAGE_FILE_MIME_TYPES || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'
-export const storageFileMaxSize = (process.env.STORAGE_FILE_MAX_SIZE) ? Number(process.env.STORAGE_MAX_SIZE) : 2000000
+const storageType = process.env.STORAGE_TYPE || 'disk'
+const storageTempFileDestination = process.env.STORAGE_TEMP_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'tmp', 'uploads')
+const storageFileDestination = process.env.STORAGE_FILE_DESTINATION || path.resolve(__dirname, '..', '..', 'storage', 'uploads')
+const storageFileExtensionTypes = process.env.STORAGE_FILE_EXTENSION_TYPES || '.doc,.pdf'
+const storageFileMIMETypes = process.env.STORAGE_FILE_MIME_TYPES || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf'
+const storageFileMaxSize = (process.env.STORAGE_FILE_MAX_SIZE) ? Number(process.env.STORAGE_MAX_SIZE) : 2000000
 
 export const diskStorage: IStorageSettings = {
   storageType,
