@@ -15,12 +15,17 @@ export default class ListJobsFiltersDTO {
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  company: string
+  country: string
 
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  industry: string
+  city: string
+
+  @IsString()
+  @Expose()
+  @Transform(value => value || '')
+  workTime: string
 
   @IsString()
   @Expose()
@@ -30,9 +35,7 @@ export default class ListJobsFiltersDTO {
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  minEducation: string
-
-  industryRegex: Array<RegExp>
+  tags: string
 
   @IsNumber()
   @Expose()
@@ -46,7 +49,7 @@ export default class ListJobsFiltersDTO {
 
   @IsString()
   @Expose()
-  @Transform(value => value || 'postingDate')
+  @Transform(value => value || 'createdAt')
   sortBy: string
 
   @IsString()

@@ -2,7 +2,7 @@ import IJobRepository from '../IJobRepository'
 import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
 import { MongooseFilterQuery } from 'mongoose'
 import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address } from '../../entities'
-import { ListJobsFiltersDTO, FindJobsByGeolocationFiltersDTO } from '../../dtos'
+import { ListJobsFiltersDTO } from '../../dtos'
 import { JobNotFoundError } from '../../errors'
 import { AppError } from '../../../../errors'
 
@@ -21,31 +21,11 @@ export default class JobRepository implements IJobRepository {
     const query: MongooseFilterQuery<IJob> = {
       title: { $regex: filters.title, $options: 'i' },
       description: { $regex: filters.description, $options: 'i' },
-      company: { $regex: filters.company, $options: 'i' },
-      industry: { $in: filters.industryRegex },
       jobType: { $regex: filters.jobType, $options: 'i' },
-      minEducation: { $regex: filters.minEducation, $options: 'i' }
-    }
-
-    return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
-  }
-
-  public async findByGeolocation (latitude: number, longitude: number, radius: number, filters: FindJobsByGeolocationFiltersDTO): Promise<CollectionResponse<Job>> {
-    const query: MongooseFilterQuery<IJob> = {
-      title: { $regex: filters.title, $options: 'i' },
-      description: { $regex: filters.description, $options: 'i' },
-      company: { $regex: filters.company, $options: 'i' },
-      industry: { $in: filters.industryRegex },
-      jobType: { $regex: filters.jobType, $options: 'i' },
-      minEducation: { $regex: filters.minEducation, $options: 'i' },
-      location: {
-        $geoWithin: {
-          $centerSphere: [
-            [longitude, latitude],
-            radius
-          ]
-        }
-      }
+      'address.country': { $regex: filters.country },
+      'address.city': { $regex: filters.city, $options: 'i' },
+      workTime: { $regex: filters.workTime, $options: 'i' },
+      tags: { $regex: filters.workTime, $options: 'i' }
     }
 
     return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)

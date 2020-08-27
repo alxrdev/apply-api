@@ -20,7 +20,7 @@ export default class ListJobsUseCase {
 
     const result = await this.jobRepository.findAll(filters)
 
-    const baseUrl = `/api/jobs?title=${filters.title}&description=${filters.description}&company=${filters.company}&jobType=${filters.jobType}&minEducation=${filters.minEducation}&industry=${filters.industry}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
+    const baseUrl = `/api/jobs?title=${filters.title}&description=${filters.description}&jobType=${filters.jobType}&country=${filters.description}&city=${filters.city}&workTime=${filters.workTime}&tags=${filters.tags}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
 
     const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, baseUrl)
 
@@ -31,24 +31,19 @@ export default class ListJobsUseCase {
   }
 
   private setupFilters (filters: ListJobsFiltersDTO): ListJobsFiltersDTO {
-    const industryArray = filters.industry.split(',')
-
-    const industryRegex = industryArray.map((industry: string) => RegExp(`^${industry}`))
-
     filters.page = (filters.page < 1) ? 1 : filters.page
 
     filters.limit = (filters.limit < 1) ? 1 : filters.limit
     filters.limit = (filters.limit > 20) ? 20 : filters.limit
 
-    const sortOptions = ['position', 'salary', 'postingDate']
-    const sortBy = (!sortOptions.includes(filters.sortBy)) ? 'postingDate' : filters.sortBy
+    const sortOptions = ['salary', 'createdAt']
+    const sortBy = (!sortOptions.includes(filters.sortBy)) ? 'createdAt' : filters.sortBy
 
     const sortOrderOptions = ['asc', 'desc']
     const sortOrder = (!sortOrderOptions.includes(filters.sortOrder)) ? 'asc' : filters.sortOrder
 
     return {
       ...filters,
-      industryRegex,
       sortBy,
       sortOrder
     }
