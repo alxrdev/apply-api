@@ -1,11 +1,11 @@
 import { container } from 'tsyringe'
 import { Router } from 'express'
-import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 
-import UsersController from './controllers/UsersController'
-import AuthController from './controllers/AuthController'
-import ForgotPasswordController from './controllers/ForgotPasswordController'
-import ResetPasswordController from './controllers/ResetPasswordController'
+import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
+import { avatarStorageSettings } from '../../services/storage'
+import fileUpload from '../../middlewares/fileUpload'
+
+import { UsersController, AuthController, ForgotPasswordController, ResetPasswordController, UsersAvatarController } from './controllers'
 
 const routes = Router()
 
@@ -14,6 +14,16 @@ const usersController = container.resolve(UsersController)
 routes.get('/users/:idOrEmail', usersController.show)
 routes.post('/users', usersController.create)
 routes.delete('/users/:id', isAuthenticated, authorizedRole('admin'), usersController.delete)
+
+const usersAvatarController = container.resolve(UsersAvatarController)
+
+routes.put(
+  '/users/:id/avatar',
+  isAuthenticated,
+  authorizedRole(['user', 'employeer']),
+  fileUpload(avatarStorageSettings).single('avatar'),
+  usersAvatarController.update
+)
 
 const authController = container.resolve(AuthController)
 
