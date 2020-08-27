@@ -1,13 +1,12 @@
 import { injectable, inject } from 'tsyringe'
 import dotenv from 'dotenv'
-import jsonWebToken from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 import IUserRepository from '../repositories/IUserRepository'
+import IAuthService from '../../../services/auth/interfaces/IAuthService'
 import { User } from '../entities'
 import { AuthDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import { AppError } from '../../../errors'
 import { AuthenticationError } from '../errors'
 
 dotenv.config()
@@ -19,20 +18,13 @@ export interface IAuthUserResponse {
 
 @injectable()
 export default class AuthenticateUserUseCase {
-  private jwtSecret: string
-  private jwtExpirestTime: string
-
   constructor (
     @inject('UserRepository')
-    private readonly userRepository: IUserRepository
-  ) {
-    if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRES_TIME) {
-      throw new AppError('Jwt env variables not loaded.')
-    }
+    private readonly userRepository: IUserRepository,
 
-    this.jwtSecret = process.env.JWT_SECRET
-    this.jwtExpirestTime = process.env.JWT_EXPIRES_TIME
-  }
+    @inject('AuthService')
+    private readonly authService: IAuthService
+  ) {}
 
   public async authenticateUser (userDto: AuthDTO): Promise<IAuthUserResponse> {
     await validateClassParameters(userDto)
@@ -51,14 +43,7 @@ export default class AuthenticateUserUseCase {
       throw new AuthenticationError('Incorrect email/password combination.', false, 401)
     }
 
-    const token = jsonWebToken.sign(
-      {
-        id: user.id,
-        role: user.role
-      },
-      this.jwtSecret,
-      { expiresIn: this.jwtExpirestTime }
-    )
+    const token = this.authService.authenticateUser(user)
 
     return {
       user,

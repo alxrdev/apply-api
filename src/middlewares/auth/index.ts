@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import jsonWebToken from 'jsonwebtoken'
+import { authSettings } from '../../services/auth'
 import AuthenticationError from '../../modules/users/errors/AuthenticationError'
 import AppError from '../../errors/AppError'
-import dotenv from 'dotenv'
-
-dotenv.config()
 
 const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {
   const { authorization } = request.headers as { authorization: string }
@@ -15,12 +13,12 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
 
   const token = authorization.split(' ')[1]
 
-  if (!process.env.JWT_SECRET) {
+  if (!authSettings.jwtSecret) {
     throw new AppError('Jwt env variables not loaded.')
   }
 
   try {
-    const decoded = jsonWebToken.verify(token, process.env.JWT_SECRET as string)
+    const decoded = jsonWebToken.verify(token, authSettings.jwtSecret)
 
     const { id, role } = decoded as { id: string; role: string }
 

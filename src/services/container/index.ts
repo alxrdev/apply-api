@@ -12,6 +12,9 @@ import { resumeStorageService, avatarStorageService } from '../storage'
 import IMailService from '../email/interfaces/IMailService'
 import { mailService } from '../email'
 
+import IAuthService from '../auth/interfaces/IAuthService'
+import { authService } from '../auth'
+
 container.registerSingleton<IJobRepository>('JobRepository', JobRepository)
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository)
@@ -21,3 +24,5 @@ container.register<IStorageService>('ResumeStorageService', { useValue: resumeSt
 container.register<IStorageService>('AvatarStorageService', { useValue: avatarStorageService })
 
 container.register<IMailService>('MailService', { useValue: mailService })
+
+container.register<IAuthService>('AuthService', { useValue: authService })
