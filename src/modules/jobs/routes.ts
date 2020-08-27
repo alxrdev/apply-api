@@ -3,7 +3,7 @@ import { Router } from 'express'
 import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 
 import fileUpload from '../../middlewares/fileUpload'
-import { resumeStorageSettings } from '../../configs/storage'
+import { resumeStorageSettings } from '../../services/storage'
 
 import { JobsController, JobsApplyController, UsersJobsController } from './controllers'
 
