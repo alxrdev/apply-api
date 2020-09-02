@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import jsonWebToken from 'jsonwebtoken'
 
 import { authSettings } from '../../services/auth'
-import AuthenticationError from '../../modules/users/errors/AuthenticationError'
+import { AuthenticationError } from '../../modules/auth/errors'
 import AppError from '../../errors/AppError'
 
 const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {

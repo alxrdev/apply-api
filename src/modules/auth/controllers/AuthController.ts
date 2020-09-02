@@ -5,7 +5,7 @@ import { AuthenticateUserUseCase } from '../useCases'
 import { AuthDTO } from '../dtos'
 
 import { plainToClass } from 'class-transformer'
-import UserMapper from '../utils/UserMapper'
+import UserMapper from '../../users/utils/UserMapper'
 
 @injectable()
 export default class AuthController {

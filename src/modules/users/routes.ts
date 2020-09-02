@@ -5,7 +5,7 @@ import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
 import { avatarStorageSettings } from '../../services/storage'
 import fileUpload from '../../middlewares/fileUpload'
 
-import { UsersController, AuthController, ForgotPasswordController, ResetPasswordController, UsersAvatarController } from './controllers'
+import { UsersController, ForgotPasswordController, ResetPasswordController, UsersAvatarController } from './controllers'
 
 const routes = Router()
 
@@ -24,10 +24,6 @@ routes.put(
   fileUpload(avatarStorageSettings).single('avatar'),
   usersAvatarController.update
 )
-
-const authController = container.resolve(AuthController)
-
-routes.post('/auth', authController.create)
 
 const forgotPasswordController = container.resolve(ForgotPasswordController)
 
