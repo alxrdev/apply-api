@@ -5,6 +5,7 @@ import { AuthenticateUserUseCase } from '../useCases'
 import { AuthDTO } from '../dtos'
 
 import { plainToClass } from 'class-transformer'
+import UserMapper from '../utils/UserMapper'
 
 @injectable()
 export default class AuthController {
@@ -18,13 +19,23 @@ export default class AuthController {
     try {
       const result = await this.authenticateUserUseCase.execute(userDto)
 
-      return response.status(200).json({
-        success: true,
-        message: 'User authenticated.',
-        data: {
-          token: result.token
-        }
-      })
+      // config the cookie expires date
+      const cookieExpiresDate = () => {
+        const date = new Date()
+        date.setDate(date.getDate() + 15)
+        return date
+      }
+
+      return response.status(200)
+        .cookie('@Apply:token', result.token, { httpOnly: true, path: '/', expires: cookieExpiresDate() })
+        .json({
+          success: true,
+          message: 'User authenticated.',
+          data: {
+            token: result.token,
+            user: UserMapper.fromUserToUserResponse(result.user)
+          }
+        })
     } catch (error) {
       next(error)
     }

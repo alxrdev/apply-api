@@ -3,6 +3,7 @@ import routes from './routes'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import apiErrorHandlerMiddleware from './middlewares/errorHandler'
 import { origin } from './configs/base'
 
@@ -33,6 +34,8 @@ class App {
       origin: origin,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
     }))
+
+    this.server.use(cookieParser())
 
     this.server.use(express.json())
   }
