@@ -6,15 +6,11 @@ import IUserRepository from '../../users/repositories/IUserRepository'
 import IAuthService from '../../../services/auth/interfaces/IAuthService'
 import { User } from '../../users/entities'
 import { AuthDTO } from '../dtos'
+import { IAuthResponse } from '../entities'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import { AuthenticationError } from '../errors'
 
 dotenv.config()
-
-export interface IAuthUserResponse {
-  user: User
-  token: string
-}
 
 @injectable()
 export default class AuthenticateUserUseCase {
@@ -26,7 +22,7 @@ export default class AuthenticateUserUseCase {
     private readonly authService: IAuthService
   ) {}
 
-  public async execute (userDto: AuthDTO): Promise<IAuthUserResponse> {
+  public async execute (userDto: AuthDTO): Promise<IAuthResponse> {
     await validateClassParameters(userDto)
 
     let user: User

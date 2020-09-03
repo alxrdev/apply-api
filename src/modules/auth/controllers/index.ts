@@ -1,3 +1,4 @@
 import AuthController from './AuthController'
+import RefreshTokenController from './RefreshTokenController'
 
-export { AuthController }
+export { AuthController, RefreshTokenController }

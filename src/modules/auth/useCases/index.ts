@@ -1,3 +1,4 @@
 import AuthenticateUserUseCase from './AuthenticateUserUseCase'
+import RefreshTokenUseCase from './RefreshTokenUseCase'
 
-export { AuthenticateUserUseCase }
+export { AuthenticateUserUseCase, RefreshTokenUseCase }
