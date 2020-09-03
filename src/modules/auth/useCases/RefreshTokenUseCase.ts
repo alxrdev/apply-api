@@ -36,9 +36,12 @@ export default class RefreshTokenUseCase {
 
     // config the limit time to refresh the token
     const limiteTime = new Date()
+    limiteTime.setTime((exp * 1000))
     limiteTime.setHours(limiteTime.getHours() + 1)
 
-    if ((exp * 1000) >= limiteTime.getTime()) {
+    const timeNow = new Date()
+
+    if (limiteTime.getTime() <= timeNow.getTime()) {
       throw new AuthenticationError('Invalid JWT token.', false, 401)
     }
 
