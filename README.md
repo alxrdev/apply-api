@@ -1,5 +1,5 @@
 <h1 align="center">
-	Jobbee API
+	Apply API
 </h1>
 
 <h3 align="center">
@@ -9,23 +9,23 @@
 <p align="center">Find your dream job!</p>
 
 <p align="center">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/alxrdev/jobbee-api?color=%23f58635">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/alxrdev/apply-api?color=%23f58635">
 
   <a href="https://www.linkedin.com/in/alxrdev/" target="_blank" rel="noopener noreferrer">
     <img alt="Made by" src="https://img.shields.io/badge/made%20by-alex%20rodrigues%20moreira-%23f58635">
   </a>
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alxrdev/jobbee-api?color=%23f58635">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alxrdev/apply-api?color=%23f58635">
 
   <a href="https://github.com/alxrdev/hcco/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alxrdev/jobbee-api?color=%23f58635">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alxrdev/apply-api?color=%23f58635">
   </a>
 
   <a href="https://github.com/alxrdev/hcco/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/alxrdev/jobbee-api?color=%23f58635">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/alxrdev/apply-api?color=%23f58635">
   </a>
 
-  <img alt="GitHub" src="https://img.shields.io/github/license/alxrdev/jobbee-api?color=%23f58635">
+  <img alt="GitHub" src="https://img.shields.io/github/license/alxrdev/apply-api?color=%23f58635">
 </p>
 </br>
 
@@ -60,8 +60,8 @@ Technologies that I used to develop this project
 **Clone the project and access the folder**
 
 ```bash
-$ git clone https://github.com/alxrdev/jobbee-api.git
-$ cd jobbee-api
+$ git clone https://github.com/alxrdev/apply-api.git
+$ cd apply-api
 ```
 
 **Follow the steps below**
