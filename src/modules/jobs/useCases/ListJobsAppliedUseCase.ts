@@ -17,10 +17,10 @@ export default class ListJobsAppliedUseCase {
   public async execute (listJobsDto: ListJobsAppliedDTO): Promise<Array<Job>> {
     await validateClassParameters(listJobsDto)
 
-    if (listJobsDto.authId !== listJobsDto.userId) {
+    if (listJobsDto.authId !== listJobsDto.id) {
       throw new AppError('You don\'t have permission to access this resource.', false, 403)
     }
 
-    return await this.jobRepository.findAppliedJobs(listJobsDto.userId)
+    return await this.jobRepository.findAppliedJobs(listJobsDto.id)
   }
 }

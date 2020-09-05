@@ -2,6 +2,7 @@ import { injectable, inject } from 'tsyringe'
 import { v4 as uuidv4 } from 'uuid'
 
 import IJobRepository from '../repositories/IJobRepository'
+import IUserRepository from '../../users/repositories/IUserRepository'
 import { Job, Address } from '../entities'
 import { CreateJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
@@ -10,28 +11,25 @@ import validateClassParameters from '../../../utils/validateClassParameters'
 export default class CreateJobUseCase {
   constructor (
     @inject('JobRepository')
-    private readonly jobRepository: IJobRepository
+    private readonly jobRepository: IJobRepository,
+
+    @inject('UserRepository')
+    private readonly userRepository: IUserRepository
   ) {}
 
   public async execute (jobDto: CreateJobDTO): Promise<Job> {
     await validateClassParameters(jobDto)
 
-    const lastDate = new Date()
-    lastDate.setDate(lastDate.getDate() + 7)
+    const user = await this.userRepository.findById(jobDto.userId)
 
     const job = new Job(
       uuidv4(),
-      jobDto.userId,
+      user,
       jobDto.title,
       jobDto.description,
-      new Address(jobDto.country, jobDto.city),
+      new Address(jobDto.state, jobDto.city),
       jobDto.jobType,
-      jobDto.workTime,
-      (jobDto.workplace === 'This country') ? `${jobDto.country} Only` : jobDto.workplace,
-      false,
-      jobDto.tags,
       jobDto.salary,
-      lastDate,
       new Date()
     )
 

@@ -20,7 +20,7 @@ export default class ListJobsUseCase {
 
     const result = await this.jobRepository.findAll(filters)
 
-    const baseUrl = `/api/jobs?title=${filters.title}&description=${filters.description}&jobType=${filters.jobType}&country=${filters.description}&city=${filters.city}&workTime=${filters.workTime}&tags=${filters.tags}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
+    const baseUrl = `/api/jobs?what=${filters.what}&description=${filters.where}&jobType=${filters.jobType}&sortBy=${filters.sortBy}&sortOrder=${filters.sortOrder}`
 
     const [previous, next] = collectionResultPagination(result.count, filters.page, filters.limit, baseUrl)
 

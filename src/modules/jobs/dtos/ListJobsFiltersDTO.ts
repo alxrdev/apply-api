@@ -5,37 +5,17 @@ export default class ListJobsFiltersDTO {
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  title: string
+  what: string
 
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  description: string
-
-  @IsString()
-  @Expose()
-  @Transform(value => value || '')
-  country: string
-
-  @IsString()
-  @Expose()
-  @Transform(value => value || '')
-  city: string
-
-  @IsString()
-  @Expose()
-  @Transform(value => value || '')
-  workTime: string
+  where: string
 
   @IsString()
   @Expose()
   @Transform(value => value || '')
   jobType: string
-
-  @IsString()
-  @Expose()
-  @Transform(value => value || '')
-  tags: string
 
   @IsNumber()
   @Expose()

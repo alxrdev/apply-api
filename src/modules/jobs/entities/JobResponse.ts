@@ -1,17 +1,13 @@
 import Address from './Address'
+import { UserResponse } from '../../users/entities'
 
 export default interface JobResponse {
   id: string
-  userId: string
+  user: UserResponse,
   title: string
   description: string
   address: Address
   jobType: string
-  workTime: string
-  workplace: string
-  featured: boolean
-  tags: string
   salary: number
-  lastDate: Date
   createdAt: Date
 }

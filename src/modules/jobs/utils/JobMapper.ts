@@ -1,23 +1,19 @@
 import { Job, JobResponse } from '../entities'
+import UserMapper from '../../users/utils/UserMapper'
 
 export default class JobMapper {
   public static fromJobToJobResponse (job: Job): JobResponse {
     return {
       id: job.id,
-      userId: job.userId,
+      user: UserMapper.fromUserToUserResponse(job.user),
       title: job.title,
       description: job.description,
       address: {
-        country: job.address.country,
+        state: job.address.state,
         city: job.address.city
       },
-      jobType: job.jobType,
-      workTime: job.workTime,
-      workplace: job.workplace,
-      featured: job.featured,
-      tags: job.tags,
+      jobType: job.jobType.toString(),
       salary: Number(job.salary),
-      lastDate: job.lastDate,
       createdAt: job.createdAt
     }
   }

@@ -4,7 +4,6 @@ import IJobRepository from '../repositories/IJobRepository'
 import IStorageService from '../../../services/storage/interfaces/IStorageService'
 import { ApplyToJobDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
-import ApplyError from '../errors/ApplyError'
 
 @injectable()
 export default class ApplyToJobUseCase {
@@ -20,11 +19,7 @@ export default class ApplyToJobUseCase {
     try {
       await validateClassParameters(applyDto)
 
-      const job = await this.jobRepository.findById(applyDto.id)
-
-      if (job.lastDate < new Date()) {
-        throw new ApplyError('You can not apply to this job. Date is over.', false, 400)
-      }
+      await this.jobRepository.findById(applyDto.id)
 
       await this.jobRepository.applyToJob(applyDto.id, applyDto.userId, applyDto.resume)
 

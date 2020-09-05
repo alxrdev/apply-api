@@ -18,23 +18,18 @@ export default class UpdateJobUseCase {
 
     const jobToUpdate = await this.jobRepository.findById(jobDto.id)
 
-    if (jobToUpdate.userId !== jobDto.authId) {
+    if (jobToUpdate.user.id !== jobDto.authId) {
       throw new AppError('You don\'t have permission to edit this job.', false, 403)
     }
 
     const jobUpdated = new Job(
       jobToUpdate.id,
-      jobToUpdate.userId,
+      jobToUpdate.user,
       jobDto.title,
       jobDto.description,
-      new Address(jobDto.country, jobDto.city),
+      new Address(jobDto.state, jobDto.city),
       jobDto.jobType,
-      jobDto.workTime,
-      (jobDto.workplace === 'This country') ? `${jobDto.country} Only` : jobDto.workplace,
-      false,
-      jobDto.tags,
       jobDto.salary,
-      jobToUpdate.lastDate,
       jobToUpdate.createdAt
     )
 

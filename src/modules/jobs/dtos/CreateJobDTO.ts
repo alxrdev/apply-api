@@ -1,5 +1,6 @@
 import { IsString, IsDefined, Length, MinLength, IsIn, IsNumber } from 'class-validator'
 import { Expose, Transform } from 'class-transformer'
+import { stringify } from 'querystring'
 
 export default class CreateJobDTO {
   @IsDefined()
@@ -21,9 +22,9 @@ export default class CreateJobDTO {
 
   @IsDefined()
   @IsString()
-  @Length(3)
+  @MinLength(1)
   @Expose()
-  country: string
+  state: string
 
   @IsDefined()
   @IsString()
@@ -33,26 +34,9 @@ export default class CreateJobDTO {
 
   @IsDefined()
   @IsString()
-  @IsIn(['Permanent', 'Temporary', 'Internship', 'Freelancer'])
+  @IsIn(['Full-time', 'Part-time', 'Permanent', 'Temporary', 'Contract', 'Internship'])
   @Expose()
   jobType: string
-
-  @IsDefined()
-  @IsString()
-  @IsIn(['Full Time', 'Part Time'])
-  @Expose()
-  workTime: string
-
-  @IsDefined()
-  @IsString()
-  @IsIn(['This country', 'Remote', 'Worldwide'])
-  @Expose()
-  workplace: string
-
-  @IsString()
-  @Expose()
-  @Transform(value => value || '')
-  tags: string
 
   @IsDefined()
   @IsNumber()

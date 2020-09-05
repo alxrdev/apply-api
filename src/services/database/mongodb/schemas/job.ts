@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { IUser } from './user'
 
 const jobSchema = new mongoose.Schema({
   _id: String,
@@ -18,7 +19,7 @@ const jobSchema = new mongoose.Schema({
 
   address: {
     type: {
-      country: String,
+      state: String,
       city: String
     },
     required: [true, 'Please add an address.']
@@ -29,56 +30,20 @@ const jobSchema = new mongoose.Schema({
     required: true,
     enum: {
       values: [
+        'Full-time',
+        'Part-time',
         'Permanent',
         'Temporary',
-        'Internship',
-        'Freelancer'
+        'Contract',
+        'Internship'
       ],
       message: 'Please select correct options for Job type.'
     }
   },
 
-  workTime: {
-    type: String,
-    required: true,
-    enum: {
-      values: [
-        'Full Time',
-        'Part Time'
-      ],
-      message: 'Please select the work time.'
-    }
-  },
-
-  workplace: {
-    type: String,
-    required: true,
-    message: 'Please add the workplace.'
-  },
-
-  featured: {
-    type: Boolean,
-    default: false
-  },
-
-  tags: {
-    type: String,
-    required: false
-  },
-
   salary: {
     type: Number,
     required: [true, 'Please enter expected salary for this job.']
-  },
-
-  lastDate: {
-    type: Date,
-    default: new Date().setDate(new Date().getDate() + 7)
-  },
-
-  applicantsApplied: {
-    type: [Object],
-    select: false
   },
 
   createdAt: {
@@ -90,24 +55,24 @@ const jobSchema = new mongoose.Schema({
     type: String,
     ref: 'User',
     required: true
+  },
+
+  applicantsApplied: {
+    type: [Object],
+    select: false
   }
 })
 
 export interface IJob extends mongoose.Document {
-  user: string
+  user: IUser | string
   title: string
   description: string
   address: {
-    country: String,
+    state: String,
     city: String
   },
   jobType: string
-  workTime: string
-  workplace: string
-  featured: boolean
-  tags: string
   salary: number
-  lastDate: Date
   applicantsApplied?: Array<{
     id: string
     resume: string

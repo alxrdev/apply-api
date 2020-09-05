@@ -1,14 +1,18 @@
+import { MongooseFilterQuery } from 'mongoose'
+
 import IJobRepository from '../IJobRepository'
 import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
-import { MongooseFilterQuery } from 'mongoose'
+import { IUser } from '../../../../services/database/mongodb/schemas/user'
+import { User } from '../../../users/entities'
 import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address } from '../../entities'
 import { ListJobsFiltersDTO } from '../../dtos'
+
 import { JobNotFoundError } from '../../errors'
 import { AppError } from '../../../../errors'
 
 export default class JobRepository implements IJobRepository {
   public async findById (id: string): Promise<Job> {
-    const result = await jobModel.findOne({ _id: id })
+    const result = await jobModel.findOne({ _id: id }).populate('user')
 
     if (result === null) {
       throw new JobNotFoundError('Job not found.', false, 404)
@@ -19,25 +23,25 @@ export default class JobRepository implements IJobRepository {
 
   public async findAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
     const query: MongooseFilterQuery<IJob> = {
-      title: { $regex: filters.title, $options: 'i' },
-      description: { $regex: filters.description, $options: 'i' },
-      jobType: { $regex: filters.jobType, $options: 'i' },
-      'address.country': { $regex: filters.country },
-      'address.city': { $regex: filters.city, $options: 'i' },
-      workTime: { $regex: filters.workTime, $options: 'i' },
-      tags: { $regex: filters.workTime, $options: 'i' }
+      title: { $regex: filters.what, $options: 'i' },
+      $and: [{
+        $or: [
+          { 'address.state': { $regex: filters.where, $options: 'i' } },
+          { 'address.city': { $regex: filters.where, $options: 'i' } }
+        ]
+      }]
     }
 
     return await this.findCollection(query, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
   public async findAllByUserId (userId: string): Promise<Array<Job>> {
-    const result = await jobModel.find({ user: userId })
+    const result = await jobModel.find({ user: userId }).populate('user')
     return result.map(job => this.jobDocumentToJob(job))
   }
 
   public async findAppliedJobs (userId: string): Promise<Array<Job>> {
-    const result = await jobModel.find({ 'applicantsApplied.id': userId })
+    const result = await jobModel.find({ 'applicantsApplied.id': userId }).populate('user')
     return result.map(job => this.jobDocumentToJob(job))
   }
 
@@ -123,7 +127,7 @@ export default class JobRepository implements IJobRepository {
     sortOrder = (sortOrder === 'asc') ? '' : '-'
 
     const countResult = await jobModel.find(query).countDocuments()
-    const jobsResult = await jobModel.find(query).sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
+    const jobsResult = await jobModel.find(query).populate('user').sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
 
     const jobs = jobsResult.map(job => this.jobDocumentToJob(job))
 
@@ -131,22 +135,29 @@ export default class JobRepository implements IJobRepository {
   }
 
   private jobDocumentToJob (jobDocument: IJob): Job {
+    const user = jobDocument.user as IUser
+
     return new Job(
       jobDocument._id,
-      jobDocument.user,
+      new User(
+        user._id,
+        user.name,
+        user.email,
+        user.role,
+        user.avatar,
+        user.password,
+        user.createdAt,
+        user.resetPasswordToken,
+        user.resetPasswordExpire
+      ),
       jobDocument.title,
       jobDocument.description,
       new Address(
-        jobDocument.address.country.toString(),
+        jobDocument.address.state.toString(),
         jobDocument.address.city.toString()
       ),
       jobDocument.jobType,
-      jobDocument.workTime,
-      jobDocument.workplace,
-      jobDocument.featured,
-      jobDocument.tags,
       jobDocument.salary,
-      jobDocument.lastDate,
       jobDocument.createdAt
     )
   }
@@ -154,20 +165,15 @@ export default class JobRepository implements IJobRepository {
   private jobToJobDocument (job: Job) {
     return {
       _id: job.id,
-      user: job.userId,
+      user: job.user.id,
       title: job.title,
       description: job.description,
       address: {
-        country: job.address.country,
+        state: job.address.state,
         city: job.address.city
       },
-      jobType: job.jobType,
-      workTime: job.workTime,
-      workplace: job.workplace,
-      featured: job.featured,
-      tags: job.tags,
+      jobType: job.jobType.toString(),
       salary: Number(job.salary),
-      lastDate: job.lastDate,
       createdAt: job.createdAt
     }
   }

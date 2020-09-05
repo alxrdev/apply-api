@@ -1,14 +1,18 @@
 import { User, UserResponse } from '../entities'
+import { host } from '../../../configs/base'
 
 export default class UserMapper {
-  public static fromUserToUserResponse (user: User): UserResponse {
-    return {
+  public static fromUserToUserResponse (user: User, safe: boolean = true): UserResponse {
+    const response: UserResponse = {
       id: user.id,
       name: user.name,
-      email: user.email,
       role: user.role,
-      avatar: user.avatar,
+      avatar: `${host}/api/avatar/${user.avatar}`,
       createdAt: user.createdAt
     }
+
+    if (!safe) response.email = user.email
+
+    return response
   }
 }

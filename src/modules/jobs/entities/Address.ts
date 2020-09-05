@@ -1,9 +1,9 @@
 export default class Address {
-  public country: string
+  public state: string
   public city: string
 
-  constructor (country: string, city: string) {
-    this.country = country
+  constructor (state: string, city: string) {
+    this.state = state
     this.city = city
   }
 }

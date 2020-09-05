@@ -1,11 +1,15 @@
+import path from 'path'
+
 import express, { Express } from 'express'
-import routes from './routes'
 import rateLimit from 'express-rate-limit'
 import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import apiErrorHandlerMiddleware from './middlewares/errorHandler'
+
 import { origin } from './configs/base'
+
+import routes from './routes'
+import apiErrorHandlerMiddleware from './middlewares/errorHandler'
 
 class App {
   private server: Express
@@ -42,6 +46,8 @@ class App {
 
   private setupRoutes (): void {
     this.server.use('/api', routes)
+
+    this.server.use('/api/avatar', express.static(path.resolve(__dirname, '..', 'storage', 'avatars')))
   }
 
   private setupMiddlewaresAfterRoutes (): void {
