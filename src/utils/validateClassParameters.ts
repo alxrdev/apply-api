@@ -8,7 +8,7 @@ const validateClassParameters = async (object: any): Promise<void> => {
     const errorDetails = errors.map(error => ({
       property: error.property,
       value: error.value,
-      constraints: error.constraints
+      constraints: (error.constraints) ? Object.values(error.constraints)[0] : ''
     }))
 
     throw new AppError('Invalid parameters', false, 400, errorDetails)

@@ -29,7 +29,7 @@ class App {
   private setupMiddlewares (): void {
     this.server.use(rateLimit({
       windowMs: 10 * 60 * 1000, // 10 minutes
-      max: 100 // limit each IP to 100 requests per windowMs
+      max: 1000 // limit each IP to 100 requests per windowMs
     }))
 
     this.server.use(helmet())
