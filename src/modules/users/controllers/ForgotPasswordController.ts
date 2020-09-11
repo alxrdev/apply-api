@@ -20,7 +20,7 @@ export default class ForgotPasswordController {
 
       return response.status(201).json({
         success: true,
-        message: 'We have sent you an e-mail containing your password reset link.'
+        message: 'We have sent you an e-mail containing a token to reset your password.'
       })
     } catch (error) {
       next(error)

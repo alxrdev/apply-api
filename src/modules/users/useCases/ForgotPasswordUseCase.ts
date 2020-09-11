@@ -1,6 +1,5 @@
 import { injectable, inject } from 'tsyringe'
 import crypto from 'crypto'
-import { host } from '../../../configs/base'
 
 import IUserRepository from '../repositories/IUserRepository'
 import IMailService from '../../../services/email/interfaces/IMailService'
@@ -37,7 +36,7 @@ export default class ForgotPasswordUseCase {
         email: user.email
       },
       subject: 'Jobbee Password Recovery',
-      text: `Hello ${user.name}, here is the link to reset your account password: ${host}/api/password/reset/${resetToken}`
+      text: `Hello ${user.name}, here is the token to reset your account password: ${resetToken}`
     })
   }
 
