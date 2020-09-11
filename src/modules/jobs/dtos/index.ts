@@ -5,6 +5,7 @@ import DeleteJobDTO from '../dtos/DeleteJobDTO'
 import ApplyToJobDTO from './ApplyToJobDTO'
 import ListJobsAppliedDTO from './ListJobsAppliedDTO'
 import ListPublishedJobsByUserDTO from './ListPublishedJobsByUserDTO'
+import ListUsersAppliedDTO from './ListUsersAppliedDTO'
 
 export {
   ApplyToJobDTO,
@@ -13,5 +14,6 @@ export {
   UpdateJobDTO,
   DeleteJobDTO,
   ListJobsAppliedDTO,
-  ListPublishedJobsByUserDTO
+  ListPublishedJobsByUserDTO,
+  ListUsersAppliedDTO
 }

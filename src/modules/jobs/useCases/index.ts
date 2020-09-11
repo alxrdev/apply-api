@@ -6,6 +6,7 @@ import DeleteJobUseCase from './DeleteJobUseCase'
 import ShowJobUseCase from './ShowJobUseCase'
 import ListJobsAppliedUseCase from './ListJobsAppliedUseCase'
 import ListPublishedJobsByUserUseCase from './ListPublishedJobsByUserUseCase'
+import ListUsersAppliedUseCase from './ListUsersAppliedUseCase'
 
 export {
   ApplyToJobUseCase,
@@ -15,5 +16,6 @@ export {
   ListJobsUseCase,
   ListPublishedJobsByUserUseCase,
   UpdateJobUseCase,
-  ShowJobUseCase
+  ShowJobUseCase,
+  ListUsersAppliedUseCase
 }

@@ -2,9 +2,9 @@ import { MongooseFilterQuery } from 'mongoose'
 
 import IJobRepository from '../IJobRepository'
 import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
+import UserRepository from '../../../users/repositories/mongodb/UserRepository'
 import { IUser } from '../../../../services/database/mongodb/schemas/user'
-import { User } from '../../../users/entities'
-import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address } from '../../entities'
+import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address, UserApplied } from '../../entities'
 import { ListJobsFiltersDTO } from '../../dtos'
 
 import { JobNotFoundError } from '../../errors'
@@ -41,8 +41,33 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async findAppliedJobs (userId: string): Promise<Array<Job>> {
-    const result = await jobModel.find({ 'applicantsApplied.id': userId }).populate('user')
+    const result = await jobModel.find({ 'applicantsApplied.user': userId }).populate('user')
     return result.map(job => this.jobDocumentToJob(job))
+  }
+
+  public async findAllUsersAppliedToJob (id: string): Promise<Array<UserApplied>> {
+    const result = await jobModel.findOne({ _id: id })
+      .select('+applicantsApplied')
+      .populate({
+        path: 'applicantsApplied.user',
+        model: 'User'
+      })
+
+    if (result === null) {
+      throw new JobNotFoundError('Job not found.', false, 404)
+    }
+
+    if (!result.applicantsApplied) {
+      return [{}] as Array<UserApplied>
+    }
+
+    const usersApplied: Array<UserApplied> = result.applicantsApplied?.map(applicant => {
+      const user = applicant.user as IUser
+      const userApplied = UserRepository.userDocumentToUser(user)
+      return { user: userApplied, resume: applicant.resume }
+    })
+
+    return usersApplied
   }
 
   public async create (job: Job): Promise<Job> {
@@ -80,18 +105,18 @@ export default class JobRepository implements IJobRepository {
 
     if (job.applicantsApplied) {
       job.applicantsApplied.forEach(user => {
-        if (user.id === userId) {
+        if (user.user === userId) {
           throw new AppError('User already applied to this job.', false, 400)
         }
       })
 
       job.applicantsApplied.push({
-        id: userId,
+        user: userId,
         resume: resume
       })
     } else {
       job.applicantsApplied = [{
-        id: userId,
+        user: userId,
         resume: resume
       }]
     }
@@ -100,13 +125,13 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async removeApplyToJobs (userId: string): Promise<FilesToDeleteCollection> {
-    const jobsApplyed = await jobModel.find({ 'applicantsApplied.id': userId }).select('+applicantsApplied')
+    const jobsApplyed = await jobModel.find({ 'applicantsApplied.user': userId }).select('+applicantsApplied')
 
     const files: Array<FileToDelete> = []
 
     for (const job of jobsApplyed) {
       job.applicantsApplied = job.applicantsApplied?.filter(user => {
-        if (user.id === userId) {
+        if (user.user === userId) {
           files.push({ file: user.resume })
         } else {
           return true
@@ -139,20 +164,7 @@ export default class JobRepository implements IJobRepository {
 
     return new Job(
       jobDocument._id,
-      new User(
-        user._id,
-        user.name,
-        user.email,
-        user.role,
-        user.avatar,
-        user.password,
-        user.headline || '',
-        user.address || '',
-        user.bio || '',
-        user.createdAt,
-        user.resetPasswordToken,
-        user.resetPasswordExpire
-      ),
+      UserRepository.userDocumentToUser(user),
       jobDocument.title,
       jobDocument.description,
       new Address(

@@ -11,7 +11,7 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFouldError('User not fould.', false, 404)
     }
 
-    return this.userDocumentToUser(user)
+    return UserRepository.userDocumentToUser(user)
   }
 
   public async findByEmail (email: string): Promise<User> {
@@ -21,7 +21,7 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFouldError('User not fould.', false, 404)
     }
 
-    return this.userDocumentToUser(user)
+    return UserRepository.userDocumentToUser(user)
   }
 
   public async findByResetPasswordToken (token: string): Promise<User> {
@@ -31,16 +31,16 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFouldError('User not fould.', false, 404)
     }
 
-    return this.userDocumentToUser(user)
+    return UserRepository.userDocumentToUser(user)
   }
 
   public async create (user: User): Promise<User> {
-    await userModel.create(this.userToUserDocument(user))
+    await userModel.create(UserRepository.userToUserDocument(user))
     return user
   }
 
   public async update (user: User): Promise<User> {
-    await userModel.updateOne({ _id: user.id }, this.userToUserDocument(user))
+    await userModel.updateOne({ _id: user.id }, UserRepository.userToUserDocument(user))
     return user
   }
 
@@ -54,7 +54,7 @@ export default class UserRepository implements IUserRepository {
     await job.remove()
   }
 
-  private userDocumentToUser (user: IUser): User {
+  public static userDocumentToUser (user: IUser): User {
     return new User(
       user._id,
       user.name,
@@ -71,7 +71,7 @@ export default class UserRepository implements IUserRepository {
     )
   }
 
-  private userToUserDocument (user: User) {
+  public static userToUserDocument (user: User) {
     return {
       _id: user.id,
       name: user.name,

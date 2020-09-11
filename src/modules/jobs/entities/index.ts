@@ -4,6 +4,8 @@ import JobResponse from './JobResponse'
 import CollectionResponse from './CollectionResponse'
 import FilesToDeleteCollection from './FilesToDeleteCollection'
 import FileToDelete from './FileToDelete'
+import UserApplied from './UserApplied'
+import UserAppliedResponse from './UserAppliedResponse'
 
 export {
   Job,
@@ -11,5 +13,7 @@ export {
   JobResponse,
   CollectionResponse,
   FilesToDeleteCollection,
-  FileToDelete
+  FileToDelete,
+  UserApplied,
+  UserAppliedResponse
 }

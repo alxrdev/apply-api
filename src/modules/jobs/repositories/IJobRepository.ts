@@ -1,4 +1,4 @@
-import { Job, CollectionResponse, FilesToDeleteCollection } from '../entities'
+import { Job, CollectionResponse, FilesToDeleteCollection, UserApplied } from '../entities'
 import { ListJobsFiltersDTO } from '../dtos'
 
 export default interface IJobRepository {
@@ -6,6 +6,7 @@ export default interface IJobRepository {
   findAll (options: ListJobsFiltersDTO): Promise<CollectionResponse<Job>>
   findAllByUserId (userId: string): Promise<Array<Job>>
   findAppliedJobs (userId: string): Promise<Array<Job>>
+  findAllUsersAppliedToJob (id: string): Promise<Array<UserApplied>>
   create (job: Job): Promise<Job>
   update (job: Job): Promise<Job>
   delete (id: string): Promise<FilesToDeleteCollection>

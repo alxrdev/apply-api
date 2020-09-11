@@ -58,7 +58,17 @@ const jobSchema = new mongoose.Schema({
   },
 
   applicantsApplied: {
-    type: [Object],
+    type: [{
+      user: {
+        type: String,
+        ref: 'User',
+        required: true
+      },
+      resume: {
+        type: String,
+        required: true
+      }
+    }],
     select: false
   }
 })
@@ -74,7 +84,7 @@ export interface IJob extends mongoose.Document {
   jobType: string
   salary: number
   applicantsApplied?: Array<{
-    id: string
+    user: IUser | string
     resume: string
   }>
   createdAt: Date

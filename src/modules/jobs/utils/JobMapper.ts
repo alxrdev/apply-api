@@ -1,4 +1,4 @@
-import { Job, JobResponse } from '../entities'
+import { Job, JobResponse, UserApplied, UserAppliedResponse } from '../entities'
 import UserMapper from '../../users/utils/UserMapper'
 
 export default class JobMapper {
@@ -20,6 +20,18 @@ export default class JobMapper {
 
   public static fromJobArrayToJobResponseArray (jobs: Array<Job>): Array<JobResponse> {
     const result = jobs.map(job => JobMapper.fromJobToJobResponse(job))
+    return result
+  }
+
+  public static fromUserAppliedToUserAppliedResponse (userApplied: UserApplied): UserAppliedResponse {
+    return {
+      user: UserMapper.fromUserToUserResponse(userApplied.user),
+      resume: userApplied.resume
+    }
+  }
+
+  public static fromUserAppliedArrayToUserAppliedResponseArray (usersApplied: Array<UserApplied>): Array<UserAppliedResponse> {
+    const result = usersApplied.map(userApplied => JobMapper.fromUserAppliedToUserAppliedResponse(userApplied))
     return result
   }
 }

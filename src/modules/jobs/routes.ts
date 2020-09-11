@@ -19,6 +19,8 @@ routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsCon
 
 const jobsApplyController = container.resolve(JobsApplyController)
 
+routes.get('/jobs/:id/users', isAuthenticated, authorizedRole('employeer'), jobsApplyController.index)
+// routes.get('/jobs/:id/users/:userId')
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(resumeStorageSettings).single('resume'), jobsApplyController.create)
 
 const usersJobsAppliedController = container.resolve(UsersJobsAppliedController)
