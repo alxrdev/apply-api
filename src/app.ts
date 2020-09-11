@@ -48,6 +48,7 @@ class App {
     this.server.use('/api', routes)
 
     this.server.use('/api/avatar', express.static(path.resolve(__dirname, '..', 'storage', 'avatars')))
+    this.server.use('/api/resume', express.static(path.resolve(__dirname, '..', 'storage', 'resumes')))
   }
 
   private setupMiddlewaresAfterRoutes (): void {

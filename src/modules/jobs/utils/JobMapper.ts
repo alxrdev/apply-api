@@ -1,5 +1,6 @@
 import { Job, JobResponse, UserApplied, UserAppliedResponse } from '../entities'
 import UserMapper from '../../users/utils/UserMapper'
+import { host } from '../../../configs/base'
 
 export default class JobMapper {
   public static fromJobToJobResponse (job: Job): JobResponse {
@@ -26,7 +27,7 @@ export default class JobMapper {
   public static fromUserAppliedToUserAppliedResponse (userApplied: UserApplied): UserAppliedResponse {
     return {
       user: UserMapper.fromUserToUserResponse(userApplied.user),
-      resume: userApplied.resume
+      resume: `${host}/api/resume/${userApplied.resume}`
     }
   }
 
