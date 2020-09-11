@@ -1,6 +1,7 @@
-<h1 align="center">
+<h2 align="center">
+	<img alt="CRWN Clothing" src="https://raw.githubusercontent.com/alxrdev/apply/master/src/assets/img/logo.svg" width="250px"> <br />
 	Apply API
-</h1>
+</h2>
 
 <h3 align="center">
   An API that allows users to apply for a job.
