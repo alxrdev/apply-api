@@ -25,6 +25,7 @@ export default class JobRepository implements IJobRepository {
   public async findAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
     const query: MongooseFilterQuery<IJob> = {
       title: { $regex: filters.what, $options: 'i' },
+      jobType: { $regex: filters.jobType, $options: 'i' },
       $and: [{
         $or: [
           { 'address.state': { $regex: filters.where, $options: 'i' } },
