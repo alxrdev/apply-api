@@ -18,8 +18,10 @@ export default class ShowUserAppliedUseCase {
 
     const job = await this.jobRepository.findById(showUserDto.id)
 
-    if (job.user.id !== showUserDto.authUserId) {
-      throw new AppError('You don\'t have permission to see users applied to this job.', false, 403)
+    if (showUserDto.authUserId !== showUserDto.userId) {
+      if (job.user.id !== showUserDto.authUserId) {
+        throw new AppError('You don\'t have permission to see users applied to this job.', false, 403)
+      }
     }
 
     return await this.jobRepository.findUserAppliedToJob(showUserDto.id, showUserDto.userId)
