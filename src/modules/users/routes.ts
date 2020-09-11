@@ -13,7 +13,7 @@ const usersController = container.resolve(UsersController)
 
 routes.get('/users/:idOrEmail', usersController.show)
 routes.post('/users', usersController.create)
-routes.put('/users/:id', isAuthenticated, authorizedRole(['user', 'employeer']), usersController.update)
+routes.put('/users/:id', isAuthenticated, authorizedRole(['user', 'employer']), usersController.update)
 routes.delete('/users/:id', isAuthenticated, authorizedRole('admin'), usersController.delete)
 
 const usersAvatarController = container.resolve(UsersAvatarController)
@@ -21,7 +21,7 @@ const usersAvatarController = container.resolve(UsersAvatarController)
 routes.put(
   '/users/:id/avatar',
   isAuthenticated,
-  authorizedRole(['user', 'employeer']),
+  authorizedRole(['user', 'employer']),
   fileUpload(avatarStorageSettings).single('avatar'),
   usersAvatarController.update
 )

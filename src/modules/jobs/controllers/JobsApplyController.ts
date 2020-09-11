@@ -22,7 +22,7 @@ export default class JobsApplyController {
       const result = await this.listUsersAppliedUseCase.execute(usersAppliedDto)
 
       return response.status(200).json({
-        sucess: true,
+        success: true,
         message: 'Users applied to this job.',
         data: JobMapper.fromUserAppliedArrayToUserAppliedResponseArray(result)
       })
@@ -38,7 +38,7 @@ export default class JobsApplyController {
       const result = await this.showUserAppliedUseCase.execute(userAppliedDto)
 
       return response.status(200).json({
-        sucess: true,
+        success: true,
         message: 'User applied to this job.',
         data: JobMapper.fromUserAppliedToUserAppliedResponse(result)
       })
@@ -54,7 +54,7 @@ export default class JobsApplyController {
       await this.applyToJobUseCase.execute(applyDto)
 
       return response.status(201).json({
-        sucess: true,
+        success: true,
         message: 'User applied to job.'
       })
     } catch (error) {

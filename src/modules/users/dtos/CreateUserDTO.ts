@@ -1,5 +1,5 @@
 import { IsDefined, IsEmail, IsIn, MinLength, IsString } from 'class-validator'
-import { Expose, Transform } from 'class-transformer'
+import { Expose } from 'class-transformer'
 
 export default class CreateUserDTO {
   @IsDefined()
@@ -13,7 +13,7 @@ export default class CreateUserDTO {
   public email: string
 
   @IsDefined()
-  @IsIn(['user', 'employeer'])
+  @IsIn(['user', 'employer'])
   @Expose()
   public role: string
 

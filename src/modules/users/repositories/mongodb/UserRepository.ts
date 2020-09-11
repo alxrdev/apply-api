@@ -1,14 +1,14 @@
 import IUserRepository from '../IUserRepository'
 import { User } from '../../entities'
 import userModel, { IUser } from '../../../../services/database/mongodb/schemas/user'
-import { UserNotFouldError } from '../../errors'
+import { UserNotFoundError } from '../../errors'
 
 export default class UserRepository implements IUserRepository {
   public async findById (id: string): Promise<User> {
     const user = await userModel.findOne({ _id: id })
 
     if (user === null) {
-      throw new UserNotFouldError('User not fould.', false, 404)
+      throw new UserNotFoundError('User not found.', false, 404)
     }
 
     return UserRepository.userDocumentToUser(user)
@@ -18,7 +18,7 @@ export default class UserRepository implements IUserRepository {
     const user = await userModel.findOne({ email })
 
     if (user === null) {
-      throw new UserNotFouldError('User not fould.', false, 404)
+      throw new UserNotFoundError('User not found.', false, 404)
     }
 
     return UserRepository.userDocumentToUser(user)
@@ -28,7 +28,7 @@ export default class UserRepository implements IUserRepository {
     const user = await userModel.findOne({ resetPasswordToken: token })
 
     if (user === null) {
-      throw new UserNotFouldError('User not fould.', false, 404)
+      throw new UserNotFoundError('User not found.', false, 404)
     }
 
     return UserRepository.userDocumentToUser(user)
@@ -48,7 +48,7 @@ export default class UserRepository implements IUserRepository {
     const job = await userModel.findOne({ _id: id })
 
     if (!job) {
-      throw new UserNotFouldError('User not found.', false, 404)
+      throw new UserNotFoundError('User not found.', false, 404)
     }
 
     await job.remove()

@@ -8,7 +8,7 @@ import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address
 import { ListJobsFiltersDTO } from '../../dtos'
 
 import { JobNotFoundError } from '../../errors'
-import { UserNotFouldError } from '../../../users/errors'
+import { UserNotFoundError } from '../../../users/errors'
 import { AppError } from '../../../../errors'
 
 export default class JobRepository implements IJobRepository {
@@ -85,7 +85,7 @@ export default class JobRepository implements IJobRepository {
     }
 
     if (!result.applicantsApplied) {
-      throw new UserNotFouldError('User not found.', false, 404)
+      throw new UserNotFoundError('User not found.', false, 404)
     }
 
     const userIndex = result.applicantsApplied.findIndex(user => {
@@ -156,11 +156,11 @@ export default class JobRepository implements IJobRepository {
   }
 
   public async removeApplyToJobs (userId: string): Promise<FilesToDeleteCollection> {
-    const jobsApplyed = await jobModel.find({ 'applicantsApplied.user': userId }).select('+applicantsApplied')
+    const jobsApplied = await jobModel.find({ 'applicantsApplied.user': userId }).select('+applicantsApplied')
 
     const files: Array<FileToDelete> = []
 
-    for (const job of jobsApplyed) {
+    for (const job of jobsApplied) {
       job.applicantsApplied = job.applicantsApplied?.filter(user => {
         if (user.user === userId) {
           files.push({ file: user.resume })

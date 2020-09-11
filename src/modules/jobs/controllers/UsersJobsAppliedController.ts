@@ -20,7 +20,7 @@ export default class UsersJobsAppliedController {
       const jobs = await this.listJobsAppliedUseCase.execute(listJobsDto)
 
       return response.status(200).json({
-        sucess: true,
+        success: true,
         message: 'Jobs applied.',
         data: JobMapper.fromJobArrayToJobResponseArray(jobs)
       })

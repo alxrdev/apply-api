@@ -13,14 +13,14 @@ const jobsController = container.resolve(JobsController)
 
 routes.get('/jobs', jobsController.index)
 routes.get('/jobs/:id', jobsController.show)
-routes.post('/jobs', isAuthenticated, authorizedRole('employeer'), jobsController.create)
-routes.put('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.update)
-routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employeer'), jobsController.delete)
+routes.post('/jobs', isAuthenticated, authorizedRole('employer'), jobsController.create)
+routes.put('/jobs/:id', isAuthenticated, authorizedRole('employer'), jobsController.update)
+routes.delete('/jobs/:id', isAuthenticated, authorizedRole('employer'), jobsController.delete)
 
 const jobsApplyController = container.resolve(JobsApplyController)
 
-routes.get('/jobs/:id/users', isAuthenticated, authorizedRole('employeer'), jobsApplyController.index)
-routes.get('/jobs/:id/users/:userId', isAuthenticated, authorizedRole(['user', 'employeer']), jobsApplyController.show)
+routes.get('/jobs/:id/users', isAuthenticated, authorizedRole('employer'), jobsApplyController.index)
+routes.get('/jobs/:id/users/:userId', isAuthenticated, authorizedRole(['user', 'employer']), jobsApplyController.show)
 routes.post('/jobs/:id/apply', isAuthenticated, authorizedRole('user'), fileUpload(resumeStorageSettings).single('resume'), jobsApplyController.create)
 
 const usersJobsAppliedController = container.resolve(UsersJobsAppliedController)

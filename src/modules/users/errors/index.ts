@@ -1,4 +1,4 @@
 import UserAlreadyExistsError from './UserAlreadyExistsError'
-import UserNotFouldError from './UserNotFouldError'
+import UserNotFoundError from './UserNotFoundError'
 
-export { UserAlreadyExistsError, UserNotFouldError }
+export { UserAlreadyExistsError, UserNotFoundError }
