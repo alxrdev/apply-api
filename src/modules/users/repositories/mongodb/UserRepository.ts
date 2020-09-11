@@ -62,6 +62,9 @@ export default class UserRepository implements IUserRepository {
       user.role,
       user.avatar,
       user.password,
+      user.headline || '',
+      user.address || '',
+      user.bio || '',
       user.createdAt,
       user.resetPasswordToken,
       user.resetPasswordExpire
@@ -76,6 +79,9 @@ export default class UserRepository implements IUserRepository {
       role: user.role,
       avatar: user.avatar,
       password: user.password,
+      headline: user.headline,
+      address: user.address,
+      bio: user.bio,
       createdAt: user.createdAt,
       resetPasswordToken: user.resetPasswordToken,
       resetPasswordExpire: user.resetPasswordExpire

@@ -8,6 +8,9 @@ export default class UserMapper {
       name: user.name,
       role: user.role,
       avatar: `${host}/api/avatar/${user.avatar}`,
+      headline: user.headline,
+      address: user.address,
+      bio: user.bio,
       createdAt: user.createdAt
     }
 

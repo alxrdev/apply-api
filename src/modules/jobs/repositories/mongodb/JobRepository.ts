@@ -146,6 +146,9 @@ export default class JobRepository implements IJobRepository {
         user.role,
         user.avatar,
         user.password,
+        user.headline || '',
+        user.address || '',
+        user.bio || '',
         user.createdAt,
         user.resetPasswordToken,
         user.resetPasswordExpire

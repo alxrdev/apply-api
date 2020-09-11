@@ -31,6 +31,22 @@ const userSchema = new mongoose.Schema({
     default: 'default.jpg'
   },
 
+  headline: {
+    type: String,
+    required: false
+  },
+
+  address: {
+    type: String,
+    required: false
+  },
+
+  bio: {
+    type: String,
+    required: false,
+    maxlength: [80, 'Your bio must be at least 80 characters']
+  },
+
   password: {
     type: String,
     required: [true, 'Please enter password for your account'],
@@ -53,6 +69,9 @@ export interface IUser extends mongoose.Document {
   role: string
   avatar: string
   password: string
+  headline?: string
+  address?: string
+  bio?: string
   resetPasswordToken?: string
   resetPasswordExpire?: Date,
   createdAt: Date
