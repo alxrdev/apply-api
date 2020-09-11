@@ -9,23 +9,23 @@
 <p align="center">Find your dream job!</p>
 
 <p align="center">
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/alxrdev/apply-api?color=%23f58635">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/alxrdev/apply-api?color=%23085ff7">
 
   <a href="https://www.linkedin.com/in/alxrdev/" target="_blank" rel="noopener noreferrer">
-    <img alt="Made by" src="https://img.shields.io/badge/made%20by-alex%20rodrigues%20moreira-%23f58635">
+    <img alt="Made by" src="https://img.shields.io/badge/made%20by-alex%20rodrigues%20moreira-%23085ff7">
   </a>
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alxrdev/apply-api?color=%23f58635">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/alxrdev/apply-api?color=%23085ff7">
 
   <a href="https://github.com/alxrdev/hcco/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alxrdev/apply-api?color=%23f58635">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/alxrdev/apply-api?color=%23085ff7">
   </a>
 
   <a href="https://github.com/alxrdev/hcco/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/alxrdev/apply-api?color=%23f58635">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/alxrdev/apply-api?color=%23085ff7">
   </a>
 
-  <img alt="GitHub" src="https://img.shields.io/github/license/alxrdev/apply-api?color=%23f58635">
+  <img alt="GitHub" src="https://img.shields.io/github/license/alxrdev/apply-api?color=%23085ff7">
 </p>
 </br>
 
