@@ -16,7 +16,7 @@ export default class CreateJobDTO {
 
   @IsDefined()
   @IsString()
-  @Length(1, 1000)
+  @Length(1, 5000)
   @Expose()
   description: string
 
