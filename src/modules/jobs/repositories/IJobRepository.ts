@@ -7,6 +7,7 @@ export default interface IJobRepository {
   findAllByUserId (userId: string): Promise<Array<Job>>
   findAppliedJobs (userId: string): Promise<Array<Job>>
   findAllUsersAppliedToJob (id: string): Promise<Array<UserApplied>>
+  findUserAppliedToJob (id: string, userId: string): Promise<UserApplied>
   create (job: Job): Promise<Job>
   update (job: Job): Promise<Job>
   delete (id: string): Promise<FilesToDeleteCollection>

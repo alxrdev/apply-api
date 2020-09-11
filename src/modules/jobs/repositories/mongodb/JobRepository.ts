@@ -8,6 +8,7 @@ import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, Address
 import { ListJobsFiltersDTO } from '../../dtos'
 
 import { JobNotFoundError } from '../../errors'
+import { UserNotFouldError } from '../../../users/errors'
 import { AppError } from '../../../../errors'
 
 export default class JobRepository implements IJobRepository {
@@ -68,6 +69,35 @@ export default class JobRepository implements IJobRepository {
     })
 
     return usersApplied
+  }
+
+  public async findUserAppliedToJob (id: string, userId: string): Promise<UserApplied> {
+    const result = await jobModel.findOne({ _id: id, 'applicantsApplied.user': userId })
+      .select('+applicantsApplied')
+      .populate({
+        path: 'applicantsApplied.user',
+        model: 'User'
+      })
+
+    if (result === null) {
+      throw new JobNotFoundError('Job or user not found.', false, 404)
+    }
+
+    if (!result.applicantsApplied) {
+      throw new UserNotFouldError('User not found.', false, 404)
+    }
+
+    const userIndex = result.applicantsApplied.findIndex(user => {
+      const currentUser = user.user as IUser
+      return (currentUser._id === userId)
+    })
+
+    const data = result.applicantsApplied[userIndex]
+
+    return {
+      user: UserRepository.userDocumentToUser(data.user as IUser),
+      resume: data.resume
+    }
   }
 
   public async create (job: Job): Promise<Job> {
