@@ -20,7 +20,7 @@ export default class ResetPasswordController {
 
       return response.status(201).json({
         success: true,
-        message: 'Password reseted.'
+        message: 'Password restored.'
       })
     } catch (error) {
       next(error)

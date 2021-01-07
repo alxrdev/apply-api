@@ -1,8 +1,8 @@
 import { container } from 'tsyringe'
 import { Router } from 'express'
-import { isAuthenticated, authorizedRole } from '../../middlewares/auth'
+import { isAuthenticated, authorizedRole } from '../../middleware/auth'
 
-import fileUpload from '../../middlewares/fileUpload'
+import fileUpload from '../../middleware/fileUpload'
 import { resumeStorageSettings } from '../../services/storage'
 
 import { JobsController, JobsApplyController, UsersJobsController, UsersJobsAppliedController } from './controllers'

@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import { origin } from './configs/base'
 
 import routes from './routes'
-import apiErrorHandlerMiddleware from './middlewares/errorHandler'
+import apiErrorHandlerMiddleware from './middleware/errorHandler'
 
 class App {
   private server: Express
@@ -17,16 +17,16 @@ class App {
   constructor () {
     this.server = express()
 
-    this.setupMiddlewares()
+    this.setupMiddleware()
     this.setupRoutes()
-    this.setupMiddlewaresAfterRoutes()
+    this.setupMiddlewareAfterRoutes()
   }
 
   public getServer (): Express {
     return this.server
   }
 
-  private setupMiddlewares (): void {
+  private setupMiddleware (): void {
     this.server.use(rateLimit({
       windowMs: 10 * 60 * 1000, // 10 minutes
       max: 1000 // limit each IP to 100 requests per windowMs
@@ -51,7 +51,7 @@ class App {
     this.server.use('/api/resume', express.static(path.resolve(__dirname, '..', 'storage', 'resumes')))
   }
 
-  private setupMiddlewaresAfterRoutes (): void {
+  private setupMiddlewareAfterRoutes (): void {
     this.server.use(apiErrorHandlerMiddleware)
   }
 }

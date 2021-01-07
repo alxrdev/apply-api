@@ -13,7 +13,7 @@ import { AuthenticationError } from '../errors'
 export default class RefreshTokenUseCase {
   constructor (
     @inject('UserRepository')
-    private readonly userRespository: IUserRepository,
+    private readonly userRepository: IUserRepository,
 
     @inject('AuthService')
     private readonly authService: IAuthService
@@ -45,7 +45,7 @@ export default class RefreshTokenUseCase {
       throw new AuthenticationError('Invalid JWT token.', false, 401)
     }
 
-    const user = await this.userRespository.findById(id)
+    const user = await this.userRepository.findById(id)
 
     const newToken = this.authService.authenticateUser(user)
 
