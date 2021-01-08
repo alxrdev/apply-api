@@ -40,7 +40,7 @@ export default class ListJobsUseCase {
     const sortBy = (!sortOptions.includes(filters.sortBy)) ? 'createdAt' : filters.sortBy
 
     const sortOrderOptions = ['asc', 'desc']
-    const sortOrder = (!sortOrderOptions.includes(filters.sortOrder)) ? 'asc' : filters.sortOrder
+    const sortOrder = (!sortOrderOptions.includes(filters.sortOrder)) ? 'desc' : filters.sortOrder
 
     return {
       ...filters,
