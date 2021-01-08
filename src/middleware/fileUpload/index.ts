@@ -44,7 +44,9 @@ const fileUpload = (storageSettings: IStorageSettings) => {
       }
 
       return cb(null, true)
-    }
+    },
+
+    preservePath: true
   })
 }
 

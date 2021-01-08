@@ -12,7 +12,7 @@ export default class UsersAvatarController {
   ) {}
 
   public update = async (request: Request, response: Response, next: NextFunction) => {
-    const updateAvatarDto = plainToClass(UpdateUserAvatarDTO, { ...request.params, authId: request.user.id, avatar: (request.file) ? request.file.filename : '' })
+    const updateAvatarDto = plainToClass(UpdateUserAvatarDTO, { ...request.params, authId: request.user.id, avatar: ( request.file ) ? request.file.filename : '' })
 
     try {
       await this.updateUserAvatarUseCase.execute(updateAvatarDto)

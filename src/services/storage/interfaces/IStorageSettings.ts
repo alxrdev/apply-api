@@ -6,5 +6,6 @@ export default interface IStorageSettings {
   storageFileExtensionTypes: string
   storageFileMIMETypes: string
   storageFileMaxSize: number
+  storageRequest?: string
   storageEngine: StorageEngine
 }

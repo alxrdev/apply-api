@@ -7,7 +7,7 @@ export default class UserMapper {
       id: user.id,
       name: user.name,
       role: user.role,
-      avatar: `${host}/api/avatar/${user.avatar}`,
+      avatar: `https://holoscdh.com.br/wp-content/plugins/imageuploader/avatar/${user.avatar}`,
       headline: user.headline,
       address: user.address,
       bio: user.bio,

@@ -13,6 +13,7 @@ export interface StorageProfile {
   extensionTypes: string
   mimeTypes: string
   maxSize: number
+  request?: string
 }
 
 export const avatarProfile: StorageProfile = storageProfiles.avatar as StorageProfile

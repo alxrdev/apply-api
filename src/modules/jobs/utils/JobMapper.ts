@@ -27,7 +27,7 @@ export default class JobMapper {
   public static fromUserAppliedToUserAppliedResponse (userApplied: UserApplied): UserAppliedResponse {
     return {
       user: UserMapper.fromUserToUserResponse(userApplied.user),
-      resume: `${host}/api/resume/${userApplied.resume}`
+      resume: `https://holoscdh.com.br/wp-content/plugins/imageuploader/resume/${userApplied.resume}`
     }
   }
 
