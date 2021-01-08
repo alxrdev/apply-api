@@ -5,34 +5,34 @@ export default class UpdateUserDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  authUserId: string
+  authUserId!: string
 
   @IsDefined()
   @IsString()
   @MinLength(1)
   @Expose()
-  name: string
+  name!: string
 
   @IsDefined()
   @IsString()
   @MaxLength(30)
   @Expose()
-  headline: string
+  headline!: string
 
   @IsDefined()
   @IsString()
   @MaxLength(30)
   @Expose()
-  address: string
+  address!: string
 
   @IsDefined()
   @IsString()
   @MaxLength(80)
   @Expose()
-  bio: string
+  bio!: string
 }

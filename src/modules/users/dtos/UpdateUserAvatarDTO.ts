@@ -5,16 +5,16 @@ export default class UpdateUserAvatarDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  authId: string
+  authId!: string
 
   @IsDefined()
   @IsString()
   @IsNotEmpty()
   @Expose()
-  avatar: string
+  avatar!: string
 }

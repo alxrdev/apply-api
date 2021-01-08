@@ -6,16 +6,16 @@ export default class ResetPasswordDTO {
   @IsString()
   @MinLength(8)
   @Expose()
-  password: string
+  password!: string
 
   @IsDefined()
   @IsString()
   @MinLength(8)
   @Expose()
-  confirmPassword: string
+  confirmPassword!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  token: string
+  token!: string
 }

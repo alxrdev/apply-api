@@ -5,35 +5,35 @@ export default class ListJobsFiltersDTO {
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  what: string
+  what!: string
 
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  where: string
+  where!: string
 
   @IsString()
   @Expose()
   @Transform(value => value || '')
-  jobType: string
+  jobType!: string
 
   @IsNumber()
   @Expose()
   @Transform(value => Number(value) || 1)
-  page: number
+  page!: number
 
   @IsNumber()
   @Expose()
   @Transform(value => Number(value) || 10)
-  limit: number
+  limit!: number
 
   @IsString()
   @Expose()
   @Transform(value => value || 'createdAt')
-  sortBy: string
+  sortBy!: string
 
   @IsString()
   @Expose()
   @Transform(value => value || 'asc')
-  sortOrder: string
+  sortOrder!: string
 }

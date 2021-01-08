@@ -5,10 +5,10 @@ export default class DeleteJobDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  authId: string
+  authId!: string
 }

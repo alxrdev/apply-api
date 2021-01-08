@@ -1,12 +1,11 @@
 import axios from 'axios'
-import formData from 'form-data'
 import { AppError } from '../../errors'
 const concat = require('concat-stream')
+const formData = require('form-data')
 
 interface StorageOptions {
   filename: (file: Express.Multer.File) => string
   url: string
-  method: 'post' | 'put' | 'get'
 }
 
 class MulterApiStorage {
@@ -20,7 +19,7 @@ class MulterApiStorage {
       
       form.append(file.fieldname, file.stream, {filename: filename})
 
-      form.pipe(concat({encoding: 'buffer'}, data => {
+      form.pipe(concat({encoding: 'buffer'}, (data: any) => {
         axios.post(this.opts.url, data, { headers: form.getHeaders() })
           .then(response => {
             cb(null, { ...response.data, filename })

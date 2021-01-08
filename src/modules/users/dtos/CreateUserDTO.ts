@@ -5,27 +5,27 @@ export default class CreateUserDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  public name: string
+  public name!: string
 
   @IsDefined()
   @IsEmail()
   @Expose()
-  public email: string
+  public email!: string
 
   @IsDefined()
   @IsIn(['user', 'employer'])
   @Expose()
-  public role: string
+  public role!: string
 
   @IsDefined()
   @IsString()
   @MinLength(8)
   @Expose()
-  public password: string
+  public password!: string
 
   @IsDefined()
   @IsString()
   @MinLength(8)
   @Expose()
-  public confirmPassword: string
+  public confirmPassword!: string
 }

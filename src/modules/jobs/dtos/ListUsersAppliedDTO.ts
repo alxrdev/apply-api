@@ -5,10 +5,10 @@ export default class ListUsersAppliedDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  authUserId: string
+  authUserId!: string
 }

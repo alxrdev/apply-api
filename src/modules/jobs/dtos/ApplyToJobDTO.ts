@@ -5,16 +5,16 @@ export default class ApplyToJobDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  userId: string
+  userId!: string
 
   @IsDefined()
   @IsString()
   @MinLength(5)
   @Expose()
-  resume: string
+  resume!: string
 }

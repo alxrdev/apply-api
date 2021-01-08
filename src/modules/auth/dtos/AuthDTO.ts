@@ -5,10 +5,10 @@ export default class AuthDTO {
   @IsDefined()
   @IsEmail()
   @Expose()
-  email: string
+  email!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  password: string
+  password!: string
 }

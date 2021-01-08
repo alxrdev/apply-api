@@ -5,5 +5,5 @@ export default class ListPublishedJobsByUserDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 }

@@ -5,5 +5,5 @@ export default class ForgotPasswordDTO {
   @IsDefined()
   @IsEmail()
   @Expose()
-  email: string
+  email!: string
 }

@@ -5,15 +5,15 @@ export default class ShowUserAppliedDTO {
   @IsDefined()
   @IsString()
   @Expose()
-  id: string
+  id!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  authUserId: string
+  authUserId!: string
 
   @IsDefined()
   @IsString()
   @Expose()
-  userId: string
+  userId!: string
 }
