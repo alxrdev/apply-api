@@ -35,8 +35,16 @@ class App {
     this.server.use(helmet())
 
     this.server.use(cors({
-      origin: origin,
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+      origin: function(or, callback) {
+        if (or && origin.indexOf(or) !== -1) {
+          return callback(null, true)
+        } else {
+          return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false)
+        }
+      },
+      optionsSuccessStatus: 200,
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true
     }))
 
     this.server.use(cookieParser())
