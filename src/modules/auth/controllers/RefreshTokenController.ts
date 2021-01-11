@@ -27,7 +27,7 @@ export default class RefreshTokenController {
       }
 
       return response.status(200)
-        .cookie('@Apply:token', result.token, { httpOnly: true, path: '/', expires: cookieExpiresDate(), sameSite: 'none' })
+        .cookie('@Apply:token', result.token, { httpOnly: true, path: '/', expires: cookieExpiresDate(), sameSite: 'none', secure: true })
         .json({
           success: true,
           message: 'Token refreshed.',
