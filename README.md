@@ -34,6 +34,8 @@
 
 This is a rest api made with Express, Typescript and MongoDB that allows users to apply for a job.
 
+Live demo: [https://apply-backend.herokuapp.com/api](https://apply-backend.herokuapp.com/api)
+
 ## 🚀 Technologies
 
 Technologies that I used to develop this project
