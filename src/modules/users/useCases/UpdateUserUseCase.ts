@@ -27,8 +27,6 @@ export default class UpdateUserUseCase {
     userToUpdate.address = userDto.address
     userToUpdate.bio = userDto.bio
 
-    console.log()
-
     return await this.userRepository.update(userToUpdate)
   }
 }
