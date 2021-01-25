@@ -21,15 +21,11 @@ export default class CreateUserUseCase {
 
     validatePasswordAndConfirmPassword(userDto.password, userDto.confirmPassword)
 
-    let userAlreadyExists = false
-
     try {
       await this.userRepository.findByEmail(userDto.email)
-      userAlreadyExists = true
-    } catch (error) {}
-
-    if (userAlreadyExists) {
       throw new UserAlreadyExistsError('An user already exists with this same e-mail.', false, 400)
+    } catch (error) {
+      if (error instanceof UserAlreadyExistsError) throw error
     }
 
     const password = bcrypt.hashSync(userDto.password, 10)
