@@ -5,6 +5,7 @@ import IJobRepository from '../../jobs/repositories/IJobRepository'
 import IStorageService from '../../../services/storage/interfaces/IStorageService'
 import { DeleteUserDTO } from '../dtos'
 import validateClassParameters from '../../../utils/validateClassParameters'
+import { AppError } from '../../../errors'
 
 @injectable()
 export default class DeleteUserUseCase {
@@ -23,6 +24,10 @@ export default class DeleteUserUseCase {
     await validateClassParameters(userDto)
 
     const user = await this.userRepository.findById(userDto.id)
+
+    if (userDto.id !== userDto.authUserId) {
+      throw new AppError('You don\'t have permission to delete this user.', false, 403)
+    }
 
     await this.userRepository.delete(userDto.id)
 
