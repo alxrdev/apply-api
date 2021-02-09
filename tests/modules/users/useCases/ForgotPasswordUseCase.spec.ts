@@ -4,7 +4,8 @@ import { UserNotFoundError } from "@modules/users/errors"
 import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
 import IUserRepository from "@modules/users/repositories/IUserRepository"
 import { ForgotPasswordUseCase } from "@modules/users/useCases"
-import Mailtrap from "@services/email/Mailtrap"
+import FakeMail from "@services/email/FakeMail"
+import IMailService from "@services/email/interfaces/IMailService"
 
 const makeDto = (fields = {}) : ForgotPasswordDTO => {
   const data = { email: 'user@email.com', ...fields }
@@ -13,24 +14,17 @@ const makeDto = (fields = {}) : ForgotPasswordDTO => {
   return dto
 }
 
-const mockSendMail = jest.fn()
-
-jest.mock('@services/email/MailTrap', () => {
-	return jest.fn().mockImplementation(() => {
-		return { sendMail: mockSendMail }
-	})
-})
-
 let userRepository: IUserRepository
+let fakeMail: IMailService
 
-const makeSut = () : ForgotPasswordUseCase => new ForgotPasswordUseCase(userRepository, new Mailtrap({ username: '', password: '', host: '', port: 0, senderEmail: '', senderName: ''}))
+const makeSut = () : ForgotPasswordUseCase => new ForgotPasswordUseCase(userRepository, fakeMail)
 
 describe('Test the ForgotPasswordUseCase class', () => {
   beforeEach(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
 
-    mockSendMail.mock.calls = []
+    fakeMail = new FakeMail()
   })
 
   it('Should throw a UserNotFoundError when the email provided does not exists', async () => {
@@ -64,12 +58,13 @@ describe('Test the ForgotPasswordUseCase class', () => {
     const forgotPasswordUseCase = makeSut()
     const spyFindByEmail = jest.spyOn(userRepository, 'findByEmail')
     const spyUpdate = jest.spyOn(userRepository, 'update')
+    const spySendMail = jest.spyOn(fakeMail, 'sendMail')
     const dto = makeDto()
 
     await forgotPasswordUseCase.execute(dto)
     
     expect(spyFindByEmail).toHaveBeenCalled()
     expect(spyUpdate).toHaveBeenCalled()
-    expect(mockSendMail.mock.calls.length).toBe(1)
+    expect(spySendMail).toHaveBeenCalled()
   })
 })

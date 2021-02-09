@@ -4,9 +4,7 @@ import { User } from "@modules/users/entities"
 import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
 import IUserRepository from "@modules/users/repositories/IUserRepository"
 import { ForgotPasswordUseCase, ResetPasswordUseCase } from "@modules/users/useCases"
-import Mailtrap from "@services/email/Mailtrap"
-
-jest.mock('@services/email/MailTrap')
+import FakeMail from "@services/email/FakeMail"
 
 const makeDto = (fields = {}): ResetPasswordDTO => {
   const data = { password: '12345678', confirmPassword: '12345678', token: '', ...fields }
@@ -26,7 +24,7 @@ const makeForgotPassword = async (email: string, timeIsInvalid: boolean = false)
     return (timeIsInvalid) ? new Date(Date.now() - 40 * 60 * 1000).getTime() : new Date(Date.now() + 30 * 60 * 1000).getTime();
   })
   
-  const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository, new Mailtrap({ username: '', password: '', host: '', port: 0, senderEmail: '', senderName: ''}))
+  const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository, new FakeMail())
   return await forgotPasswordUseCase.execute({ email })
 }
 
