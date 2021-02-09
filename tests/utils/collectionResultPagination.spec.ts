@@ -1,4 +1,4 @@
-import collectionResultPagination from "./collectionResultPagination"
+import collectionResultPagination from "@utils/collectionResultPagination"
 
 describe('Test the collection result pagination', () => {
     test('Should return an array with the next and previous url', () => {

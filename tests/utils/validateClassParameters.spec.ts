@@ -1,7 +1,7 @@
 import { Equals, IsDefined, IsNotEmpty, IsNumber, IsString } from "class-validator"
 
-import validateClassParameters from "./validateClassParameters"
-import { AppError } from "../errors"
+import validateClassParameters from "@utils/validateClassParameters"
+import { AppError } from "@errors/index"
 
 class TestableObject {
     @IsDefined()
