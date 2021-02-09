@@ -16,7 +16,7 @@ export default class ForgotPasswordUseCase {
     private readonly mailService: IMailService
   ) {}
 
-  public async execute (forgotPasswordDto: ForgotPasswordDTO): Promise<void> {
+  public async execute (forgotPasswordDto: ForgotPasswordDTO): Promise<string> {
     await validateClassParameters(forgotPasswordDto)
 
     const user = await this.userRepository.findByEmail(forgotPasswordDto.email)
@@ -38,6 +38,8 @@ export default class ForgotPasswordUseCase {
       subject: 'Jobbee Password Recovery',
       text: `Hello ${user.name}, here is the token to reset your account password: ${resetToken}`
     })
+
+    return resetToken
   }
 
   private generateResetPasswordToken (): Array<string> {

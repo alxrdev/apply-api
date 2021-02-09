@@ -42,14 +42,15 @@ describe('Test the ForgotPasswordUseCase class', () => {
     expect(spyFindByEmail).toHaveBeenCalled()
   })
 
-  it('Should create the reset password token and the reset password expire time', async () => {
+  it('Should create the reset password token, the reset password expire time and return the reset token', async () => {
     const forgotPasswordUseCase = makeSut()
     const spyFindByEmail = jest.spyOn(userRepository, 'findByEmail')
     const spyUpdate = jest.spyOn(userRepository, 'update')
     const dto = makeDto()
 
-    await forgotPasswordUseCase.execute(dto)
-    
+    const resetToken = await forgotPasswordUseCase.execute(dto)
+
+    expect(resetToken.length).toBeGreaterThan(0)
     expect(spyFindByEmail).toHaveBeenCalled()
     expect(spyUpdate).toHaveBeenCalled()
 
