@@ -1,6 +1,5 @@
 import { DeleteUserUseCase } from "@modules/users/useCases"
 import { AppError } from "@errors/index"
-import DiskStorageService from "@services/storage/DiskStorageService"
 import { DeleteUserDTO } from "@modules/users/dtos"
 import { User } from "@modules/users/entities"
 import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
@@ -8,14 +7,8 @@ import FakeJobRepository from "@modules/jobs/repositories/fake/FakeJobRepository
 import IUserRepository from "@modules/users/repositories/IUserRepository"
 import IJobRepository from "@modules/jobs/repositories/IJobRepository"
 import { Address, Job } from "@modules/jobs/entities"
-
-const mockStorageDelete = jest.fn()
-
-jest.mock('@services/storage/DiskStorageService', () => {
-	return jest.fn().mockImplementation(() => {
-		return { delete: mockStorageDelete }
-	})
-})
+import FakeStorageService from "@services/storage/FakeStorageService"
+import IStorageService from "@services/storage/interfaces/IStorageService"
 
 const makeDto = (fields = {}) : DeleteUserDTO => {
 	const data = { id: '1', authUserId: '1', ...fields }
@@ -43,8 +36,9 @@ const makeJob = async (fields = {}) : Promise<Job> => {
 
 let userRepository: IUserRepository
 let jobRepository: IJobRepository
+let fakeStorage: IStorageService
 
-const makeSut = () : DeleteUserUseCase => new DeleteUserUseCase(userRepository, jobRepository, new DiskStorageService({storageFileDestination:'', storageTempFileDestination:''}))
+const makeSut = () : DeleteUserUseCase => new DeleteUserUseCase(userRepository, jobRepository, fakeStorage)
 
 describe('Test the DeleteUserUseCase', () => {
 	beforeEach(async () => {
@@ -59,7 +53,7 @@ describe('Test the DeleteUserUseCase', () => {
 		jobRepository.applyToJob('1', '2', '123.pdf')
 		jobRepository.applyToJob('2', '2', '123.pdf')
 
-		mockStorageDelete.mock.calls = []
+		fakeStorage = new FakeStorageService()
 	})
 
 	it('Should throw an AppError when the user to delete is not the authenticated user', async () => {
@@ -89,22 +83,24 @@ describe('Test the DeleteUserUseCase', () => {
 	it('Should delete the user files', async () => {
 		const deleteUserUseCase = makeSut()
 		const spyRemoveApplyToJobs = jest.spyOn(jobRepository, 'removeApplyToJobs')
+		const spyStorageDelete = jest.spyOn(fakeStorage, 'delete')
 		const user = makeDto({ id: '2', authUserId: '2' })
 
 		await expect(deleteUserUseCase.execute(user))
 			.resolves
 			.not.toThrowError(AppError)
 		expect(spyRemoveApplyToJobs).toHaveBeenCalled()
-		expect(mockStorageDelete.mock.calls.length).toBe(3)
+		expect(spyStorageDelete).toHaveBeenCalledTimes(3)
 	})
 
 	it('Should delete the employer avatar', async () => {
 		const deleteUserUseCase = makeSut()
+		const spyStorageDelete = jest.spyOn(fakeStorage, 'delete')
 		const user = makeDto({ id: '1', authUserId: '1' })
 
 		await expect(deleteUserUseCase.execute(user))
 			.resolves
 			.not.toThrowError(AppError)
-		expect(mockStorageDelete.mock.calls.length).toBe(1)
+			expect(spyStorageDelete).toHaveBeenCalledTimes(1)
 	})
 })
