@@ -10,11 +10,7 @@ import IStorageService from "@services/storage/interfaces/IStorageService"
 
 const makeDto = (fields = {}) : UpdateUserAvatarDTO => {
   const data = { id: '2', authId: '2', avatar: 'avatar.jpg', ...fields }
-  const dto = new UpdateUserAvatarDTO()
-  dto.id = data.id
-  dto.authId = data.authId
-  dto.avatar = data.avatar
-  return dto
+  return Object.assign(new UpdateUserAvatarDTO(), data)
 }
 
 let userRepository: IUserRepository
@@ -23,7 +19,11 @@ let fakeStorage: IStorageService
 const makeSut = () : UpdateUserAvatarUseCase => new UpdateUserAvatarUseCase(userRepository, fakeStorage)
 
 describe('Tests the UpdateUserAvatarUseCase class', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  
+  beforeAll(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'default.jpg', 'password', '', '', ''))
     await userRepository.create(new User('2', 'user', 'user2@email.com', 'user', 'user.jpg', 'password', '', '', ''))

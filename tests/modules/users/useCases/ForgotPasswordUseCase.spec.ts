@@ -10,8 +10,7 @@ import IMailService from "@services/email/interfaces/IMailService"
 const makeDto = (fields = {}) : ForgotPasswordDTO => {
   const data = { email: 'user@email.com', ...fields }
   const dto = new ForgotPasswordDTO()
-  dto.email = data.email
-  return dto
+  return Object.assign(dto, data)
 }
 
 let userRepository: IUserRepository
@@ -20,7 +19,11 @@ let fakeMail: IMailService
 const makeSut = () : ForgotPasswordUseCase => new ForgotPasswordUseCase(userRepository, fakeMail)
 
 describe('Test the ForgotPasswordUseCase class', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  beforeAll(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
 

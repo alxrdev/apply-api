@@ -8,14 +8,7 @@ import FakeUserRepository from '@modules/users/repositories/fake/FakeUserReposit
 
 const makeUser = (fields = {}) : UpdateUserDTO => {
     const data = { id: '1', authUserId: '1', name: 'UserUpdated', headline: 'My headline', address: 'my address', bio: 'my bio', ...fields }
-    const user = new UpdateUserDTO()
-    user.id = data.id
-    user.authUserId = data.authUserId
-    user.name = data.name
-    user.headline = data.headline
-    user.address = data.address
-    user.bio = data.bio
-    return user
+    return Object.assign(new UpdateUserDTO(), data)
 }
 
 let userRepository: IUserRepository
@@ -23,7 +16,11 @@ let userRepository: IUserRepository
 const makeSut = () : UpdateUserUseCase => new UpdateUserUseCase(userRepository)
 
 describe('Test the UpdateUserUseCase class', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    
+    beforeAll(async () => {
         userRepository = new FakeUserRepository()
         await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
     })

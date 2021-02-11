@@ -8,11 +8,7 @@ import FakeMail from "@services/email/FakeMail"
 
 const makeDto = (fields = {}): ResetPasswordDTO => {
   const data = { password: '12345678', confirmPassword: '12345678', token: '', ...fields }
-  const dto = new ResetPasswordDTO()
-  dto.password = data.password
-  dto.confirmPassword = data.confirmPassword
-  dto.token = data.token
-  return dto
+  return Object.assign(new ResetPasswordDTO(), data)
 }
 
 let userRepository: IUserRepository
@@ -29,7 +25,11 @@ const makeForgotPassword = async (email: string, timeIsInvalid: boolean = false)
 }
 
 describe('Tests the ResetPasswordUseCase class', () => {
-  beforeEach(async () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  
+  beforeAll(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
   })

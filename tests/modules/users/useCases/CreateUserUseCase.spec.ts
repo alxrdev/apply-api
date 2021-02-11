@@ -8,12 +8,7 @@ import FakeUserRepository from '@modules/users/repositories/fake/FakeUserReposit
 const makeUser = (fields = {}) : CreateUserDTO => {
     const data = { name: 'user', email: 'user@user.com', password: 'password', confirmPassword: 'password', role: 'user', ...fields }
     const user = new CreateUserDTO()
-    user.name = data.name
-    user.email = data.email
-    user.password = data.password
-    user.confirmPassword = data.confirmPassword
-    user.role = data.role
-    return user
+    return Object.assign(user, data)
 }
 
 let userRepository: FakeUserRepository
@@ -21,9 +16,9 @@ let userRepository: FakeUserRepository
 const makeSut = () : CreateUserUseCase => new CreateUserUseCase(userRepository)
 
 describe('Test the CreateUserUseCase class', () => {
-    beforeEach(() => {
+    beforeAll(async () => {
         userRepository = new FakeUserRepository()
-        userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+        await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
     })
 
     it('Should create and return a new user', async () => {

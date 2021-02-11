@@ -13,9 +13,7 @@ import IStorageService from "@services/storage/interfaces/IStorageService"
 const makeDto = (fields = {}) : DeleteUserDTO => {
 	const data = { id: '1', authUserId: '1', ...fields }
 	const dto = new DeleteUserDTO()
-	dto.id = data.id
-	dto.authUserId = data.authUserId
-	return dto
+	return Object.assign(dto, data)
 }
 
 const makeJob = async (fields = {}) : Promise<Job> => {
@@ -41,17 +39,22 @@ let fakeStorage: IStorageService
 const makeSut = () : DeleteUserUseCase => new DeleteUserUseCase(userRepository, jobRepository, fakeStorage)
 
 describe('Test the DeleteUserUseCase', () => {
-	beforeEach(async () => {
+	beforeEach(() => {
+		jest.clearAllMocks()
+	})
+
+	beforeAll(async () => {
 		userRepository = new FakeUserRepository()
-		userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
-		userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
-		userRepository.create(new User('3', 'user', 'user3@email.com', 'user', 'user3.jpg', 'password', '', '', ''))
+		await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
+		await userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+		await userRepository.create(new User('3', 'user', 'user3@email.com', 'user', 'user3.jpg', 'password', '', '', ''))
+		await userRepository.create(new User('4', 'user', 'user3@email.com', 'user', 'user4.jpg', 'password', '', '', ''))
 
 		jobRepository = new FakeJobRepository(userRepository)
-		jobRepository.create(await makeJob({ id: '1' }))
-		jobRepository.create(await makeJob({ id: '2' }))
-		jobRepository.applyToJob('1', '2', '123.pdf')
-		jobRepository.applyToJob('2', '2', '123.pdf')
+		await jobRepository.create(await makeJob({ id: '1' }))
+		await jobRepository.create(await makeJob({ id: '2' }))
+		await jobRepository.applyToJob('1', '2', '123.pdf')
+		await jobRepository.applyToJob('2', '2', '123.pdf')
 
 		fakeStorage = new FakeStorageService()
 	})
@@ -71,7 +74,7 @@ describe('Test the DeleteUserUseCase', () => {
 		const deleteUserUseCase = makeSut()
 		const spyFindById = jest.spyOn(userRepository, 'findById')
 		const spyDelete = jest.spyOn(userRepository, 'delete')
-		const user = makeDto()
+		const user = makeDto({ id: '4', authUserId: '4' })
 
 		await expect(deleteUserUseCase.execute(user))
 			.resolves

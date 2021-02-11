@@ -9,7 +9,11 @@ let userRepository: IUserRepository
 const makeSut = () : ShowUserUseCase => new ShowUserUseCase(userRepository)
 
 describe('Test the ShowUserUseCase class', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    
+    beforeAll(async () => {
         userRepository = new FakeUserRepository()
         await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
     })
