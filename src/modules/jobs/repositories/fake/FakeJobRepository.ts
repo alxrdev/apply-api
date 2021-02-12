@@ -32,22 +32,29 @@ export default class FakeJobRepository implements IJobRepository {
   }
 
   public async findAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
-    // const query: MongooseFilterQuery<IJob> = {
-    //   title: { $regex: filters.what, $options: 'i' },
-    //   jobType: { $regex: filters.jobType, $options: 'i' },
-    //   $and: [{
-    //     $or: [
-    //       { 'address.state': { $regex: filters.where, $options: 'i' } },
-    //       { 'address.city': { $regex: filters.where, $options: 'i' } }
-    //     ]
-    //   }]
-    // }
+    const jobs = this.jobs.filter(job => {
+      const whatRegex = new RegExp(filters.what, 'gi')
+      const jobTypeRegex = new RegExp(filters.jobType, 'i')
+      const locationRegex = new RegExp(filters.where, 'gi')
 
-    // const jobs = this.jobs.filter(job => {
-    //   //
-    // })
+      const findTitle = () => {
+        return whatRegex.test(job.title)
+      }
+      const findJobType = () => {
+        if (filters.jobType === '') return true
+        return jobTypeRegex.test(job.jobType.toString())
+      }
+      const findLocation = () => {
+        if (filters.where === '') return true
+        const city = locationRegex.test(job.address.city)
+        const state = locationRegex.test(job.address.state)
+        return (city) ? city : state
+      }
 
-    return { count: this.jobs.length, collection: this.jobs }
+      return (findTitle() && findLocation() && findJobType())
+    })
+
+    return this.findCollection(jobs, filters.page, filters.limit, filters.sortBy, filters.sortOrder)
   }
 
   public async findAllByUserId (userId: string): Promise<Array<Job>> {
@@ -145,23 +152,15 @@ export default class FakeJobRepository implements IJobRepository {
     }
   }
 
-  // private async findCollection (query: Job[], page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
-  //   const skip = (page - 1) * limit
+  private async findCollection (query: Job[], page: number, limit: number, sortBy: string, sortOrder: string): Promise<CollectionResponse<Job>> {
+    const skip = (page - 1) * limit
 
-  //   sortOrder = (sortOrder === 'asc') ? '' : '-'
+    query = (sortBy === 'salary') ? query.sort((a, b) => Number(a.salary) - Number(b.salary)) : query
 
-  //   const countResult = query.length
-  //   const jobsResult = query.sort((a, b) => {
-  //     switch (sortBy) {
-  //       case 'title':
-  //         const sorted = a.title.localeCompare(b.title)
-  //         return (sortOrder === 'asc') ? sorted : sorted.
-  //     }
-  //   })
-  //   // const jobsResult = await jobModel.find(query).populate('user').sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
+    query = (sortOrder === 'asc') ? query : query.reverse()
 
-  //   const jobs = jobsResult.map(job => this.jobDocumentToJob(job))
+    const jobs = query.slice(skip, (limit+skip))
 
-  //   return { count: countResult, collection: jobs }
-  // }
+    return { count: query.length, collection: jobs }
+  }
 }
