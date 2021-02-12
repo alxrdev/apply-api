@@ -1,14 +1,16 @@
-import { IsDefined, IsString, Length, MinLength, IsIn, IsNumber } from 'class-validator'
+import { IsDefined, IsString, Length, MinLength, IsIn, IsNumber, IsNotEmpty } from 'class-validator'
 import { Expose, Transform } from 'class-transformer'
 
 export default class UpdateJobDTO {
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   @Expose()
   id!: string
 
   @IsDefined()
   @IsString()
+  @IsNotEmpty()
   @Expose()
   authId!: string
 
