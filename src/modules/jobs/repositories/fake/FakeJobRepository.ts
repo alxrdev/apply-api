@@ -61,7 +61,7 @@ export default class FakeJobRepository implements IJobRepository {
     const jobs = this.jobs.filter(job => job.user.id === userId)
 
     if (!jobs || jobs.length < 1) {
-      throw new JobNotFoundError('User not found.', false, 404)
+      return [] as Array<Job>
     }
 
     return jobs
