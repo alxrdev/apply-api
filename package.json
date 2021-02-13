@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "build": "tsc",
     "test": "jest --no-cache",
     "test:dev": "jest --no-cache --watchAll"
@@ -16,12 +16,12 @@
     }
   },
   "_moduleAliases": {
-    "@configs": "dist/configs",
-    "@errors": "dist/errors",
-    "@middleware": "dist/middleware",
-    "@modules": "dist/modules",
-    "@services": "dist/services",
-    "@utils": "dist/utils"
+    "@configs": "dist/src/configs",
+    "@errors": "dist/src/errors",
+    "@middleware": "dist/src/middleware",
+    "@modules": "dist/src/modules",
+    "@services": "dist/src/services",
+    "@utils": "dist/src/utils"
   },
   "dependencies": {
     "axios": "^0.21.1",
