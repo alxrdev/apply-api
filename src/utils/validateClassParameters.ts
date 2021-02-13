@@ -1,7 +1,7 @@
 import { validate } from 'class-validator'
 import AppError from '../errors/AppError'
 
-const validateClassParameters = async (object: any): Promise<void> => {
+const validateClassParameters = async (object: Object): Promise<void> => {
   const errors = await validate(object, { validationError: { target: false } })
 
   if (errors.length > 0) {

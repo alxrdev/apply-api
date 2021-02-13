@@ -1,6 +1,7 @@
 node_modules
 storage/**/**.**
 dist
+coverage
 
 .env
 yarn-error.log
