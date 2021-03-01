@@ -1,5 +1,4 @@
 import { User, UserResponse } from '../entities'
-import { host } from '../../../configs/base'
 
 export default class UserMapper {
   public static fromUserToUserResponse (user: User, safe: boolean = true): UserResponse {

@@ -1,14 +1,14 @@
-import { AppError } from "@errors/index"
-import { AuthDTO } from "@modules/auth/dtos"
-import { AuthenticationError } from "@modules/auth/errors"
-import { AuthenticateUserUseCase } from "@modules/auth/useCases"
-import { CreateUserDTO } from "@modules/users/dtos"
-import { User } from "@modules/users/entities"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
-import { CreateUserUseCase } from "@modules/users/useCases"
-import FakeAuthService from "@services/auth/FakeAuthService"
-import IAuthService from "@services/auth/interfaces/IAuthService"
+import { AppError } from '@errors/index'
+import { AuthDTO } from '@modules/auth/dtos'
+import { AuthenticationError } from '@modules/auth/errors'
+import { AuthenticateUserUseCase } from '@modules/auth/useCases'
+import { CreateUserDTO } from '@modules/users/dtos'
+import { User } from '@modules/users/entities'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { CreateUserUseCase } from '@modules/users/useCases'
+import FakeAuthService from '@services/auth/FakeAuthService'
+import IAuthService from '@services/auth/interfaces/IAuthService'
 
 const makeDto = (fields = {}) : AuthDTO => {
   const data = { email: 'employeer@email.com', password: 'password', ...fields }

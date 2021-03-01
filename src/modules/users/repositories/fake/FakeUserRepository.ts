@@ -5,7 +5,7 @@ import { UserNotFoundError } from '@modules/users/errors'
 export default class FakeUserRepository implements IUserRepository {
   private users: User[]
 
-  public constructor() {
+  public constructor () {
     this.users = []
   }
 

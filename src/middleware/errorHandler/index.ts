@@ -1,12 +1,12 @@
 import dotenv from 'dotenv'
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 import AppError from '../../errors/AppError'
 
 dotenv.config()
 
 const env = process.env.NODE_ENV ?? 'production'
 
-const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response, next: NextFunction) => {
+const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response) => {
   if (env === 'development') {
     if (error instanceof AppError) {
       return response

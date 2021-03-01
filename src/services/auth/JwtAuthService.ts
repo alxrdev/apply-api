@@ -21,7 +21,7 @@ export default class JwtAuthService implements IAuthService, ITokenBasedAuthServ
     return this.generateToken(user)
   }
 
-  public generateToken(user: User) : string {
+  public generateToken (user: User) : string {
     const token = jsonWebToken.sign(
       { id: user.id, role: user.role },
       this.authSettings.jwtSecret,
@@ -31,7 +31,7 @@ export default class JwtAuthService implements IAuthService, ITokenBasedAuthServ
     return token
   }
 
-  public decodeToken(token: string) : Payload {
+  public decodeToken (token: string) : Payload {
     const decode = jsonWebToken.verify(token ?? '', this.authSettings.jwtSecret, { ignoreExpiration: true })
     return decode as Payload
   }

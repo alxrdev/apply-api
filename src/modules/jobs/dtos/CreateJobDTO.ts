@@ -1,6 +1,5 @@
 import { IsString, IsDefined, Length, MinLength, IsIn, IsNumber } from 'class-validator'
 import { Expose, Transform } from 'class-transformer'
-import { stringify } from 'querystring'
 
 export default class CreateJobDTO {
   @IsDefined()

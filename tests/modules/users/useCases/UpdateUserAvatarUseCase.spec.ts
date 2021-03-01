@@ -1,12 +1,12 @@
-import { AppError } from "@errors/index"
-import UpdateUserAvatarDTO from "@modules/users/dtos/UpdateUserAvatarDTO"
-import { User } from "@modules/users/entities"
-import { UserNotFoundError } from "@modules/users/errors"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
-import { UpdateUserAvatarUseCase } from "@modules/users/useCases"
-import FakeStorageService from "@services/storage/FakeStorageService"
-import IStorageService from "@services/storage/interfaces/IStorageService"
+import { AppError } from '@errors/index'
+import UpdateUserAvatarDTO from '@modules/users/dtos/UpdateUserAvatarDTO'
+import { User } from '@modules/users/entities'
+import { UserNotFoundError } from '@modules/users/errors'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { UpdateUserAvatarUseCase } from '@modules/users/useCases'
+import FakeStorageService from '@services/storage/FakeStorageService'
+import IStorageService from '@services/storage/interfaces/IStorageService'
 
 const makeDto = (fields = {}) : UpdateUserAvatarDTO => {
   const data = { id: '2', authId: '2', avatar: 'avatar.jpg', ...fields }
@@ -22,12 +22,12 @@ describe('Tests the UpdateUserAvatarUseCase class', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  
+
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'default.jpg', 'password', '', '', ''))
     await userRepository.create(new User('2', 'user', 'user2@email.com', 'user', 'user.jpg', 'password', '', '', ''))
-    
+
     fakeStorage = new FakeStorageService()
   })
 

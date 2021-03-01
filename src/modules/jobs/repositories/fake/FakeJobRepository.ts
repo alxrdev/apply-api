@@ -19,7 +19,7 @@ export default class FakeJobRepository implements IJobRepository {
   private jobs: Job[]
   private applicants: Applicant[]
 
-  public constructor(
+  public constructor (
     @inject('UserRepository')
     private readonly userRepository: IUserRepository
   ) {
@@ -54,7 +54,7 @@ export default class FakeJobRepository implements IJobRepository {
         if (filters.where === '') return true
         const city = locationRegex.test(job.address.city)
         const state = locationRegex.test(job.address.state)
-        return (city) ? city : state
+        return (city) || state
       }
 
       return (findTitle() && findLocation() && findJobType())
@@ -95,7 +95,7 @@ export default class FakeJobRepository implements IJobRepository {
     if (!applicant) {
       throw new UserNotFoundError('User not found.', false, 404)
     }
-    
+
     return applicant.userApplied
   }
 
@@ -111,7 +111,7 @@ export default class FakeJobRepository implements IJobRepository {
   }
 
   public async delete (id: string): Promise<FilesToDeleteCollection> {
-    const job = await this.findById(id)
+    await this.findById(id)
 
     const usersApplied = await this.findAllUsersAppliedToJob(id)
 
@@ -165,7 +165,7 @@ export default class FakeJobRepository implements IJobRepository {
 
     query = (sortOrder === 'asc') ? query : query.reverse()
 
-    const jobs = query.slice(skip, (limit+skip))
+    const jobs = query.slice(skip, (limit + skip))
 
     return { count: query.length, collection: jobs }
   }

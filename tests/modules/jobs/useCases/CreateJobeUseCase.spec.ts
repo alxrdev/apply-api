@@ -1,13 +1,13 @@
-import { AppError } from "@errors/index"
-import { CreateJobDTO } from "@modules/jobs/dtos"
-import { Job } from "@modules/jobs/entities"
-import FakeJobRepository from "@modules/jobs/repositories/fake/FakeJobRepository"
-import IJobRepository from "@modules/jobs/repositories/IJobRepository"
-import { CreateJobUseCase } from "@modules/jobs/useCases"
-import { User } from "@modules/users/entities"
-import { UserNotFoundError } from "@modules/users/errors"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
+import { AppError } from '@errors/index'
+import { CreateJobDTO } from '@modules/jobs/dtos'
+import { Job } from '@modules/jobs/entities'
+import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import { CreateJobUseCase } from '@modules/jobs/useCases'
+import { User } from '@modules/users/entities'
+import { UserNotFoundError } from '@modules/users/errors'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
 
 const makeDto = (fields = {}) : CreateJobDTO => {
   const data = { userId: '1', title: 'My first job', description: 'this is my first job', salary: 1200.00, jobType: 'Full-time', state: 'ES', city: 'São Mateus', ...fields }

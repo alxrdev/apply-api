@@ -35,7 +35,7 @@ class App {
     this.server.use(helmet())
 
     this.server.use(cors({
-      origin: function(or, callback) {
+      origin: function (or, callback) {
         if ((or && origin.indexOf(or) !== -1) || nodeEnvironment !== 'production') {
           return callback(null, true)
         } else {

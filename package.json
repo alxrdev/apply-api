@@ -8,11 +8,12 @@
     "start": "node dist/src/server.js",
     "build": "tsc",
     "test": "jest --no-cache",
-    "test:dev": "jest --no-cache --watchAll"
+    "test:dev": "jest --no-cache --watchAll",
+    "lint": "eslint --ext .ts --fix ./"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn jest"
+      "pre-commit": "yarn eslint --ext .ts --fix ./ && yarn jest"
     }
   },
   "_moduleAliases": {
@@ -69,6 +70,7 @@
     "eslint": "^7.7.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^24.1.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",

@@ -1,15 +1,15 @@
-import { AppError } from "@errors/index"
-import { ApplyToJobDTO } from "@modules/jobs/dtos"
-import { Address, Job } from "@modules/jobs/entities"
-import { JobNotFoundError } from "@modules/jobs/errors"
-import FakeJobRepository from "@modules/jobs/repositories/fake/FakeJobRepository"
-import IJobRepository from "@modules/jobs/repositories/IJobRepository"
-import { ApplyToJobUseCase } from "@modules/jobs/useCases"
-import { User } from "@modules/users/entities"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
-import FakeStorageService from "@services/storage/FakeStorageService"
-import IStorageService from "@services/storage/interfaces/IStorageService"
+import { AppError } from '@errors/index'
+import { ApplyToJobDTO } from '@modules/jobs/dtos'
+import { Address, Job } from '@modules/jobs/entities'
+import { JobNotFoundError } from '@modules/jobs/errors'
+import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import { ApplyToJobUseCase } from '@modules/jobs/useCases'
+import { User } from '@modules/users/entities'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import FakeStorageService from '@services/storage/FakeStorageService'
+import IStorageService from '@services/storage/interfaces/IStorageService'
 
 let userRepository: IUserRepository
 let jobRepository: IJobRepository
@@ -29,21 +29,21 @@ describe('Test the ApplyToJobUseCase', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-		await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
-		await userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
+    await userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
 
     jobRepository = new FakeJobRepository(userRepository)
     const job = new Job(
-      '1', 
-      await userRepository.findById('1'), 
-      'First job', 
-      'this is the first job', 
+      '1',
+      await userRepository.findById('1'),
+      'First job',
+      'this is the first job',
       new Address('ES', 'São Mateus'),
-      'Full-time', 
-      1200.00, 
+      'Full-time',
+      1200.00,
       new Date()
     )
-		await jobRepository.create(job)
+    await jobRepository.create(job)
 
     fakeStorage = new FakeStorageService()
   })

@@ -1,6 +1,5 @@
 import { Job, JobResponse, UserApplied, UserAppliedResponse } from '../entities'
 import UserMapper from '../../users/utils/UserMapper'
-import { host } from '../../../configs/base'
 
 export default class JobMapper {
   public static fromJobToJobResponse (job: Job): JobResponse {
