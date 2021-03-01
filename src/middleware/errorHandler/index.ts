@@ -1,12 +1,13 @@
 import dotenv from 'dotenv'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import AppError from '../../errors/AppError'
 
 dotenv.config()
 
 const env = process.env.NODE_ENV ?? 'production'
 
-const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response, _: NextFunction) => {
   if (env === 'development') {
     if (error instanceof AppError) {
       return response
