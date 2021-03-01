@@ -1,4 +1,6 @@
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import { inject, injectable } from 'tsyringe'
+
 import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, UserApplied } from '@modules/jobs/entities'
 import { ListJobsFiltersDTO } from '@modules/jobs/dtos'
 
@@ -12,11 +14,15 @@ interface Applicant {
   userApplied: UserApplied
 }
 
+@injectable()
 export default class FakeJobRepository implements IJobRepository {
   private jobs: Job[]
   private applicants: Applicant[]
 
-  public constructor(private readonly userRepository: IUserRepository) {
+  public constructor(
+    @inject('UserRepository')
+    private readonly userRepository: IUserRepository
+  ) {
     this.jobs = []
     this.applicants = []
   }
