@@ -6,7 +6,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import { origin } from './configs/base'
+import { origin, nodeEnvironment } from './configs/base'
 
 import routes from './routes'
 import apiErrorHandlerMiddleware from './middleware/errorHandler'
@@ -36,7 +36,7 @@ class App {
 
     this.server.use(cors({
       origin: function(or, callback) {
-        if (or && origin.indexOf(or) !== -1) {
+        if ((or && origin.indexOf(or) !== -1) || nodeEnvironment !== 'production') {
           return callback(null, true)
         } else {
           return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false)
