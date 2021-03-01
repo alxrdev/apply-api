@@ -4,8 +4,8 @@ node_js:
 
 deploy:
   provider: heroku
-  app: apply-backend
-  on:
-    branch: master
   api_key:
     secure: EfoKZDqabFLJywlGs7gpX0mPDdcmlaKm1CorhiMhrzTkh86q7++z1gk2QSa5IcrARUC9TlmHDE2mddMc4uNhVL7bY1GmTAEtG3F9HXSonXzoEKDhlayAxr8xOgp0kpJYVO/Zauq8nryp6kuWD93swOtMm1deYx8VPkPpqRZr6Le23B6YNcMRfFy5j1xp3MSLrCeleh8U74eJrU2ABodXZIC7QDuqLHr5im21lHqT0kqfe1kw4xW5vT6G8+f4J63DFWYHg+gTaWilZ5NJmre0KXUy1c/vqdT49Hci/33qTi2gBUmzoC4kkZA3AO9aMlqDH/UdDAkDFQAGXjix2Q5Cq8OGuZfkwloLv235iMtRsF3CfjXVuX7F45EdrE8xIaTVtfK3D2O+s3KinRuT+5EQtQmMN4DnBPewaBsOwo8v7qcWkR+e+Eko08aciw6RLcP85YwWYqgSe49qVWZ9YgdRA4KM/SU2/oCbMq3KYyP92N0GO+izPDzSoh6TZtajrK770ILUdPrMwBQ2fD1OY/HBdVopcyWj6KxYACISY53EyKBi1SdPq56v4GdvXXwWR90SGVjSb4+yc+2ao+QtRE6eTK+/q18ln/lSYaQfthseshlQTRmjAK24eiK9yeUVHnBndqLmEK8NN18uYwAXJkx1leruvAcvB3y7KGZVFAnNFzk=
+  app: apply-backend
+  on:
+    repo: alxrdev/apply-api
