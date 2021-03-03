@@ -38,7 +38,7 @@ describe('Test the RefreshTokenUseCase', () => {
       .mockImplementation(() => {
         const limit = new Date(Date.now())
         limit.setHours(limit.getHours() - 5)
-        return { id: '1', rule: 'employer', exp: limit.getTime() }
+        return { id: '1', role: 'employer', exp: limit.getTime() }
       })
 
     await expect(sut.execute('myFakeToken')).rejects.toThrowError(AuthenticationError)
@@ -51,7 +51,7 @@ describe('Test the RefreshTokenUseCase', () => {
   it('Should throw an UserNotFoundError when the user in the token payload does not exist', async () => {
     const sut = makeSut()
     const spyDecodeToken = jest.spyOn(fakeAuthService, 'decodeToken')
-      .mockImplementation(() => ({ id: '2', rule: 'employer', exp: Date.now() }))
+      .mockImplementation(() => ({ id: '2', role: 'employer', exp: Date.now() }))
     const spyFindById = jest.spyOn(userRepository, 'findById')
 
     await expect(sut.execute('myFakeToken')).rejects.toThrowError(UserNotFoundError)
