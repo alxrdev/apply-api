@@ -2,7 +2,9 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const smtpEnv = (process.env.SMTP_PROFILE) ? JSON.parse(process.env.SMTP_PROFILE) : JSON.parse('')
+const smtpEnv = (process.env.SMTP_PROFILE)
+  ? JSON.parse(process.env.SMTP_PROFILE)
+  : { provider: '', senderName: '', senderEmail: '', host: '', port: 0, username: '', password: '' }
 
 export interface MailProfile {
   provider: string

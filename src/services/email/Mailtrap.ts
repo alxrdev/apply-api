@@ -1,13 +1,10 @@
 import { injectable } from 'tsyringe'
-import dotenv from 'dotenv'
 import nodemailer, { Transporter } from 'nodemailer'
 
 import IMailService from './interfaces/IMailService'
 import IMailSettings from './interfaces/IMailSettings'
 import SendMailDTO from './interfaces/SendMailDTO'
 import AppError from '../../errors/AppError'
-
-dotenv.config()
 
 @injectable()
 export default class Mailtrap implements IMailService {
@@ -18,10 +15,6 @@ export default class Mailtrap implements IMailService {
   constructor (
     mailSettings: IMailSettings
   ) {
-    if (!mailSettings.host || !mailSettings.port || !mailSettings.username || !mailSettings.password) {
-      throw new AppError('Email service env variables not loaded.')
-    }
-
     this.senderEmail = mailSettings.senderEmail
     this.senderName = mailSettings.senderName
 

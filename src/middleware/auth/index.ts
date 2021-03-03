@@ -1,17 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
-import jsonWebToken from 'jsonwebtoken'
+import { container } from 'tsyringe'
 
-import { authSettings } from '../../services/auth'
 import { AuthenticationError } from '../../modules/auth/errors'
-import AppError from '../../errors/AppError'
+import ITokenBasedAuthService from '@src/services/auth/interfaces/ITokenBasedAuthService'
 
 const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {
+  const authService: ITokenBasedAuthService = container.resolve('AuthService')
   const jwtCookie = request.cookies['@Apply:token'] as string
   const { authorization } = request.headers as { authorization: string }
-
-  if (!authSettings.jwtSecret) {
-    throw new AppError('Jwt env variables not loaded.')
-  }
 
   if (!jwtCookie && (!authorization || !authorization.startsWith('Bearer'))) {
     throw new AuthenticationError('User not authenticated.', false, 401)
@@ -20,9 +16,7 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
   try {
     const token = jwtCookie || authorization.split(' ')[1]
 
-    const decoded = jsonWebToken.verify(token, authSettings.jwtSecret)
-
-    const { id, role } = decoded as { id: string; role: string }
+    const { id, role } = authService.decodeToken(token)
 
     request.user = { id, role }
 
