@@ -1,5 +1,5 @@
-import { User } from "@modules/users/entities"
-import UserMapper from "@modules/users/utils/UserMapper"
+import { User } from '@modules/users/entities'
+import UserMapper from '@modules/users/utils/UserMapper'
 
 describe('Test the UserMapper class', () => {
   it('Should convert an User object to an UserResponse', () => {

@@ -1,5 +1,5 @@
-import { InvalidArgumentError } from "@errors/index"
-import validatePasswordAndConfirmPassword from "@modules/users/utils/validatePasswordAndConfirmPassword"
+import { InvalidArgumentError } from '@errors/index'
+import validatePasswordAndConfirmPassword from '@modules/users/utils/validatePasswordAndConfirmPassword'
 
 describe('Test the validatePasswordAndConfirmPassword util function', () => {
   it('Should throw an InvalidArgumentError when passwords does not match', () => {

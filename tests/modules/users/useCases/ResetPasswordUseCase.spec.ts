@@ -1,10 +1,10 @@
-import { AppError, InvalidArgumentError } from "@errors/index"
-import { ResetPasswordDTO } from "@modules/users/dtos"
-import { User } from "@modules/users/entities"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
-import { ForgotPasswordUseCase, ResetPasswordUseCase } from "@modules/users/useCases"
-import FakeMail from "@services/email/FakeMail"
+import { AppError, InvalidArgumentError } from '@errors/index'
+import { ResetPasswordDTO } from '@modules/users/dtos'
+import { User } from '@modules/users/entities'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { ForgotPasswordUseCase, ResetPasswordUseCase } from '@modules/users/useCases'
+import FakeMail from '@services/email/FakeMail'
 
 const makeDto = (fields = {}): ResetPasswordDTO => {
   const data = { password: '12345678', confirmPassword: '12345678', token: '', ...fields }
@@ -17,9 +17,9 @@ const makeSut = (): ResetPasswordUseCase => new ResetPasswordUseCase(userReposit
 
 const makeForgotPassword = async (email: string, timeIsInvalid: boolean = false): Promise<string | undefined> => {
   jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-    return (timeIsInvalid) ? new Date(Date.now() - 40 * 60 * 1000).getTime() : new Date(Date.now() + 30 * 60 * 1000).getTime();
+    return (timeIsInvalid) ? new Date(Date.now() - 40 * 60 * 1000).getTime() : new Date(Date.now() + 30 * 60 * 1000).getTime()
   })
-  
+
   const forgotPasswordUseCase = new ForgotPasswordUseCase(userRepository, new FakeMail())
   return await forgotPasswordUseCase.execute({ email })
 }
@@ -28,7 +28,7 @@ describe('Tests the ResetPasswordUseCase class', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  
+
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
@@ -70,7 +70,7 @@ describe('Tests the ResetPasswordUseCase class', () => {
 
   it('Should update the user password, remove the resetPasswordToken and resetPasswordExpires', async () => {
     const token = await makeForgotPassword('user@email.com')
-    
+
     const resetPasswordUseCase = makeSut()
     const spyFindByResetPasswordToken = jest.spyOn(userRepository, 'findByResetPasswordToken')
     const spyUpdate = jest.spyOn(userRepository, 'update')

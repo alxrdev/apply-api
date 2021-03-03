@@ -9,40 +9,40 @@ let userRepository: IUserRepository
 const makeSut = () : ShowUserUseCase => new ShowUserUseCase(userRepository)
 
 describe('Test the ShowUserUseCase class', () => {
-    beforeEach(() => {
-        jest.clearAllMocks()
-    })
-    
-    beforeAll(async () => {
-        userRepository = new FakeUserRepository()
-        await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
-    })
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-    it('Should find an user by email', async () => {
-        const showUserUseCase = makeSut()
-        const spyFindByEmail = jest.spyOn(userRepository, 'findByEmail')
+  beforeAll(async () => {
+    userRepository = new FakeUserRepository()
+    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+  })
 
-        const result = await showUserUseCase.execute('user@email.com')
+  it('Should find an user by email', async () => {
+    const showUserUseCase = makeSut()
+    const spyFindByEmail = jest.spyOn(userRepository, 'findByEmail')
 
-        expect(result).toBeInstanceOf(User)
-        expect(result.email).toBe('user@email.com')
-        expect(spyFindByEmail).toHaveBeenCalled()
-    })
+    const result = await showUserUseCase.execute('user@email.com')
 
-    it('Should find an user by id', async () => {
-        const showUserUseCase = makeSut()
-        const spyFindById = jest.spyOn(userRepository, 'findById')
+    expect(result).toBeInstanceOf(User)
+    expect(result.email).toBe('user@email.com')
+    expect(spyFindByEmail).toHaveBeenCalled()
+  })
 
-        const result = await showUserUseCase.execute('1')
+  it('Should find an user by id', async () => {
+    const showUserUseCase = makeSut()
+    const spyFindById = jest.spyOn(userRepository, 'findById')
 
-        expect(result).toBeInstanceOf(User)
-        expect(result.id).toBe('1')
-        expect(spyFindById).toHaveBeenCalled()
-    })
+    const result = await showUserUseCase.execute('1')
 
-    it('Should return an UserNotFoundError when the user does not exists', async () => {
-        const showUserUseCase = makeSut()
+    expect(result).toBeInstanceOf(User)
+    expect(result.id).toBe('1')
+    expect(spyFindById).toHaveBeenCalled()
+  })
 
-        await expect(showUserUseCase.execute('user@invalid.com')).rejects.toThrowError(UserNotFoundError)
-    })
+  it('Should return an UserNotFoundError when the user does not exists', async () => {
+    const showUserUseCase = makeSut()
+
+    await expect(showUserUseCase.execute('user@invalid.com')).rejects.toThrowError(UserNotFoundError)
+  })
 })

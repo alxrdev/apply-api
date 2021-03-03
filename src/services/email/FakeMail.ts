@@ -1,8 +1,9 @@
-import IMailService from "./interfaces/IMailService";
-import SendMailDTO from "./interfaces/SendMailDTO";
+import { injectable } from 'tsyringe'
+import IMailService from './interfaces/IMailService'
 
+@injectable()
 export default class FakeMail implements IMailService {
-  public async sendMail(data: SendMailDTO): Promise<void> {
-    // 
+  public async sendMail (): Promise<void> {
+    //
   }
 }

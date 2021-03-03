@@ -12,6 +12,7 @@
     "emitDecoratorMetadata": true,
     "baseUrl": "./src",
     "paths": {
+      "@src/*": ["./*"],
       "@configs/*": ["configs/*"],
       "@errors/*": ["errors/*"],
       "@middleware/*": ["middleware/*"],

@@ -1,24 +1,24 @@
-import { Address, Job, UserApplied } from "@modules/jobs/entities"
-import JobMapper from "@modules/jobs/utils/JobMapper"
-import { User } from "@modules/users/entities"
+import { Address, Job, UserApplied } from '@modules/jobs/entities'
+import JobMapper from '@modules/jobs/utils/JobMapper'
+import { User } from '@modules/users/entities'
 
 const makeJob = (fields = {}) : Job => {
-	const data = {
-		id: '1', 
-		user: new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''), 
-		title: 'First job',
-		description: 'this is the first job', 
-		address: new Address('ES', 'São Mateus'), 
-		jobType: 'full-time', 
-		salary: 1200.00, 
-		createdAt: new Date(),
-		...fields
-	}
-	
-	return new Job(data.id, data.user, data.title, data.description, data.address, data.jobType, data.salary, data.createdAt)
+  const data = {
+    id: '1',
+    user: new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''),
+    title: 'First job',
+    description: 'this is the first job',
+    address: new Address('ES', 'São Mateus'),
+    jobType: 'full-time',
+    salary: 1200.00,
+    createdAt: new Date(),
+    ...fields
+  }
+
+  return new Job(data.id, data.user, data.title, data.description, data.address, data.jobType, data.salary, data.createdAt)
 }
 
-const makeUserApplied = (fields = {}) : UserApplied => {
+const makeUserApplied = () : UserApplied => {
   return {
     user: new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''),
     resume: 'resume.pdf'

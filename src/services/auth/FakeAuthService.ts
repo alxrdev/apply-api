@@ -1,22 +1,21 @@
-import { AppError } from "@errors/index";
-import { User } from "@modules/users/entities";
-import IAuthService from "./interfaces/IAuthService";
-import ITokenBasedAuthService from "./interfaces/ITokenBasedAuthService";
+import { AppError } from '@errors/index'
+import IAuthService from './interfaces/IAuthService'
+import ITokenBasedAuthService from './interfaces/ITokenBasedAuthService'
 
 export default class FakeAuthService implements IAuthService, ITokenBasedAuthService {
-  authenticateUser(user: User): string {
-    return this.generateToken(user)
+  authenticateUser (): string {
+    return this.generateToken()
   }
 
-  generateToken(user: User) : string {
+  generateToken () : string {
     return 'myFakeToken'
   }
 
-  decodeToken(token: string) {
+  decodeToken (token: string) {
     if (token !== 'myFakeToken') {
       throw new AppError('error')
     }
 
-    return { id: '1', rule: 'employer', exp: Date.now() }
+    return { id: '1', role: 'employer', exp: Date.now() }
   }
 }

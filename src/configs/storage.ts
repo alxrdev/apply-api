@@ -3,7 +3,12 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const storageType = process.env.STORAGE_TYPE || 'disk'
-const storageProfiles = (process.env.STORAGE_PROFILES) ? JSON.parse(process.env.STORAGE_PROFILES) : JSON.parse('')
+const storageProfiles = (process.env.STORAGE_PROFILES)
+  ? JSON.parse(process.env.STORAGE_PROFILES)
+  : {
+    avatar: { tmpDestination: '', destination: '', extensionTypes: '', mimeTypes: '', maxSize: '' },
+    resume: { tmpDestination: '', destination: '', extensionTypes: '', mimeTypes: '', maxSize: '' }
+  }
 
 export { storageType }
 

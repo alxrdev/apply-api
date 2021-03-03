@@ -1,11 +1,11 @@
-import { ForgotPasswordDTO } from "@modules/users/dtos"
-import { User } from "@modules/users/entities"
-import { UserNotFoundError } from "@modules/users/errors"
-import FakeUserRepository from "@modules/users/repositories/fake/FakeUserRepository"
-import IUserRepository from "@modules/users/repositories/IUserRepository"
-import { ForgotPasswordUseCase } from "@modules/users/useCases"
-import FakeMail from "@services/email/FakeMail"
-import IMailService from "@services/email/interfaces/IMailService"
+import { ForgotPasswordDTO } from '@modules/users/dtos'
+import { User } from '@modules/users/entities'
+import { UserNotFoundError } from '@modules/users/errors'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { ForgotPasswordUseCase } from '@modules/users/useCases'
+import FakeMail from '@services/email/FakeMail'
+import IMailService from '@services/email/interfaces/IMailService'
 
 const makeDto = (fields = {}) : ForgotPasswordDTO => {
   const data = { email: 'user@email.com', ...fields }
@@ -65,7 +65,7 @@ describe('Test the ForgotPasswordUseCase class', () => {
     const dto = makeDto()
 
     await forgotPasswordUseCase.execute(dto)
-    
+
     expect(spyFindByEmail).toHaveBeenCalled()
     expect(spyUpdate).toHaveBeenCalled()
     expect(spySendMail).toHaveBeenCalled()
