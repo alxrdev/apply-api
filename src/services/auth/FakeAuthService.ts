@@ -16,6 +16,6 @@ export default class FakeAuthService implements IAuthService, ITokenBasedAuthSer
       throw new AppError('error')
     }
 
-    return { id: '1', rule: 'employer', exp: Date.now() }
+    return { id: '1', role: 'employer', exp: Date.now() }
   }
 }
