@@ -7,13 +7,13 @@
     "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "start": "node dist/src/server.js",
     "build": "tsc",
-    "test": "jest --no-cache",
-    "test:dev": "jest --no-cache --watchAll",
+    "test": "jest",
+    "test:dev": "jest --watchAll",
     "lint": "eslint --ext .ts --fix ./"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn eslint --ext .ts --fix ./ && yarn jest"
+      "pre-commit": "yarn lint"
     }
   },
   "_moduleAliases": {

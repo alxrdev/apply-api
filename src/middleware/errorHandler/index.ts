@@ -8,7 +8,7 @@ const env = process.env.NODE_ENV ?? 'production'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const apiErrorHandlerMiddleware = (error: Error, request: Request, response: Response, _: NextFunction) => {
-  if (env === 'development') {
+  if (env !== 'production') {
     if (error instanceof AppError) {
       return response
         .status(error.statusCode)
