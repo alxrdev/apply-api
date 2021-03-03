@@ -2,7 +2,7 @@ import { User } from '@modules/users/entities'
 
 export interface Payload {
   id: string
-  rule: string
+  role: string
   exp: number
 }
 
