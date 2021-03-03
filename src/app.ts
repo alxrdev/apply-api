@@ -6,8 +6,6 @@ import helmet from 'helmet'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import { origin, nodeEnvironment } from './configs/base'
-
 import routes from './routes'
 import apiErrorHandlerMiddleware from './middleware/errorHandler'
 
@@ -36,11 +34,12 @@ class App {
 
     this.server.use(cors({
       origin: function (or, callback) {
-        if ((or && origin.indexOf(or) !== -1) || nodeEnvironment !== 'production') {
-          return callback(null, true)
-        } else {
-          return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false)
-        }
+        // if ((or && origin.indexOf(or) !== -1) || nodeEnvironment !== 'production') {
+        //   return callback(null, true)
+        // } else {
+        //   return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false)
+        // }
+        return callback(null, true)
       },
       optionsSuccessStatus: 200,
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
