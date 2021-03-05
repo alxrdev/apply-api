@@ -38,7 +38,7 @@ describe('Test the RefreshTokenUseCase', () => {
       .mockImplementation(() => {
         const limit = new Date(Date.now())
         limit.setHours(limit.getHours() - 5)
-        return { id: '1', role: 'employer', exp: limit.getTime() }
+        return { id: '1', rule: 'employer', exp: limit.getTime() / 1000 }
       })
 
     await expect(sut.execute('myFakeToken')).rejects.toThrowError(AuthenticationError)

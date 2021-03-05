@@ -25,7 +25,7 @@ export default class RefreshTokenUseCase {
     }
 
     // config the limit time to refresh the token in 1 hour after expires time
-    const limitTime = new Date(decodedToken.exp)
+    const limitTime = new Date(decodedToken.exp * 1000)
     limitTime.setHours(limitTime.getHours() + 1)
 
     if (limitTime.getTime() <= Date.now()) {
