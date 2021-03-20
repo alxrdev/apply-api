@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import { RefreshTokenUseCase } from '../useCases'
 import UserMapper from '../../users/utils/UserMapper'
+import { nodeEnvironment } from '@src/configs/base'
 
 @injectable()
 export default class RefreshTokenController {
@@ -27,7 +28,7 @@ export default class RefreshTokenController {
       }
 
       return response.status(200)
-        .cookie('@Apply:token', result.token, { httpOnly: true, path: '/', expires: cookieExpiresDate(), sameSite: 'none', secure: true })
+        .cookie('@Apply:token', result.token, { httpOnly: true, path: '/', expires: cookieExpiresDate(), sameSite: 'none', secure: (nodeEnvironment === 'production') })
         .json({
           success: true,
           message: 'Token refreshed.',
