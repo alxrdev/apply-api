@@ -1,8 +1,8 @@
 import { AppError } from '@errors/index'
-import IAuthService from './interfaces/IAuthService'
-import ITokenBasedAuthService from './interfaces/ITokenBasedAuthService'
+import IAuthProvider from './interfaces/IAuthProvider'
+import ITokenBasedAuthProvider from './interfaces/ITokenBasedAuthProvider'
 
-export default class FakeAuthService implements IAuthService, ITokenBasedAuthService {
+export default class FakeAuthProvider implements IAuthProvider, ITokenBasedAuthProvider {
   authenticateUser (): string {
     return this.generateToken()
   }

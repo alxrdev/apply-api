@@ -8,8 +8,8 @@ import { ApplyToJobUseCase } from '@modules/jobs/useCases'
 import { User } from '@modules/users/entities'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import IStorageService from '@services/storage/interfaces/IStorageService'
+import FakeStorageService from '@providers/storage/FakeStorageService'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
 
 let userRepository: IUserRepository
 let jobRepository: IJobRepository

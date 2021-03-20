@@ -5,8 +5,8 @@ import { UserNotFoundError } from '@modules/users/errors'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { UpdateUserAvatarUseCase } from '@modules/users/useCases'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import IStorageService from '@services/storage/interfaces/IStorageService'
+import FakeStorageService from '@src/providers/storage/FakeStorageService'
+import IStorageService from '@src/providers/storage/interfaces/IStorageService'
 
 const makeDto = (fields = {}) : UpdateUserAvatarDTO => {
   const data = { id: '2', authId: '2', avatar: 'avatar.jpg', ...fields }

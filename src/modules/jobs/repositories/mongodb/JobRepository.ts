@@ -1,16 +1,16 @@
 import { MongooseFilterQuery } from 'mongoose'
 
-import IJobRepository from '../IJobRepository'
-import jobModel, { IJob } from '../../../../services/database/mongodb/schemas/job'
-import UserRepository from '../../../users/repositories/mongodb/UserRepository'
-import { IUser } from '../../../../services/database/mongodb/schemas/user'
-import { Job, FilesToDeleteCollection, FileToDelete, Address, UserApplied } from '../../entities'
-import { CollectionResponse } from '@src/modules/shared/entities'
-import { ListJobsFiltersDTO } from '../../dtos'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import jobModel, { IJob } from '@providers/database/mongodb/schemas/job'
+import UserRepository from '@modules/users/repositories/mongodb/UserRepository'
+import { IUser } from '@providers/database/mongodb/schemas/user'
+import { Job, FilesToDeleteCollection, FileToDelete, Address, UserApplied } from '@modules/jobs/entities'
+import { CollectionResponse } from '@modules/shared/entities'
+import { ListJobsFiltersDTO } from '@modules/jobs/dtos'
 
-import { JobNotFoundError } from '../../errors'
-import { UserNotFoundError } from '../../../users/errors'
-import { AppError } from '../../../../errors'
+import { JobNotFoundError } from '@modules/jobs/errors'
+import { UserNotFoundError } from '@modules/users/errors'
+import { AppError } from '@errors/index'
 
 export default class JobRepository implements IJobRepository {
   public async findById (id: string): Promise<Job> {

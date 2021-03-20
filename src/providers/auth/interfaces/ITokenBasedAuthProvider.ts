@@ -6,7 +6,7 @@ export interface Payload {
   exp: number
 }
 
-export default interface ITokenBasedAuthService {
+export default interface ITokenBasedAuthProvider {
   generateToken(entity: User) : string
   decodeToken(token: string) : Payload
 }

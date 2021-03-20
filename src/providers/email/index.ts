@@ -1,8 +1,8 @@
 import IMailSettings from './interfaces/IMailSettings'
-import { smtpProfile } from '../../configs/email'
+import { smtpProfile } from '@configs/email'
 import Mailtrap from './Mailtrap'
 
-const mailServiceSettings: IMailSettings = {
+const mailProviderSettings: IMailSettings = {
   senderName: smtpProfile.senderName,
   senderEmail: smtpProfile.senderEmail,
   host: smtpProfile.host,
@@ -11,6 +11,6 @@ const mailServiceSettings: IMailSettings = {
   password: smtpProfile.password
 }
 
-// const mailService = (smtpProfile.provider === 'mailtrap') ? new Mailtrap(mailServiceSettings) :
+// const mailService = (smtpProfile.provider === 'mailtrap') ? new Mailtrap(mailProviderSettings) :
 
-export const mailService = new Mailtrap(mailServiceSettings)
+export const mailProvider = new Mailtrap(mailProviderSettings)

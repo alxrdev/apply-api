@@ -4,7 +4,7 @@ import { User } from '@modules/users/entities'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { ForgotPasswordUseCase, ResetPasswordUseCase } from '@modules/users/useCases'
-import FakeMail from '@services/email/FakeMail'
+import FakeMail from '@providers/email/FakeMail'
 
 const makeDto = (fields = {}): ResetPasswordDTO => {
   const data = { password: '12345678', confirmPassword: '12345678', token: '', ...fields }

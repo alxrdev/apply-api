@@ -1,16 +1,13 @@
 import { injectable, inject } from 'tsyringe'
-import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 
-import IUserRepository from '../../users/repositories/IUserRepository'
-import IAuthService from '../../../services/auth/interfaces/IAuthService'
-import { User } from '../../users/entities'
-import { AuthDTO } from '../dtos'
-import { IAuthResponse } from '../entities'
-import validateClassParameters from '../../../utils/validateClassParameters'
-import { AuthenticationError } from '../errors'
-
-dotenv.config()
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import IAuthProvider from '@src/providers/auth/interfaces/IAuthProvider'
+import { AuthDTO } from '@modules/auth/dtos'
+import { IAuthResponse } from '@modules/auth/entities'
+import { AuthenticationError } from '@modules/auth/errors'
+import { User } from '@modules/users/entities'
+import validateClassParameters from '@utils/validateClassParameters'
 
 @injectable()
 export default class AuthenticateUserUseCase {
@@ -18,8 +15,8 @@ export default class AuthenticateUserUseCase {
     @inject('UserRepository')
     private readonly userRepository: IUserRepository,
 
-    @inject('AuthService')
-    private readonly authService: IAuthService
+    @inject('AuthProvider')
+    private readonly authProvider: IAuthProvider
   ) {}
 
   public async execute (userDto: AuthDTO): Promise<IAuthResponse> {
@@ -39,7 +36,7 @@ export default class AuthenticateUserUseCase {
       throw new AuthenticationError('Incorrect email/password combination.', false, 401)
     }
 
-    const token = this.authService.authenticateUser(user)
+    const token = this.authProvider.authenticateUser(user)
 
     return {
       user,

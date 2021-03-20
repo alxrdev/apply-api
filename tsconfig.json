@@ -17,7 +17,7 @@
       "@errors/*": ["errors/*"],
       "@middleware/*": ["middleware/*"],
       "@modules/*": ["modules/*"],
-      "@services/*": ["services/*"],
+      "@providers/*": ["providers/*"],
       "@utils/*": ["utils/*"],
       "@tests/*": ["../tests/*"]
     },

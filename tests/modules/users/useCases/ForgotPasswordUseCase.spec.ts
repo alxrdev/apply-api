@@ -4,8 +4,8 @@ import { UserNotFoundError } from '@modules/users/errors'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { ForgotPasswordUseCase } from '@modules/users/useCases'
-import FakeMail from '@services/email/FakeMail'
-import IMailService from '@services/email/interfaces/IMailService'
+import FakeMail from '@providers/email/FakeMail'
+import IMailProvider from '@src/providers/email/interfaces/IMailProvider'
 
 const makeDto = (fields = {}) : ForgotPasswordDTO => {
   const data = { email: 'user@email.com', ...fields }
@@ -14,7 +14,7 @@ const makeDto = (fields = {}) : ForgotPasswordDTO => {
 }
 
 let userRepository: IUserRepository
-let fakeMail: IMailService
+let fakeMail: IMailProvider
 
 const makeSut = () : ForgotPasswordUseCase => new ForgotPasswordUseCase(userRepository, fakeMail)
 

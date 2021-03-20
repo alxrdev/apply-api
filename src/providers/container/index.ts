@@ -9,11 +9,11 @@ import UserRepository from '../../modules/users/repositories/mongodb/UserReposit
 import IStorageService from '../storage/interfaces/IStorageService'
 import { resumeStorageService, avatarStorageService } from '../storage'
 
-import IMailService from '../email/interfaces/IMailService'
-import { mailService } from '../email'
+import IMailProvider from '../email/interfaces/IMailProvider'
+import { mailProvider } from '../email'
 
-import IAuthService from '../auth/interfaces/IAuthService'
-import { authService } from '../auth'
+import IAuthProvider from '../auth/interfaces/IAuthProvider'
+import JwtAuthProvider from '../auth/JwtAuthProvider'
 
 container.registerSingleton<IJobRepository>('JobRepository', JobRepository)
 
@@ -23,6 +23,6 @@ container.register<IStorageService>('ResumeStorageService', { useValue: resumeSt
 
 container.register<IStorageService>('AvatarStorageService', { useValue: avatarStorageService })
 
-container.register<IMailService>('MailService', { useValue: mailService })
+container.register<IMailProvider>('MailProvider', { useValue: mailProvider })
 
-container.register<IAuthService>('AuthService', { useValue: authService })
+container.register<IAuthProvider>('AuthProvider', JwtAuthProvider)

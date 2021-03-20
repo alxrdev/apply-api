@@ -7,8 +7,8 @@ import { User } from '@modules/users/entities'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { CreateUserUseCase } from '@modules/users/useCases'
-import FakeAuthService from '@services/auth/FakeAuthService'
-import IAuthService from '@services/auth/interfaces/IAuthService'
+import FakeAuthProvider from '@src/providers/auth/FakeAuthProvider'
+import IAuthProvider from '@src/providers/auth/interfaces/IAuthProvider'
 
 const makeDto = (fields = {}) : AuthDTO => {
   const data = { email: 'employeer@email.com', password: 'password', ...fields }
@@ -16,9 +16,9 @@ const makeDto = (fields = {}) : AuthDTO => {
 }
 
 let userRepository: IUserRepository
-let fakeAuthService: IAuthService
+let fakeAuthProvider: IAuthProvider
 
-const makeSut = () : AuthenticateUserUseCase => new AuthenticateUserUseCase(userRepository, fakeAuthService)
+const makeSut = () : AuthenticateUserUseCase => new AuthenticateUserUseCase(userRepository, fakeAuthProvider)
 
 describe('Test the AuthenticateUserUseCase', () => {
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('Test the AuthenticateUserUseCase', () => {
 
     await new CreateUserUseCase(userRepository).execute(Object.assign(new CreateUserDTO(), { name: 'employer', email: 'employeer@email.com', role: 'employer', password: 'password', confirmPassword: 'password' }))
 
-    fakeAuthService = new FakeAuthService()
+    fakeAuthProvider = new FakeAuthProvider()
   })
 
   it('Should throw an AppError when a required field is not provided', async () => {
@@ -62,7 +62,7 @@ describe('Test the AuthenticateUserUseCase', () => {
     const sut = makeSut()
     const dto = makeDto()
     const spyFindByEmail = jest.spyOn(userRepository, 'findByEmail')
-    const spyAuthenticateUser = jest.spyOn(fakeAuthService, 'authenticateUser')
+    const spyAuthenticateUser = jest.spyOn(fakeAuthProvider, 'authenticateUser')
 
     const auth = await sut.execute(dto)
 

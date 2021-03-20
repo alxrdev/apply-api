@@ -1,6 +1,6 @@
 import multer from 'multer'
 import path from 'path'
-import IStorageSettings from '@services/storage/interfaces/IStorageSettings'
+import IStorageSettings from '@providers/storage/interfaces/IStorageSettings'
 import InvalidArgumentError from '@errors/InvalidArgumentError'
 
 const fileUpload = (storageSettings: IStorageSettings) => {

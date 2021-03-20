@@ -1,16 +1,22 @@
 import { injectable } from 'tsyringe'
 import jsonWebToken from 'jsonwebtoken'
 
-import IAuthService from './interfaces/IAuthService'
-import { User } from '../../modules/users/entities'
+import IAuthProvider from './interfaces/IAuthProvider'
+import { User } from '@modules/users/entities'
 import IAuthSettings from './interfaces/IAuthSettings'
-import ITokenBasedAuthService, { Payload } from './interfaces/ITokenBasedAuthService'
+import { jwtProfile } from '@configs/auth'
+import ITokenBasedAuthProvider, { Payload } from './interfaces/ITokenBasedAuthProvider'
 
 @injectable()
-export default class JwtAuthService implements IAuthService, ITokenBasedAuthService {
-  constructor (
-    private readonly authSettings: IAuthSettings
-  ) {}
+export default class JwtAuthProvider implements IAuthProvider, ITokenBasedAuthProvider {
+  private readonly authSettings: IAuthSettings
+
+  constructor () {
+    this.authSettings = {
+      jwtSecret: jwtProfile.jwtSecret,
+      jwtExpiresTime: jwtProfile.jwtExpiresTime
+    }
+  }
 
   public authenticateUser (user: User): string {
     return this.generateToken(user)
@@ -20,7 +26,7 @@ export default class JwtAuthService implements IAuthService, ITokenBasedAuthServ
     const token = jsonWebToken.sign(
       { id: user.id, role: user.role },
       this.authSettings.jwtSecret,
-      { expiresIn: this.authSettings.jwtExpirestTime }
+      { expiresIn: this.authSettings.jwtExpiresTime }
     )
 
     return token

@@ -7,8 +7,8 @@ import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
 import { Address, Job } from '@modules/jobs/entities'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import IStorageService from '@services/storage/interfaces/IStorageService'
+import FakeStorageService from '@providers/storage/FakeStorageService'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
 
 const makeDto = (fields = {}) : DeleteUserDTO => {
   const data = { id: '1', authUserId: '1', ...fields }

@@ -4,8 +4,8 @@ import { User } from '@modules/users/entities'
 import { UserNotFoundError } from '@modules/users/errors'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
-import ITokenBasedAuthService from '@services/auth/interfaces/ITokenBasedAuthService'
-import FakeAuthService from '@services/auth/FakeAuthService'
+import ITokenBasedAuthProvider from '@src/providers/auth/interfaces/ITokenBasedAuthProvider'
+import FakeAuthProvider from '@src/providers/auth/FakeAuthProvider'
 
 const makeUser = () => User.builder()
   .withId('1')
@@ -17,9 +17,9 @@ const makeUser = () => User.builder()
   .build()
 
 let userRepository: IUserRepository
-let fakeAuthService: ITokenBasedAuthService
+let fakeAuthProvider: ITokenBasedAuthProvider
 
-const makeSut = () : RefreshTokenUseCase => new RefreshTokenUseCase(userRepository, fakeAuthService)
+const makeSut = () : RefreshTokenUseCase => new RefreshTokenUseCase(userRepository, fakeAuthProvider)
 
 describe('Test the RefreshTokenUseCase', () => {
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('Test the RefreshTokenUseCase', () => {
     userRepository = new FakeUserRepository()
     await userRepository.create(makeUser())
 
-    fakeAuthService = new FakeAuthService()
+    fakeAuthProvider = new FakeAuthProvider()
   })
 
   it('Should throw an AuthenticationError when an invalid token is provided', async () => {
@@ -41,7 +41,7 @@ describe('Test the RefreshTokenUseCase', () => {
 
   it('Should throw an AuthenticationError when trying to refresh the token after the timeout', async () => {
     const sut = makeSut()
-    const spyDecodeToken = jest.spyOn(fakeAuthService, 'decodeToken')
+    const spyDecodeToken = jest.spyOn(fakeAuthProvider, 'decodeToken')
       .mockImplementation(() => {
         const limit = new Date(Date.now())
         limit.setHours(limit.getHours() - 5)
@@ -57,7 +57,7 @@ describe('Test the RefreshTokenUseCase', () => {
 
   it('Should throw an UserNotFoundError when the user in the token payload does not exist', async () => {
     const sut = makeSut()
-    const spyDecodeToken = jest.spyOn(fakeAuthService, 'decodeToken')
+    const spyDecodeToken = jest.spyOn(fakeAuthProvider, 'decodeToken')
       .mockImplementation(() => ({ id: '2', role: 'employer', exp: Date.now() }))
     const spyFindById = jest.spyOn(userRepository, 'findById')
 
@@ -71,7 +71,7 @@ describe('Test the RefreshTokenUseCase', () => {
 
   it('Should return the authenticated user and the token', async () => {
     const sut = makeSut()
-    const spyDecodeToken = jest.spyOn(fakeAuthService, 'decodeToken')
+    const spyDecodeToken = jest.spyOn(fakeAuthProvider, 'decodeToken')
     const spyFindById = jest.spyOn(userRepository, 'findById')
 
     const auth = await sut.execute('myFakeToken')

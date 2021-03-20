@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe'
 
-import IJobRepository from '../repositories/IJobRepository'
-import IStorageService from '../../../services/storage/interfaces/IStorageService'
-import { DeleteJobDTO } from '../dtos'
-import AppError from '../../../errors/AppError'
-import validateClassParameters from '../../../utils/validateClassParameters'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
+import { DeleteJobDTO } from '@modules/jobs/dtos'
+import AppError from '@errors/AppError'
+import validateClassParameters from '@utils/validateClassParameters'
 
 @injectable()
 export default class DeleteJobUseCase {
