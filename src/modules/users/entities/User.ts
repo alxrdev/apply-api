@@ -1,4 +1,4 @@
-import UserBuilder from './UserBuilder'
+import UserBuilder from '@modules/users/utils/UserBuilder'
 
 export default class User {
   public id: string

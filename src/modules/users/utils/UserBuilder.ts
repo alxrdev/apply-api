@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 
-import User from './User'
+import User from '@modules/users/entities/User'
 
 export default class UserBuilder {
   public id: string = uuid()
