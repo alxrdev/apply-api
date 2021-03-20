@@ -25,4 +25,4 @@ container.register<IStorageService>('AvatarStorageService', { useValue: avatarSt
 
 container.register<IMailProvider>('MailProvider', { useValue: mailProvider })
 
-container.register<IAuthProvider>('AuthProvider', JwtAuthProvider)
+container.register<IAuthProvider>('AuthProvider', { useValue: new JwtAuthProvider() })
