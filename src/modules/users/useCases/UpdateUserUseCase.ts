@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe'
 
-import IUserRepository from '../repositories/IUserRepository'
-import { UpdateUserDTO } from '../dtos'
-import { User } from '../entities'
-import validateClassParameters from '../../../utils/validateClassParameters'
-import { AppError } from '../../../errors'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { UpdateUserDTO } from '@modules/users/dtos'
+import { User } from '@modules/users/entities'
+import validateClassParameters from '@utils/validateClassParameters'
+import { AppError } from '@errors/index'
 
 @injectable()
 export default class UpdateUserUseCase {

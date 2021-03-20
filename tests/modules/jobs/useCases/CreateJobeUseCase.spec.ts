@@ -23,7 +23,16 @@ const makeSut = () : CreateJobUseCase => new CreateJobUseCase(jobRepository, use
 describe('Test the CreateJobUseCase class', () => {
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
+    userRepository.create(User.builder()
+      .withId('1')
+      .withName('John Doe')
+      .withEmail('user@email.com')
+      .withRole('employer')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .build()
+    )
 
     jobRepository = new FakeJobRepository(userRepository)
   })

@@ -18,7 +18,7 @@ const makeSut = () : CreateUserUseCase => new CreateUserUseCase(userRepository)
 describe('Test the CreateUserUseCase class', () => {
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder().withName('user').withEmail('user@email.com').withPassword('password'))
   })
 
   it('Should create and return a new user', async () => {

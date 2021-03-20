@@ -4,7 +4,15 @@ import UserMapper from '@modules/users/utils/UserMapper'
 describe('Test the UserMapper class', () => {
   it('Should convert an User object to an UserResponse', () => {
     const date = new Date(Date.now())
-    const user = new User('1', 'John Doe', 'user@email.com', 'user', 'avatar.jpg', 'mypassword', 'my headline', '', '', date)
+    const user = User.builder()
+      .withId('1')
+      .withName('John Doe')
+      .withEmail('user@email.com')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .withCreatedAt(date)
+      .build()
     const userResponse = UserMapper.fromUserToUserResponse(user, false)
 
     expect(userResponse).toHaveProperty('id', '1')
@@ -20,7 +28,15 @@ describe('Test the UserMapper class', () => {
 
   it('Should convert an User object to an UserResponse without email field', () => {
     const date = new Date(Date.now())
-    const user = new User('1', 'John Doe', 'user@email.com', 'user', 'avatar.jpg', 'mypassword', 'my headline', '', '', date)
+    const user = User.builder()
+      .withId('1')
+      .withName('John Doe')
+      .withEmail('user@email.com')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .withCreatedAt(date)
+      .build()
     const userResponse = UserMapper.fromUserToUserResponse(user, true)
 
     expect(userResponse).toHaveProperty('id', '1')

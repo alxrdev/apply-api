@@ -7,7 +7,14 @@ import IUserRepository from '@modules/users/repositories/IUserRepository'
 import ITokenBasedAuthService from '@services/auth/interfaces/ITokenBasedAuthService'
 import FakeAuthService from '@services/auth/FakeAuthService'
 
-const makeUser = () => new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', '')
+const makeUser = () => User.builder()
+  .withId('1')
+  .withName('employer')
+  .withEmail('employer@email.com')
+  .withAvatar('employer.jpg')
+  .withRole('employer')
+  .withPassword('password')
+  .build()
 
 let userRepository: IUserRepository
 let fakeAuthService: ITokenBasedAuthService

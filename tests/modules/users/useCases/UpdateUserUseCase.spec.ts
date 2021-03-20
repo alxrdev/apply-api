@@ -22,7 +22,14 @@ describe('Test the UpdateUserUseCase class', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('user')
+      .withEmail('user@email.com')
+      .withAvatar('user.jpg')
+      .withPassword('password')
+      .build()
+    )
   })
 
   it('Should update and return the user', async () => {

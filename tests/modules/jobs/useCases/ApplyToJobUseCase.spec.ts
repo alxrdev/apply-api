@@ -29,8 +29,24 @@ describe('Test the ApplyToJobUseCase', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
-    await userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('employer')
+      .withEmail('employer@email.com')
+      .withAvatar('employer.jpg')
+      .withRole('employer')
+      .withPassword('password')
+      .build()
+    )
+    await userRepository.create(User.builder()
+      .withId('2')
+      .withName('John Doe')
+      .withEmail('user@email.com')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .build()
+    )
 
     jobRepository = new FakeJobRepository(userRepository)
     const job = new Job(

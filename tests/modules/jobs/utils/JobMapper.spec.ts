@@ -5,7 +5,14 @@ import { User } from '@modules/users/entities'
 const makeJob = (fields = {}) : Job => {
   const data = {
     id: '1',
-    user: new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''),
+    user: User.builder()
+      .withId('2')
+      .withName('John Doe')
+      .withEmail('user2@email.com')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .build(),
     title: 'First job',
     description: 'this is the first job',
     address: new Address('ES', 'São Mateus'),
@@ -20,7 +27,14 @@ const makeJob = (fields = {}) : Job => {
 
 const makeUserApplied = () : UserApplied => {
   return {
-    user: new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''),
+    user: User.builder()
+      .withId('2')
+      .withName('John Doe')
+      .withEmail('user2@email.com')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .build(),
     resume: 'resume.pdf'
   }
 }

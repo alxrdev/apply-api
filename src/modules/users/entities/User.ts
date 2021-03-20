@@ -1,3 +1,5 @@
+import UserBuilder from './UserBuilder'
+
 export default class User {
   public id: string
   public name: string
@@ -12,7 +14,7 @@ export default class User {
   public resetPasswordToken?: string
   public resetPasswordExpire?: Date
 
-  constructor (id: string, name: string, email: string, role: string, avatar: string, password: string, headline: string, address: string, bio: string, createdAt: Date = new Date(), resetPasswordToken?: string, resetPasswordExpire?: Date) {
+  constructor (id: string, name: string, email: string, role: string, avatar: string, password: string, headline: string, address: string, bio: string, createdAt: Date, resetPasswordToken?: string, resetPasswordExpire?: Date) {
     this.id = id
     this.name = name
     this.email = email
@@ -25,5 +27,9 @@ export default class User {
     this.createdAt = createdAt
     this.resetPasswordToken = resetPasswordToken
     this.resetPasswordExpire = resetPasswordExpire
+  }
+
+  public static builder () : UserBuilder {
+    return new UserBuilder()
   }
 }
