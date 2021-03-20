@@ -1,7 +1,8 @@
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
 import { inject, injectable } from 'tsyringe'
 
-import { Job, CollectionResponse, FilesToDeleteCollection, FileToDelete, UserApplied } from '@modules/jobs/entities'
+import { Job, FilesToDeleteCollection, FileToDelete, UserApplied } from '@modules/jobs/entities'
+import { CollectionResponse } from '@modules/shared/entities'
 import { ListJobsFiltersDTO } from '@modules/jobs/dtos'
 
 import { JobNotFoundError } from '@modules/jobs/errors'
