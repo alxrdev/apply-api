@@ -1,9 +1,9 @@
 import { container } from 'tsyringe'
 import { Router } from 'express'
 
-import { isAuthenticated, authorizedRole } from '../../middleware/auth'
-import { avatarStorageSettings } from '../../services/storage'
-import fileUpload from '../../middleware/fileUpload'
+import { isAuthenticated, authorizedRole } from '@middleware/auth'
+import fileUpload from '@src/middleware/fileUploader'
+import { avatarStorageSettings } from '@services/storage'
 
 import { UsersController, ForgotPasswordController, ResetPasswordController, UsersAvatarController } from './controllers'
 

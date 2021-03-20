@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { container } from 'tsyringe'
 
-import { AuthenticationError } from '../../modules/auth/errors'
+import { AuthenticationError } from '@modules/auth/errors'
 import ITokenBasedAuthService from '@src/services/auth/interfaces/ITokenBasedAuthService'
 
 const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {

@@ -2,7 +2,7 @@ import { container } from 'tsyringe'
 import { Router } from 'express'
 
 import { AuthController, RefreshTokenController } from './controllers'
-import { isAuthenticated } from '@src/middleware/auth'
+import { isAuthenticated } from '@middleware/auth'
 
 const routes = Router()
 

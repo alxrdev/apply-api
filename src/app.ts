@@ -7,7 +7,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 import routes from './routes'
-import apiErrorHandlerMiddleware from './middleware/errorHandler'
+import apiErrorHandlerMiddleware from '@middleware/errorHandler'
 
 class App {
   private server: Express
