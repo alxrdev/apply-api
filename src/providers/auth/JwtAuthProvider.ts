@@ -11,8 +11,8 @@ import ITokenBasedAuthProvider, { Payload } from './interfaces/ITokenBasedAuthPr
 export default class JwtAuthProvider implements IAuthProvider, ITokenBasedAuthProvider {
   private readonly authSettings: IAuthSettings
 
-  constructor () {
-    this.authSettings = {
+  constructor (authSettings?: IAuthSettings) {
+    this.authSettings = authSettings || {
       jwtSecret: jwtProfile.jwtSecret,
       jwtExpiresTime: jwtProfile.jwtExpiresTime
     }
