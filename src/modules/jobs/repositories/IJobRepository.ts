@@ -1,4 +1,5 @@
-import { Job, CollectionResponse, FilesToDeleteCollection, UserApplied } from '../entities'
+import { Job, FilesToDeleteCollection, UserApplied } from '../entities'
+import { CollectionResponse } from '@src/modules/shared/entities'
 import { ListJobsFiltersDTO } from '../dtos'
 
 export default interface IJobRepository {

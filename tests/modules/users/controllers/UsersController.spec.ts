@@ -1,11 +1,11 @@
-import { createUserUseCase, deleteUserUseCase, showUserUseCase, updateUserUseCase } from '../../../container.setup'
+import { createUserUseCase, deleteUserUseCase, showUserUseCase, updateUserUseCase } from '@tests/container.setup'
 
 import request from 'supertest'
 
 import App from '@src/app'
 import { User } from '@modules/users/entities'
 import { UserAlreadyExistsError, UserNotFoundError } from '@modules/users/errors'
-import { getToken } from '../../../auth'
+import { generateToken } from '@tests/auth'
 
 describe('Test the UserController class', () => {
   const app = new App().getServer()
@@ -116,7 +116,7 @@ describe('Test the UserController class', () => {
   })
 
   it('Should not update an user when is not the authenticated user', async () => {
-    const token = getToken('1234567', 'user')
+    const token = generateToken('1234567', 'user')
 
     await request(app)
       .put('/api/users/123456')
@@ -137,7 +137,7 @@ describe('Test the UserController class', () => {
       return new User('123456', 'John Doe', 'user@email.com', 'user', 'default.jpg', '', 'My headline', 'My location', 'My bio', new Date())
     })
 
-    const token = getToken('123456', 'user')
+    const token = generateToken('123456', 'user')
 
     await request(app)
       .put('/api/users/123456')
@@ -163,7 +163,7 @@ describe('Test the UserController class', () => {
   })
 
   it('Should not delete an user when the role of the authenticated user is the same as user or employer', async () => {
-    const token = getToken('1234567', 'user')
+    const token = generateToken('1234567', 'user')
 
     await request(app)
       .delete('/api/users/123456')
@@ -181,7 +181,7 @@ describe('Test the UserController class', () => {
   it('Should delete an user', async () => {
     const spyDeleteUserUseCase = jest.spyOn(deleteUserUseCase, 'execute').mockImplementation()
 
-    const token = getToken('1234567', 'admin')
+    const token = generateToken('1234567', 'admin')
 
     await request(app)
       .delete('/api/users/123456')

@@ -22,8 +22,9 @@
     "@errors": "dist/src/errors",
     "@middleware": "dist/src/middleware",
     "@modules": "dist/src/modules",
-    "@services": "dist/src/services",
-    "@utils": "dist/src/utils"
+    "@providers": "dist/src/providers",
+    "@utils": "dist/src/utils",
+    "@tests": "dist/tests"
   },
   "dependencies": {
     "axios": "^0.21.1",

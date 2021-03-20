@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe'
 
-import IUserRepository from '../repositories/IUserRepository'
-import IStorageService from '../../../services/storage/interfaces/IStorageService'
-import UpdateUserAvatarDTO from '../dtos/UpdateUserAvatarDTO'
-import validateClassParameters from '../../../utils/validateClassParameters'
-import { AppError } from '../../../errors'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
+import UpdateUserAvatarDTO from '@modules/users/dtos/UpdateUserAvatarDTO'
+import validateClassParameters from '@utils/validateClassParameters'
+import { AppError } from '@errors/index'
 
 @injectable()
 export default class UpdateUserAvatarUseCase {

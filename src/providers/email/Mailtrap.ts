@@ -1,13 +1,13 @@
 import { injectable } from 'tsyringe'
 import nodemailer, { Transporter } from 'nodemailer'
 
-import IMailService from './interfaces/IMailService'
+import IMailProvider from './interfaces/IMailProvider'
 import IMailSettings from './interfaces/IMailSettings'
 import SendMailDTO from './interfaces/SendMailDTO'
-import AppError from '../../errors/AppError'
+import AppError from '@errors/AppError'
 
 @injectable()
-export default class Mailtrap implements IMailService {
+export default class Mailtrap implements IMailProvider {
   private transporter: Transporter
   private senderName: string
   private senderEmail: string

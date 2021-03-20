@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
 import { container } from 'tsyringe'
 
-import { AuthenticationError } from '../../modules/auth/errors'
-import ITokenBasedAuthService from '@src/services/auth/interfaces/ITokenBasedAuthService'
+import { AuthenticationError } from '@modules/auth/errors'
+import ITokenBasedAuthProvider from '@src/providers/auth/interfaces/ITokenBasedAuthProvider'
 
 const isAuthenticated = (request: Request, response: Response, next: NextFunction) => {
-  const authService: ITokenBasedAuthService = container.resolve('AuthService')
+  const authProvider: ITokenBasedAuthProvider = container.resolve('AuthProvider')
+
   const jwtCookie = request.cookies['@Apply:token'] as string
   const { authorization } = request.headers as { authorization: string }
 
@@ -16,7 +17,7 @@ const isAuthenticated = (request: Request, response: Response, next: NextFunctio
   try {
     const token = jwtCookie || authorization.split(' ')[1]
 
-    const { id, role } = authService.decodeToken(token)
+    const { id, role } = authProvider.decodeToken(token)
 
     request.user = { id, role }
 

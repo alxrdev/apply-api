@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe'
 import crypto from 'crypto'
 
-import IUserRepository from '../repositories/IUserRepository'
-import IMailService from '../../../services/email/interfaces/IMailService'
-import { ForgotPasswordDTO } from '../dtos'
-import validateClassParameters from '../../../utils/validateClassParameters'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import IMailProvider from '@src/providers/email/interfaces/IMailProvider'
+import { ForgotPasswordDTO } from '@modules/users/dtos'
+import validateClassParameters from '@utils/validateClassParameters'
 
 @injectable()
 export default class ForgotPasswordUseCase {
@@ -12,8 +12,8 @@ export default class ForgotPasswordUseCase {
     @inject('UserRepository')
     private readonly userRepository: IUserRepository,
 
-    @inject('MailService')
-    private readonly mailService: IMailService
+    @inject('MailProvider')
+    private readonly mailProvider: IMailProvider
   ) {}
 
   public async execute (forgotPasswordDto: ForgotPasswordDTO): Promise<string> {
@@ -30,7 +30,7 @@ export default class ForgotPasswordUseCase {
 
     await this.userRepository.update(user)
 
-    await this.mailService.sendMail({
+    await this.mailProvider.sendMail({
       to: {
         name: user.name,
         email: user.email

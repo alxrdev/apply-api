@@ -1,9 +1,9 @@
 import { container } from 'tsyringe'
 
 import { User } from '@modules/users/entities'
-import ITokenBasedAuthService from '@services/auth/interfaces/ITokenBasedAuthService'
+import ITokenBasedAuthProvider from '@providers/auth/interfaces/ITokenBasedAuthProvider'
 
-export const getToken = (id: string, role: string) : string => {
-  const authService : ITokenBasedAuthService = container.resolve('AuthService')
-  return authService.generateToken({ id, role } as User)
+export const generateToken = (id: string, role: string) : string => {
+  const authProvider : ITokenBasedAuthProvider = container.resolve('AuthProvider')
+  return authProvider.generateToken({ id, role } as User)
 }

@@ -4,8 +4,8 @@ import { UserNotFoundError } from '@modules/users/errors'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { ForgotPasswordUseCase } from '@modules/users/useCases'
-import FakeMail from '@services/email/FakeMail'
-import IMailService from '@services/email/interfaces/IMailService'
+import FakeMail from '@providers/email/FakeMail'
+import IMailProvider from '@src/providers/email/interfaces/IMailProvider'
 
 const makeDto = (fields = {}) : ForgotPasswordDTO => {
   const data = { email: 'user@email.com', ...fields }
@@ -14,7 +14,7 @@ const makeDto = (fields = {}) : ForgotPasswordDTO => {
 }
 
 let userRepository: IUserRepository
-let fakeMail: IMailService
+let fakeMail: IMailProvider
 
 const makeSut = () : ForgotPasswordUseCase => new ForgotPasswordUseCase(userRepository, fakeMail)
 
@@ -25,7 +25,14 @@ describe('Test the ForgotPasswordUseCase class', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('user')
+      .withEmail('user@email.com')
+      .withAvatar('user.jpg')
+      .withPassword('password')
+      .build()
+    )
 
     fakeMail = new FakeMail()
   })

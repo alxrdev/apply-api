@@ -1,13 +1,12 @@
 import { injectable, inject } from 'tsyringe'
-import { v4 as uuid } from 'uuid'
 import bcrypt from 'bcrypt'
 
-import IUserRepository from '../repositories/IUserRepository'
-import { CreateUserDTO } from '../dtos'
-import { User } from '../entities'
-import validateClassParameters from '../../../utils/validateClassParameters'
-import validatePasswordAndConfirmPassword from '../utils/validatePasswordAndConfirmPassword'
-import { UserAlreadyExistsError } from '../errors'
+import IUserRepository from '@modules/users/repositories/IUserRepository'
+import { CreateUserDTO } from '@modules/users/dtos'
+import { User } from '@modules/users/entities'
+import validateClassParameters from '@utils/validateClassParameters'
+import validatePasswordAndConfirmPassword from '@modules/users/utils/validatePasswordAndConfirmPassword'
+import { UserAlreadyExistsError } from '@modules/users/errors'
 
 @injectable()
 export default class CreateUserUseCase {
@@ -30,7 +29,12 @@ export default class CreateUserUseCase {
 
     const password = bcrypt.hashSync(userDto.password, 10)
 
-    const user = new User(uuid(), userDto.name, userDto.email, userDto.role, 'default.jpg', password, '', '', '')
+    const user = User.builder()
+      .withName(userDto.name)
+      .withEmail(userDto.email)
+      .withRole(userDto.role)
+      .withPassword(password)
+      .build()
 
     return await this.userRepository.create(user)
   }

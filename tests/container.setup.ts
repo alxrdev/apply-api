@@ -1,17 +1,18 @@
 import { container } from 'tsyringe'
 
-import '@services/container'
+import '@providers/container'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
-import FakeUserRepository from '@src/modules/users/repositories/fake/FakeUserRepository'
-import IJobRepository from '@src/modules/jobs/repositories/IJobRepository'
-import FakeJobRepository from '@src/modules/jobs/repositories/fake/FakeJobRepository'
+import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository'
 import { CreateUserUseCase, DeleteUserUseCase, ShowUserUseCase, UpdateUserUseCase } from '@modules/users/useCases'
-import IStorageService from '@services/storage/interfaces/IStorageService'
-import IMailService from '@services/email/interfaces/IMailService'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import FakeMail from '@services/email/FakeMail'
-import IAuthService from '@services/auth/interfaces/IAuthService'
-import JwtAuthService from '@services/auth/JwtAuthService'
+import { AuthenticateUserUseCase } from '@modules/auth/useCases'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
+import IMailProvider from '@src/providers/email/interfaces/IMailProvider'
+import FakeStorageService from '@providers/storage/FakeStorageService'
+import FakeMail from '@providers/email/FakeMail'
+import IAuthProvider from '@src/providers/auth/interfaces/IAuthProvider'
+import JwtAuthProvider from '@src/providers/auth/JwtAuthProvider'
 
 container.register<IUserRepository>('UserRepository', FakeUserRepository)
 container.register<IJobRepository>('JobRepository', FakeJobRepository)
@@ -19,10 +20,11 @@ container.register<IJobRepository>('JobRepository', FakeJobRepository)
 container.register<IStorageService>('ResumeStorageService', FakeStorageService)
 container.register<IStorageService>('AvatarStorageService', FakeStorageService)
 
-container.register<IMailService>('MailService', FakeMail)
+container.register<IMailProvider>('MailProvider', FakeMail)
 
-container.register<IAuthService>('AuthService', { useValue: new JwtAuthService({ jwtSecret: 'myToken', jwtExpirestTime: '15' }) })
+container.register<IAuthProvider>('AuthProvider', { useValue: new JwtAuthProvider({ jwtSecret: 'myToken', jwtExpiresTime: '15' }) })
 
+// Users module
 export const createUserUseCase = container.resolve(CreateUserUseCase)
 container.registerInstance(CreateUserUseCase, createUserUseCase)
 
@@ -34,3 +36,7 @@ container.registerInstance(UpdateUserUseCase, updateUserUseCase)
 
 export const deleteUserUseCase = container.resolve(DeleteUserUseCase)
 container.registerInstance(DeleteUserUseCase, deleteUserUseCase)
+
+// Auth module
+export const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
+container.registerInstance(AuthenticateUserUseCase, authenticateUserUseCase)

@@ -17,8 +17,9 @@
       "@errors/*": ["errors/*"],
       "@middleware/*": ["middleware/*"],
       "@modules/*": ["modules/*"],
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
+      "@providers/*": ["providers/*"],
+      "@utils/*": ["utils/*"],
+      "@tests/*": ["../tests/*"]
     },
     "resolveJsonModule": true
   },

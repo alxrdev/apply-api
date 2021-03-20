@@ -7,8 +7,8 @@ import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
 import { Address, Job } from '@modules/jobs/entities'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import IStorageService from '@services/storage/interfaces/IStorageService'
+import FakeStorageService from '@providers/storage/FakeStorageService'
+import IStorageService from '@providers/storage/interfaces/IStorageService'
 
 const makeDto = (fields = {}) : DeleteUserDTO => {
   const data = { id: '1', authUserId: '1', ...fields }
@@ -45,10 +45,39 @@ describe('Test the DeleteUserUseCase', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
-    await userRepository.create(new User('2', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
-    await userRepository.create(new User('3', 'user', 'user3@email.com', 'user', 'user3.jpg', 'password', '', '', ''))
-    await userRepository.create(new User('4', 'user', 'user3@email.com', 'user', 'user4.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('employer')
+      .withEmail('employer@email.com')
+      .withAvatar('employer.jpg')
+      .withRole('employer')
+      .withPassword('password')
+      .build()
+    )
+    await userRepository.create(User.builder()
+      .withId('2')
+      .withName('user')
+      .withEmail('user@email.com')
+      .withAvatar('user.jpg')
+      .withPassword('password')
+      .build()
+    )
+    await userRepository.create(User.builder()
+      .withId('3')
+      .withName('user')
+      .withEmail('user3@email.com')
+      .withAvatar('user3.jpg')
+      .withPassword('password')
+      .build()
+    )
+    await userRepository.create(User.builder()
+      .withId('4')
+      .withName('user')
+      .withEmail('use4@email.com')
+      .withAvatar('use4.jpg')
+      .withPassword('password')
+      .build()
+    )
 
     jobRepository = new FakeJobRepository(userRepository)
     await jobRepository.create(await makeJob({ id: '1' }))

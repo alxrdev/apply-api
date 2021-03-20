@@ -35,7 +35,16 @@ describe('Test the ListJobsUseCase', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'employer', 'employer@email.com', 'employer', 'employer.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('John Doe')
+      .withEmail('user@email.com')
+      .withRole('employer')
+      .withAvatar('avatar.jpg')
+      .withPassword('password')
+      .withHeadline('my headline')
+      .build()
+    )
 
     jobRepository = new FakeJobRepository(userRepository)
     await jobRepository.create(await makeJob('1'))

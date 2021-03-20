@@ -2,7 +2,8 @@ import { injectable, inject } from 'tsyringe'
 
 import IJobRepository from '../repositories/IJobRepository'
 import { ListJobsFiltersDTO } from '../dtos'
-import { CollectionResponse, Job } from '../entities'
+import { Job } from '../entities'
+import { CollectionResponse } from '@src/modules/shared/entities'
 import validateClassParameters from '../../../utils/validateClassParameters'
 import collectionResultPagination from '../../../utils/collectionResultPagination'
 

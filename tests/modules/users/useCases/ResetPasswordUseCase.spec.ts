@@ -4,7 +4,7 @@ import { User } from '@modules/users/entities'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { ForgotPasswordUseCase, ResetPasswordUseCase } from '@modules/users/useCases'
-import FakeMail from '@services/email/FakeMail'
+import FakeMail from '@providers/email/FakeMail'
 
 const makeDto = (fields = {}): ResetPasswordDTO => {
   const data = { password: '12345678', confirmPassword: '12345678', token: '', ...fields }
@@ -31,7 +31,14 @@ describe('Tests the ResetPasswordUseCase class', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('user')
+      .withEmail('user@email.com')
+      .withAvatar('user.jpg')
+      .withPassword('password')
+      .build()
+    )
   })
 
   it('Should throw an AppError when a required field is not provided', async () => {

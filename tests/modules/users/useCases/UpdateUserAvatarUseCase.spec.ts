@@ -5,8 +5,8 @@ import { UserNotFoundError } from '@modules/users/errors'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { UpdateUserAvatarUseCase } from '@modules/users/useCases'
-import FakeStorageService from '@services/storage/FakeStorageService'
-import IStorageService from '@services/storage/interfaces/IStorageService'
+import FakeStorageService from '@src/providers/storage/FakeStorageService'
+import IStorageService from '@src/providers/storage/interfaces/IStorageService'
 
 const makeDto = (fields = {}) : UpdateUserAvatarDTO => {
   const data = { id: '2', authId: '2', avatar: 'avatar.jpg', ...fields }
@@ -25,8 +25,22 @@ describe('Tests the UpdateUserAvatarUseCase class', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(new User('1', 'user', 'user@email.com', 'user', 'default.jpg', 'password', '', '', ''))
-    await userRepository.create(new User('2', 'user', 'user2@email.com', 'user', 'user.jpg', 'password', '', '', ''))
+    await userRepository.create(User.builder()
+      .withId('1')
+      .withName('user')
+      .withEmail('user@email.com')
+      .withAvatar('default.jpg')
+      .withPassword('password')
+      .build()
+    )
+    await userRepository.create(User.builder()
+      .withId('2')
+      .withName('user')
+      .withEmail('user2@email.com')
+      .withAvatar('user.jpg')
+      .withPassword('password')
+      .build()
+    )
 
     fakeStorage = new FakeStorageService()
   })

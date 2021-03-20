@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe'
 
-import IUserRepository from '../../users/repositories/IUserRepository'
-import { IAuthResponse } from '../entities'
-import { AuthenticationError } from '../errors'
-import ITokenBasedAuthService from '@services/auth/interfaces/ITokenBasedAuthService'
+import IUserRepository from '@modules/users//repositories/IUserRepository'
+import { IAuthResponse } from '@modules/auth/entities'
+import { AuthenticationError } from '@modules/auth/errors'
+import ITokenBasedAuthProvider from '@src/providers/auth/interfaces/ITokenBasedAuthProvider'
 
 @injectable()
 export default class RefreshTokenUseCase {
@@ -11,21 +11,21 @@ export default class RefreshTokenUseCase {
     @inject('UserRepository')
     private readonly userRepository: IUserRepository,
 
-    @inject('AuthService')
-    private readonly authService: ITokenBasedAuthService
+    @inject('AuthProvider')
+    private readonly authProvider: ITokenBasedAuthProvider
   ) {}
 
   public async execute (token: string): Promise<IAuthResponse> {
     let decodedToken
 
     try {
-      decodedToken = this.authService.decodeToken(token)
+      decodedToken = this.authProvider.decodeToken(token)
     } catch (error) {
       throw new AuthenticationError('Invalid JWT token.', false, 401)
     }
 
     // config the limit time to refresh the token in 1 hour after expires time
-    const limitTime = new Date(decodedToken.exp)
+    const limitTime = new Date(decodedToken.exp * 1000)
     limitTime.setHours(limitTime.getHours() + 1)
 
     if (limitTime.getTime() <= Date.now()) {
@@ -34,7 +34,7 @@ export default class RefreshTokenUseCase {
 
     const user = await this.userRepository.findById(decodedToken.id)
 
-    const newToken = this.authService.generateToken(user)
+    const newToken = this.authProvider.generateToken(user)
 
     return { user: user, token: newToken }
   }
