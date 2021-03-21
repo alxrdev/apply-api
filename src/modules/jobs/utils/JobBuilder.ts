@@ -3,7 +3,7 @@ import { Address, Job } from '@src/modules/jobs/entities'
 
 export default class JobBuilder {
   private id?: string = undefined
-  private user: User
+  private user!: User
   private title: string = 'My job'
   private description: string = 'My job description'
   private address: Address = { state: 'ES', city: 'São Mateus' }
