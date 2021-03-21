@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { AppError } from '../../errors'
+
+import AppError from '@errors/AppError'
+
 const concat = require('concat-stream')
 const FormData = require('form-data')
 
