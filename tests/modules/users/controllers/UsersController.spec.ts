@@ -12,7 +12,7 @@ describe('Test the UserController class', () => {
 
   it('Should successful create a new user', async () => {
     const spyCreateUserUseCase = jest.spyOn(createUserUseCase, 'execute').mockResolvedValue(
-      new User('123456', 'John Doe', 'user@email.com', 'user', 'default', '', '', '', '', new Date())
+      User.builder().withId('123456').withName('John Doe').withEmail('user@email.com').build()
     )
 
     await request(app)
@@ -92,7 +92,7 @@ describe('Test the UserController class', () => {
 
   it('Should return an user', async () => {
     const spyShowUserUseCase = jest.spyOn(showUserUseCase, 'execute').mockImplementation(async () => {
-      return new User('123456', 'John Doe', 'user@email.com', 'user', 'default', '', '', '', '', new Date())
+      return User.builder().withId('123456').withName('John Doe').withEmail('user@email.com').build()
     })
 
     await request(app)
@@ -134,7 +134,15 @@ describe('Test the UserController class', () => {
 
   it('Should update an user', async () => {
     const spyUpdateUserUseCase = jest.spyOn(updateUserUseCase, 'execute').mockImplementation(async () => {
-      return new User('123456', 'John Doe', 'user@email.com', 'user', 'default.jpg', '', 'My headline', 'My location', 'My bio', new Date())
+      return User.builder()
+        .withId('123456')
+        .withName('John Doe')
+        .withEmail('user@email.com')
+        .withAvatar('default.jpg')
+        .withHeadline('My headline')
+        .withAddress('My location')
+        .withBio('My bio')
+        .build()
     })
 
     const token = generateToken('123456', 'user')

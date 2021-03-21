@@ -14,7 +14,7 @@ describe('Test the AuthController class', () => {
     const spyAuthenticateUserUseCase = jest.spyOn(authenticateUserUseCase, 'execute').mockImplementation(async () => {
       return {
         token: 'auth-token',
-        user: new User('123456', 'John Doe', 'user@email.com', 'user', 'default', '', '', '', '', new Date())
+        user: User.builder().withId('123456').withName('John Doe').withEmail('user@email.com').build()
       }
     })
 
@@ -73,7 +73,7 @@ describe('Test the AuthController class', () => {
 
   it('Should return the authenticated user', async () => {
     const spyShowUserUseCase = jest.spyOn(showUserUseCase, 'execute').mockImplementation(async () => {
-      return new User('123456', 'John Doe', 'user@email.com', 'user', 'default', '', '', '', '', new Date())
+      return User.builder().withId('123456').withName('John Doe').withEmail('user@email.com').build()
     })
 
     const token = generateToken('123456', 'user')

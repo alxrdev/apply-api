@@ -1,9 +1,7 @@
-import { v4 as uuid } from 'uuid'
-
 import User from '@modules/users/entities/User'
 
 export default class UserBuilder {
-  public id: string = uuid()
+  public id?: string = undefined
   public name: string = ''
   public email: string = ''
   public role: string = 'user'
@@ -77,19 +75,18 @@ export default class UserBuilder {
   }
 
   public build () : User {
-    return new User(
-      this.id,
-      this.name,
-      this.email,
-      this.role,
-      this.avatar,
-      this.password,
-      this.headline,
-      this.address,
-      this.bio,
-      this.createdAt,
-      this.resetPasswordToken,
-      this.resetPasswordExpire
-    )
+    return User.create({
+      name: this.name,
+      email: this.email,
+      role: this.role,
+      avatar: this.avatar,
+      password: this.password,
+      headline: this.headline,
+      address: this.address,
+      bio: this.bio,
+      createdAt: this.createdAt,
+      resetPasswordToken: this.resetPasswordToken,
+      resetPasswordExpire: this.resetPasswordExpire
+    }, this.id)
   }
 }
