@@ -4,19 +4,11 @@ import jsonWebToken from 'jsonwebtoken'
 import IAuthProvider from './interfaces/IAuthProvider'
 import { User } from '@modules/users/entities'
 import IAuthSettings from './interfaces/IAuthSettings'
-import { jwtProfile } from '@configs/auth'
 import ITokenBasedAuthProvider, { Payload } from './interfaces/ITokenBasedAuthProvider'
 
 @injectable()
 export default class JwtAuthProvider implements IAuthProvider, ITokenBasedAuthProvider {
-  private readonly authSettings: IAuthSettings
-
-  constructor (authSettings?: IAuthSettings) {
-    this.authSettings = authSettings || {
-      jwtSecret: jwtProfile.jwtSecret,
-      jwtExpiresTime: jwtProfile.jwtExpiresTime
-    }
-  }
+  constructor (private readonly authSettings: IAuthSettings) {}
 
   public authenticateUser (user: User): string {
     return this.generateToken(user)
