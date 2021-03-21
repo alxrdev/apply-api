@@ -4,11 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "dev": "cross-env NODE_ENV=development tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "start": "node dist/src/server.js",
     "build": "tsc",
-    "test": "jest",
-    "test:dev": "jest --watchAll",
+    "test": "cross-env NODE_ENV=test jest",
+    "test:dev": "cross-env NODE_ENV=test jest --watchAll",
     "lint": "eslint --ext .ts --fix ./"
   },
   "husky": {
@@ -68,6 +68,7 @@
     "@types/validator": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^3.9.0",
     "@typescript-eslint/parser": "^3.9.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.7.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",

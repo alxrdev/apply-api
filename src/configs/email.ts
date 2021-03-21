@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`
+})
 
 const smtpEnv = (process.env.SMTP_PROFILE)
   ? JSON.parse(process.env.SMTP_PROFILE)
