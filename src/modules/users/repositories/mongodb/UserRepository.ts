@@ -1,7 +1,8 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 import { User } from '@modules/users/entities'
-import userModel, { IUser } from '@providers/database/mongodb/schemas/user'
+import userModel from '@providers/database/mongodb/schemas/user'
 import { UserNotFoundError } from '@modules/users/errors'
+import UserMapper from '@modules/users/utils/UserMapper'
 
 export default class UserRepository implements IUserRepository {
   public async findById (id: string): Promise<User> {
@@ -11,7 +12,7 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFoundError('User not found.', false, 404)
     }
 
-    return UserRepository.userDocumentToUser(user)
+    return UserMapper.fromPersistenceToUser(user)
   }
 
   public async findByEmail (email: string): Promise<User> {
@@ -21,7 +22,7 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFoundError('User not found.', false, 404)
     }
 
-    return UserRepository.userDocumentToUser(user)
+    return UserMapper.fromPersistenceToUser(user)
   }
 
   public async findByResetPasswordToken (token: string): Promise<User> {
@@ -31,16 +32,16 @@ export default class UserRepository implements IUserRepository {
       throw new UserNotFoundError('User not found.', false, 404)
     }
 
-    return UserRepository.userDocumentToUser(user)
+    return UserMapper.fromPersistenceToUser(user)
   }
 
   public async create (user: User): Promise<User> {
-    await userModel.create(UserRepository.userToUserDocument(user))
+    await userModel.create(UserMapper.fromUserToPersistence(user))
     return user
   }
 
   public async update (user: User): Promise<User> {
-    await userModel.updateOne({ _id: user.id }, UserRepository.userToUserDocument(user))
+    await userModel.updateOne({ _id: user.id }, UserMapper.fromUserToPersistence(user))
     return user
   }
 
@@ -52,39 +53,5 @@ export default class UserRepository implements IUserRepository {
     }
 
     await job.remove()
-  }
-
-  public static userDocumentToUser (user: IUser): User {
-    return new User(
-      user._id,
-      user.name,
-      user.email,
-      user.role,
-      user.avatar,
-      user.password,
-      user.headline || '',
-      user.address || '',
-      user.bio || '',
-      user.createdAt,
-      user.resetPasswordToken,
-      user.resetPasswordExpire
-    )
-  }
-
-  public static userToUserDocument (user: User) {
-    return {
-      _id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      avatar: user.avatar,
-      password: user.password,
-      headline: user.headline,
-      address: user.address,
-      bio: user.bio,
-      createdAt: user.createdAt,
-      resetPasswordToken: user.resetPasswordToken,
-      resetPasswordExpire: user.resetPasswordExpire
-    }
   }
 }

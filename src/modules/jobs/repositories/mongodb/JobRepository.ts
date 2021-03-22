@@ -2,14 +2,15 @@ import { MongooseFilterQuery } from 'mongoose'
 
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
 import jobModel, { IJob } from '@providers/database/mongodb/schemas/job'
-import UserRepository from '@modules/users/repositories/mongodb/UserRepository'
 import { IUser } from '@providers/database/mongodb/schemas/user'
-import { Job, FilesToDeleteCollection, FileToDelete, Address, UserApplied } from '@modules/jobs/entities'
+import { Job, FilesToDeleteCollection, FileToDelete, UserApplied } from '@modules/jobs/entities'
 import { CollectionResponse } from '@modules/shared/entities'
 import { ListJobsFiltersDTO } from '@modules/jobs/dtos'
 
 import { JobNotFoundError } from '@modules/jobs/errors'
 import { UserNotFoundError } from '@modules/users/errors'
+import UserMapper from '@modules/users/utils/UserMapper'
+import JobMapper from '@modules/jobs/utils/JobMapper'
 import { AppError } from '@errors/index'
 
 export default class JobRepository implements IJobRepository {
@@ -20,7 +21,7 @@ export default class JobRepository implements IJobRepository {
       throw new JobNotFoundError('Job not found.', false, 404)
     }
 
-    return this.jobDocumentToJob(result)
+    return JobMapper.fromPersistenceToJob(result)
   }
 
   public async findAll (filters: ListJobsFiltersDTO): Promise<CollectionResponse<Job>> {
@@ -40,12 +41,12 @@ export default class JobRepository implements IJobRepository {
 
   public async findAllByUserId (userId: string): Promise<Array<Job>> {
     const result = await jobModel.find({ user: userId }).populate('user')
-    return result.map(job => this.jobDocumentToJob(job))
+    return result.map(job => JobMapper.fromPersistenceToJob(job))
   }
 
   public async findAppliedJobs (userId: string): Promise<Array<Job>> {
     const result = await jobModel.find({ 'applicantsApplied.user': userId }).populate('user')
-    return result.map(job => this.jobDocumentToJob(job))
+    return result.map(job => JobMapper.fromPersistenceToJob(job))
   }
 
   public async findAllUsersAppliedToJob (id: string): Promise<Array<UserApplied>> {
@@ -66,7 +67,7 @@ export default class JobRepository implements IJobRepository {
 
     const usersApplied: Array<UserApplied> = result.applicantsApplied?.map(applicant => {
       const user = applicant.user as IUser
-      const userApplied = UserRepository.userDocumentToUser(user)
+      const userApplied = UserMapper.fromPersistenceToUser(user)
       return { user: userApplied, resume: applicant.resume }
     })
 
@@ -97,18 +98,18 @@ export default class JobRepository implements IJobRepository {
     const data = result.applicantsApplied[userIndex]
 
     return {
-      user: UserRepository.userDocumentToUser(data.user as IUser),
+      user: UserMapper.fromPersistenceToUser(data.user as IUser),
       resume: data.resume
     }
   }
 
   public async create (job: Job): Promise<Job> {
-    await jobModel.create(this.jobToJobDocument(job))
+    await jobModel.create(JobMapper.fromJobToPersistence(job))
     return job
   }
 
   public async update (job: Job): Promise<Job> {
-    await jobModel.updateOne({ _id: job.id }, this.jobToJobDocument(job))
+    await jobModel.updateOne({ _id: job.id }, JobMapper.fromJobToPersistence(job))
     return job
   }
 
@@ -186,42 +187,8 @@ export default class JobRepository implements IJobRepository {
     const countResult = await jobModel.find(query).countDocuments()
     const jobsResult = await jobModel.find(query).populate('user').sort(`${sortOrder}${sortBy}`).skip(skip).limit(limit)
 
-    const jobs = jobsResult.map(job => this.jobDocumentToJob(job))
+    const jobs = jobsResult.map(job => JobMapper.fromPersistenceToJob(job))
 
     return { count: countResult, collection: jobs }
-  }
-
-  private jobDocumentToJob (jobDocument: IJob): Job {
-    const user = jobDocument.user as IUser
-
-    return new Job(
-      jobDocument._id,
-      UserRepository.userDocumentToUser(user),
-      jobDocument.title,
-      jobDocument.description,
-      new Address(
-        jobDocument.address.state.toString(),
-        jobDocument.address.city.toString()
-      ),
-      jobDocument.jobType,
-      jobDocument.salary,
-      jobDocument.createdAt
-    )
-  }
-
-  private jobToJobDocument (job: Job) {
-    return {
-      _id: job.id,
-      user: job.user.id,
-      title: job.title,
-      description: job.description,
-      address: {
-        state: job.address.state,
-        city: job.address.city
-      },
-      jobType: job.jobType.toString(),
-      salary: Number(job.salary),
-      createdAt: job.createdAt
-    }
   }
 }

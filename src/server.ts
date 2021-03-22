@@ -1,14 +1,11 @@
 import 'reflect-metadata'
 import 'module-alias/register'
-import dotenv from 'dotenv'
 
 import '@providers/container'
 
-import { port } from '@configs/base'
-import mongoDbConnection from '@providers/database/mongodb'
 import App from './app'
-
-dotenv.config()
+import mongoDbConnection from '@providers/database/mongodb'
+import { port } from '@configs/base'
 
 const app = new App()
 

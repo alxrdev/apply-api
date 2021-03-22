@@ -1,6 +1,6 @@
 import { AppError } from '@errors/index'
 import { DeleteJobDTO } from '@modules/jobs/dtos'
-import { Address, Job } from '@modules/jobs/entities'
+import { Job } from '@modules/jobs/entities'
 import { JobNotFoundError } from '@modules/jobs/errors'
 import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository'
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
@@ -50,16 +50,12 @@ describe('Test the DeleteJoUseCase', () => {
     )
 
     jobRepository = new FakeJobRepository(userRepository)
-    const job = new Job(
-      '1',
-      await userRepository.findById('1'),
-      'First job',
-      'this is the first job',
-      new Address('ES', 'São Mateus'),
-      'Full-time',
-      1200.00,
-      new Date()
-    )
+
+    const job = Job.builder()
+      .withId('1')
+      .withUser(await userRepository.findById('1'))
+      .build()
+
     await jobRepository.create(job)
     await jobRepository.applyToJob('1', '2', 'resume.pdf')
 

@@ -1,6 +1,8 @@
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`
+})
 
 const jwtSecret = process.env.JWT_SECRET || ''
 const jwtExpiresTime = process.env.JWT_EXPIRES_TIME || '15d'

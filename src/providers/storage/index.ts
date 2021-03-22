@@ -1,31 +1,9 @@
-import path from 'path'
-import crypto from 'crypto'
-import { diskStorage as multerDiskStorage } from 'multer'
-import multerApiStorage from './multerApiStorage'
-
 import IStorageSettings from './interfaces/IStorageSettings'
 import DiskStorageService from './DiskStorageService'
 import ApiStorageService from './ApiStorageService'
-import { avatarProfile, resumeProfile, storageType } from '../../configs/storage'
-
-const diskStorageEngine = (tmpDestination: string) => multerDiskStorage({
-  destination: function (req, file, cb) {
-    cb(null, tmpDestination)
-  },
-  filename: function (req, file, cb) {
-    const fileHash = crypto.randomBytes(10).toString('hex')
-    const fileName = `${fileHash}-${Date.now()}${path.extname(file.originalname)}`
-    cb(null, fileName)
-  }
-})
-
-const apiStorageEngine = (request?: string) => multerApiStorage({
-  filename: function (file: any) {
-    const fileHash = crypto.randomBytes(10).toString('hex')
-    return `${fileHash}-${Date.now()}${path.extname(file.originalname)}`
-  },
-  url: request || ''
-})
+import diskStorageEngine from './multer/diskStorageEngine'
+import apiStorageEngine from './multer/apiStorageEngine'
+import { avatarProfile, resumeProfile, storageType } from '@configs/storage'
 
 const avatarDiskStorageSettings: IStorageSettings = {
   storageTempFileDestination: avatarProfile.tmpDestination,

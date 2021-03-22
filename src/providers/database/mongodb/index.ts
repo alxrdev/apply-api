@@ -1,12 +1,9 @@
 import mongoose from 'mongoose'
-import dotenv from 'dotenv'
 
-dotenv.config()
-
-const uri = process.env.MONGODB_CONNECTION ?? ''
+import { mongoDbConnectionURI } from '@configs/database'
 
 const mongoDbConnection = async () => {
-  return mongoose.connect(uri, {
+  return mongoose.connect(mongoDbConnectionURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true

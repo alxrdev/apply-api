@@ -1,10 +1,10 @@
 import { injectable, inject } from 'tsyringe'
 
-import IJobRepository from '../repositories/IJobRepository'
-import { Job, Address } from '../entities'
-import { UpdateJobDTO } from '../dtos'
-import validateClassParameters from '../../../utils/validateClassParameters'
-import { AppError } from '../../../errors'
+import IJobRepository from '@modules/jobs/repositories/IJobRepository'
+import { Job, Address } from '@modules/jobs/entities'
+import { UpdateJobDTO } from '@modules/jobs/dtos'
+import validateClassParameters from '@utils/validateClassParameters'
+import { AppError } from '@errors/index'
 
 @injectable()
 export default class UpdateJobUseCase {
@@ -22,17 +22,12 @@ export default class UpdateJobUseCase {
       throw new AppError('You don\'t have permission to edit this job.', false, 403)
     }
 
-    const jobUpdated = new Job(
-      jobToUpdate.id,
-      jobToUpdate.user,
-      jobDto.title,
-      jobDto.description,
-      new Address(jobDto.state, jobDto.city),
-      jobDto.jobType,
-      jobDto.salary,
-      jobToUpdate.createdAt
-    )
+    jobToUpdate.title = jobDto.title
+    jobToUpdate.description = jobDto.description
+    jobToUpdate.address = new Address(jobDto.state, jobDto.city)
+    jobToUpdate.jobType = jobDto.jobType
+    jobToUpdate.salary = jobDto.salary
 
-    return await this.jobRepository.update(jobUpdated)
+    return await this.jobRepository.update(jobToUpdate)
   }
 }

@@ -1,4 +1,4 @@
-import { Address, Job } from '@modules/jobs/entities'
+import { Job } from '@modules/jobs/entities'
 import { JobNotFoundError } from '@modules/jobs/errors'
 import FakeJobRepository from '@modules/jobs/repositories/fake/FakeJobRepository'
 import IJobRepository from '@modules/jobs/repositories/IJobRepository'
@@ -7,16 +7,10 @@ import { User } from '@modules/users/entities'
 import FakeUserRepository from '@modules/users/repositories/fake/FakeUserRepository'
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 
-const makeJob = async (id: string) : Promise<Job> => new Job(
-  id,
-  await userRepository.findById('1'),
-  'First job',
-  'this is the first job',
-  new Address('ES', 'São Mateus'),
-  'Full-time',
-  1200.00,
-  new Date()
-)
+const makeJob = async (id: string) : Promise<Job> => Job.builder()
+  .withId(id)
+  .withUser(await userRepository.findById('1'))
+  .build()
 
 let userRepository: IUserRepository
 let jobRepository: IJobRepository

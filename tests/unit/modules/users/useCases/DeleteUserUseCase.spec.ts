@@ -29,7 +29,7 @@ const makeJob = async (fields = {}) : Promise<Job> => {
     ...fields
   }
 
-  return new Job(data.id, data.user, data.title, data.description, data.address, data.jobType, data.salary, data.createdAt)
+  return Job.create({ ...data }, data.id)
 }
 
 let userRepository: IUserRepository
