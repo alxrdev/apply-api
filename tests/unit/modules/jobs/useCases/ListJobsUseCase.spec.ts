@@ -8,13 +8,14 @@ import FakeUserRepository from '@modules/users/repositories/fake/FakeUserReposit
 import IUserRepository from '@modules/users/repositories/IUserRepository'
 
 const makeDto = (fields = {}) : ListJobsFiltersDTO => {
-  const data = { what: 'Developer', where: 'são mateus', jobType: 'Full-time', page: 1, limit: 5, sortBy: 'createdAt', sortOrder: 'asc', ...fields }
+  const data = { what: 'Developer', where: 'São Mateus', jobType: 'Full-time', page: 1, limit: 5, sortBy: 'createdAt', sortOrder: 'asc', ...fields }
   return Object.assign(new ListJobsFiltersDTO(), data)
 }
 
-const makeJob = async (id: string) : Promise<Job> => Job.builder()
+const makeJob = async (id: string, user: User) : Promise<Job> => Job.builder()
   .withId(id)
-  .withUser(await userRepository.findById('1'))
+  .withTitle('Developer')
+  .withUser(user)
   .build()
 
 let userRepository: IUserRepository
@@ -29,7 +30,7 @@ describe('Test the ListJobsUseCase', () => {
 
   beforeAll(async () => {
     userRepository = new FakeUserRepository()
-    await userRepository.create(User.builder()
+    const user = await userRepository.create(User.builder()
       .withId('1')
       .withName('John Doe')
       .withEmail('user@email.com')
@@ -41,11 +42,11 @@ describe('Test the ListJobsUseCase', () => {
     )
 
     jobRepository = new FakeJobRepository(userRepository)
-    await jobRepository.create(await makeJob('1'))
-    await jobRepository.create(await makeJob('2'))
-    await jobRepository.create(await makeJob('3'))
-    await jobRepository.create(await makeJob('4'))
-    await jobRepository.create(await makeJob('5'))
+    await jobRepository.create(await makeJob('1', user))
+    await jobRepository.create(await makeJob('2', user))
+    await jobRepository.create(await makeJob('3', user))
+    await jobRepository.create(await makeJob('4', user))
+    await jobRepository.create(await makeJob('5', user))
   })
 
   it('Should return all jobs', async () => {
